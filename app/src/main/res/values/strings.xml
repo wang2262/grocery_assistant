@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">Grocery Assistant</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
-    <string name="title_activity_shopping_list">ShoppingList</string>
+    <string name="title_mygrocery">My Grocery</string>
+    <string name="title_shoppinglist">Shopping List</string>
+    <string name="title_Recipes">Recipes</string>
+    <string name="title_activity_shopping_list">Shopping List</string>
     <string name="title_activity_recipes">Recipes</string>
 </resources>

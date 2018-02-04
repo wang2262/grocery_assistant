@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/GroceryAssistant.iml" filepath="$PROJECT_DIR$/GroceryAssistant.iml" />
+      <module fileurl="file://D:\grocery_assistant\GroceryAssistant.iml" filepath="D:\grocery_assistant\GroceryAssistant.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://D:\grocery_assistant\app\app.iml" filepath="D:\grocery_assistant\app\app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/grocery_assistant.iml" filepath="$PROJECT_DIR$/grocery_assistant.iml" />
     </modules>
   </component>
 </project>
