@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
         db = openOrCreateDatabase("grocery", MODE_PRIVATE, null);
     }
 
-    public class dataHelp extends SQLiteOpenHelper {
+    public static class dataHelp extends SQLiteOpenHelper {
         public static final int DATABASE_VERSION = 1;
         public static final String DATABASE_NAME = "grocery.db";
 

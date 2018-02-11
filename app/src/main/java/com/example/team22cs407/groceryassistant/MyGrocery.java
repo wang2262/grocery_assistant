@@ -21,7 +21,8 @@ import android.view.ViewGroup;
 public class MyGrocery extends Fragment {
 
     //private OnFragmentInteractionListener mListener;
-    MainActivity db = (MainActivity)getActivity();
+    //MainActivity main = (MainActivity)getActivity();
+    MainActivity.dataHelp dataHelp = new MainActivity.dataHelp(getContext());
     public MyGrocery() {
         // Required empty public constructor
     }
