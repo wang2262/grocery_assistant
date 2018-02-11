@@ -1,13 +1,17 @@
 package com.example.team22cs407.groceryassistant;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
+import android.widget.Button;
+import android.app.AlertDialog;
+import android.widget.EditText;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -26,8 +30,7 @@ public class MyGrocery extends Fragment {
     }
 
     public static MyGrocery newInstance() {
-        MyGrocery fragment = new MyGrocery();
-        return fragment;
+        return new MyGrocery();
     }
 
     @Override
@@ -39,9 +42,48 @@ public class MyGrocery extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_my_grocery, container, false);
+        View view = inflater.inflate(R.layout.fragment_my_grocery, container, false);
+        Button button = view.findViewById(R.id.add_button);
+        button.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                showInputDialog();
+            }
+        });
+        return view;
+        //return inflater.inflate(R.layout.fragment_my_grocery, container, false);
     }
+    protected void showInputDialog() {
+        LayoutInflater layoutInflater = LayoutInflater.from(MyGrocery.this.getActivity());
+        View promptView = layoutInflater.inflate(R.layout.input_dialog1, null);
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                MyGrocery.this.getActivity());
+        alertDialogBuilder.setView(promptView);
+        final EditText editText1 = promptView
+                .findViewById(R.id.editTextDialogItemNameInput);
+        final EditText editText2 = promptView
+                .findViewById(R.id.editTextDialogEDateInput);
+        alertDialogBuilder
+                .setCancelable(false)
+                .setPositiveButton("Save", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        //Toast.makeText(getActivity().getApplicationContext(),"OK CLICKED",1000).show();
+                        Log.d("ITEMNAME", editText1.getText().toString());
+                        Log.d("EDATE", editText2.getText().toString());
+                    }
+                })
+                .setNegativeButton("Cancel",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
 
+        AlertDialog alert = alertDialogBuilder.create();
+        alert.show();
+    }
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated

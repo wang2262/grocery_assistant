@@ -12,11 +12,12 @@
         android:text="@string/groceryText" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/add_button"
         style="?android:attr/borderlessButtonStyle"
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:layout_gravity="end|top"
-        android:text="@string/plus_sign"    />
+        android:text="@string/plus_sign" />
+
 
 </FrameLayout>
