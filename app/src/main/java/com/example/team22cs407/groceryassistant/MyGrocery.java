@@ -1,6 +1,7 @@
 package com.example.team22cs407.groceryassistant;
 
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -20,7 +21,8 @@ import android.view.ViewGroup;
 public class MyGrocery extends Fragment {
 
     //private OnFragmentInteractionListener mListener;
-
+    MainActivity db = (MainActivity)getActivity();
+    SQLiteDatabase d = db.db;
     public MyGrocery() {
         // Required empty public constructor
     }
