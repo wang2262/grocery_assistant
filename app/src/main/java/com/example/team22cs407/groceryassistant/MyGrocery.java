@@ -22,7 +22,6 @@ public class MyGrocery extends Fragment {
 
     //private OnFragmentInteractionListener mListener;
     MainActivity db = (MainActivity)getActivity();
-    SQLiteDatabase d = db.db;
     public MyGrocery() {
         // Required empty public constructor
     }
