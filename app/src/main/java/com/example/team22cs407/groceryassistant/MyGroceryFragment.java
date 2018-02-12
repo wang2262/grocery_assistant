@@ -2,6 +2,7 @@ package com.example.team22cs407.groceryassistant;
 
 
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 import android.support.v4.app.Fragment;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 
 /**
@@ -16,7 +18,10 @@ import android.widget.ListView;
  */
 
 public class MyGroceryFragment extends Fragment {
+
     private  static String[] GROCERY_LIST = new String[] {"apple", "milk", "eggs"};
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -35,10 +40,12 @@ public class MyGroceryFragment extends Fragment {
                 ModificationDialogFragment dialog = new ModificationDialogFragment();
                 FragmentManager fragmentManager = getFragmentManager();
                 dialog.show(fragmentManager, "ModificationDialogFragment");
+
             }
         });
 
-
         return view;
     }
+
+
 }

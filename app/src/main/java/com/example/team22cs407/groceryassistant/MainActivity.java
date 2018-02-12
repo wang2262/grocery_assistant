@@ -4,13 +4,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ModificationDialogFragment.ModificationDialogListener {
 
     private TextView mTextMessage;
 
@@ -60,5 +63,17 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
     }
+    @Override
+    public void onDialogPositiveClick(View view) {
+        System.out.println("I AM IN POSITIVE");
+        EditText nameView = view.findViewById(R.id.item_name);
+        System.out.println("name" + nameView.getText());
+        EditText expirationView = view.findViewById(R.id.item_expiration);
+        System.out.println("name" + expirationView.getText());
+    }
+    @Override
+    public void onDialogNegativeClick(View view){
+        System.out.println("I AM IN NEGATIVE");
 
+    }
 }

@@ -1,18 +1,24 @@
 package com.example.team22cs407.groceryassistant;
 
 //import android.app.AlertDialog;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
+import android.view.View;
 
 /**
  * Created by yuanyuanji on 2/11/18.
  */
 
 public class ModificationDialogFragment extends DialogFragment {
+    // Use this instance of the interface to deliver action events
+    ModificationDialogListener mListener;
+
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         // Use the Builder class for convenient dialog construction
@@ -33,23 +39,52 @@ public class ModificationDialogFragment extends DialogFragment {
         // Get the layout inflater
         LayoutInflater inflater = getActivity().getLayoutInflater();
 
+        final View view = inflater.inflate(R.layout.dialog_modification, null);
         // Inflate and set the layout for the dialog
-        // Pass null as the parent view because its going in the dialog layout
-        builder.setView(inflater.inflate(R.layout.dialog_modification, null))
+        builder.setView(view)
                 // Add action buttons
                 .setPositiveButton(R.string.modification_dialog_save, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        // sign in the user ...
-                        //Toast.makeText(getActivity(), ((TextView) view).getText(), Toast.LENGTH_SHORT).show();
+                        // Send the positive button event back to the host activity
+                        mListener.onDialogPositiveClick(view);
                     }
                 })
                 .setNegativeButton(R.string.modification_dialog_cancel, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        ModificationDialogFragment.this.getDialog().cancel();
+                        mListener.onDialogNegativeClick(view);
                     }
                 });
+        /*
+        to do :
+        phase 1:
+        1. pass text view result back to MyGroceryFragment
+        2. show item original name and expiration date on EditText
+        3. make text view have title on the left
+        4. have an icon on the top and buttons to make it pretty.
+        phase 2:
+        1. save data to database.
+         */
         // Create the AlertDialog object and return it
         return builder.create();
+    }
+
+    public interface ModificationDialogListener {
+        public void onDialogPositiveClick(View view);
+        public void onDialogNegativeClick(View view);
+    }
+
+
+    // Override the Fragment.onAttach() method to instantiate the ModificationDialogListener
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+
+            mListener = (ModificationDialogListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString()
+                    + " must implement ModificationDialogListener");
+        }
     }
 }
