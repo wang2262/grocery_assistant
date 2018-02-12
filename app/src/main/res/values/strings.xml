@@ -5,4 +5,10 @@
     <string name="title_Recipes">Recipes</string>
     <string name="title_activity_shopping_list">Shopping List</string>
     <string name="title_activity_recipes">Recipes</string>
+    <!-- for modification dialog-->
+    <string name="modification_dialog_message">Are you sure?</string>
+    <string name="modification_dialog_save">Save </string>
+    <string name="modification_dialog_cancel">Cancel </string>
+    <string name="item_name">Name</string>
+    <string name="item_expiration">Expiration Date</string>
 </resources>
