@@ -24,9 +24,9 @@ import android.widget.EditText;
  * create an instance of this fragment.
  */
 public class MyGrocery extends Fragment {
-   /*Setting up database to write */
+    /*Setting up database to write */
     MainActivity.dataHelp dataHelp = new MainActivity.dataHelp(getContext());
-    SQLiteDatabase db = dataHelp.getWritableDatabase();
+    //SQLiteDatabase db = dataHelp.getWritableDatabase();
 
     ContentValues values = new ContentValues();
     //values.put()
