@@ -9,6 +9,7 @@
     <string name="modification_dialog_message">Are you sure?</string>
     <string name="modification_dialog_save">Save </string>
     <string name="modification_dialog_cancel">Cancel </string>
-    <string name="item_name">Name</string>
-    <string name="item_expiration">Expiration Date</string>
+    <string name="name_lable">Item Name :</string>
+    <string name="expiration_lable">Expiration Date :</string>
+
 </resources>

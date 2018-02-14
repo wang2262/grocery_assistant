@@ -74,8 +74,8 @@ public class ModificationDialogFragment extends DialogFragment {
         to do :
         phase 1:
         1. pass text view result back to activity. (Done)
-        2. show item original name and expiration date on EditText. (At lease show name for now)
-        3. make text view have title on the left
+        2. show item original name and expiration date on EditText. (Done)
+        3. make text view have title on the left (Done)
         4. have an icon on the top and buttons to make it pretty.
         phase 2:
         1. save data to database.
