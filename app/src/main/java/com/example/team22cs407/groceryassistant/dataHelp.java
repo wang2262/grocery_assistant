@@ -31,7 +31,7 @@ public class dataHelp {
     {
         SQLiteDatabase db = dataHelp.getWritableDatabase();
         String[] columns = {myDbHelper.UID,myDbHelper.NAME,myDbHelper.DATE};
-        Cursor cursor =db.query(myDbHelper.TABLE_NAME,columns,null,null,null,null,null);
+        Cursor cursor = db.query(myDbHelper.TABLE_NAME,columns,null,null,null,null,null);
         StringBuffer buffer= new StringBuffer();
         while (cursor.moveToNext())
         {
@@ -64,6 +64,7 @@ public class dataHelp {
 
     static class myDbHelper extends SQLiteOpenHelper
     {
+
         private static final String DATABASE_NAME = "database";    // Database Name
         private static final String TABLE_NAME = "GroceryList";   // Table Name
         private static final int DATABASE_Version = 1;    // Database Version
