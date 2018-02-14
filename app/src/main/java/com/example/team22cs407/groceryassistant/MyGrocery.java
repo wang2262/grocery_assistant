@@ -1,5 +1,6 @@
 package com.example.team22cs407.groceryassistant;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.database.sqlite.SQLiteDatabase;
@@ -23,9 +24,13 @@ import android.widget.EditText;
  * create an instance of this fragment.
  */
 public class MyGrocery extends Fragment {
+   /*Setting up database to write */
+    MainActivity.dataHelp dataHelp = new MainActivity.dataHelp(getContext());
+    SQLiteDatabase db = dataHelp.getWritableDatabase();
 
-    //private OnFragmentInteractionListener mListener;
-    MainActivity db = (MainActivity)getActivity();
+    ContentValues values = new ContentValues();
+    //values.put()
+
     public MyGrocery() {
         // Required empty public constructor
     }

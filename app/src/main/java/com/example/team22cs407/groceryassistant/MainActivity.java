@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
         db = openOrCreateDatabase("grocery", MODE_PRIVATE, null);
     }
 
-    public class dataHelp extends SQLiteOpenHelper {
+    public static class dataHelp extends SQLiteOpenHelper {
         public static final int DATABASE_VERSION = 1;
         public static final String DATABASE_NAME = "grocery.db";
 
@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         public void onCreate(SQLiteDatabase db) {
-            db.execSQL("CREATE TABLE grocery (name TEXT, date INTEGER)");
+            db.execSQL("CREATE TABLE grocery (name TEXT, date TEXT)");
         }
 
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
