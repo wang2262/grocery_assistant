@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         public void onCreate(SQLiteDatabase db) {
-            db.execSQL("CREATE TABLE grocery (name TEXT, date INTEGER)");
+            db.execSQL("CREATE TABLE grocery (name TEXT, date TEXT)");
         }
 
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
