@@ -67,9 +67,9 @@ public class MainActivity extends AppCompatActivity implements ModificationDialo
     public void onDialogPositiveClick(View view) {
         System.out.println("I AM IN POSITIVE");
         EditText nameView = view.findViewById(R.id.item_name);
-        System.out.println("name" + nameView.getText());
+        System.out.println("name: " + nameView.getText());
         EditText expirationView = view.findViewById(R.id.item_expiration);
-        System.out.println("name" + expirationView.getText());
+        System.out.println("expirationDate: " + expirationView.getText());
     }
     @Override
     public void onDialogNegativeClick(View view){

@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.EditText;
 
 /**
  * Created by yuanyuanji on 2/11/18.
@@ -17,7 +18,8 @@ import android.view.View;
 
 public class ModificationDialogFragment extends DialogFragment {
     // Use this instance of the interface to deliver action events
-    ModificationDialogListener mListener;
+    private ModificationDialogListener mListener;
+    private View fragmentView;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -40,6 +42,19 @@ public class ModificationDialogFragment extends DialogFragment {
         LayoutInflater inflater = getActivity().getLayoutInflater();
 
         final View view = inflater.inflate(R.layout.dialog_modification, null);
+        // get arguments for item_name, expiration date
+        String item_name = "";
+        String expiration_date = "mm/dd/yyyy";
+        Bundle args = getArguments();
+        if (args != null) {
+           item_name = args.getString("item_name", "");
+           expiration_date = args.getString("expiration_date", "mm/dd/yyyy");
+        }
+        EditText nameView = view.findViewById(R.id.item_name);
+        nameView.setText(item_name);
+        EditText expirationView = view.findViewById(R.id.item_expiration);
+        expirationView.setText(expiration_date);
+
         // Inflate and set the layout for the dialog
         builder.setView(view)
                 // Add action buttons
@@ -58,8 +73,8 @@ public class ModificationDialogFragment extends DialogFragment {
         /*
         to do :
         phase 1:
-        1. pass text view result back to MyGroceryFragment
-        2. show item original name and expiration date on EditText
+        1. pass text view result back to activity. (Done)
+        2. show item original name and expiration date on EditText. (At lease show name for now)
         3. make text view have title on the left
         4. have an icon on the top and buttons to make it pretty.
         phase 2:
@@ -86,5 +101,12 @@ public class ModificationDialogFragment extends DialogFragment {
             throw new ClassCastException(context.toString()
                     + " must implement ModificationDialogListener");
         }
+    }
+
+    public View getFragmentView() {
+        return  fragmentView;
+    }
+    public void setFragmentView(View view){
+        fragmentView = view;
     }
 }

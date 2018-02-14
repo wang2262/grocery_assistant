@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 /**
  * Created by yuanyuanji on 2/6/18.
@@ -38,6 +39,10 @@ public class MyGroceryFragment extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 //Toast.makeText(getActivity(), ((TextView) view).getText(), Toast.LENGTH_SHORT).show();
                 ModificationDialogFragment dialog = new ModificationDialogFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString("item_name", (String)((TextView) view).getText());
+                bundle.putString("expiration_date", "01/12/2018");
+                dialog.setArguments(bundle);
                 FragmentManager fragmentManager = getFragmentManager();
                 dialog.show(fragmentManager, "ModificationDialogFragment");
 
