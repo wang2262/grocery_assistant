@@ -24,7 +24,7 @@ public class ModificationDialogFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         // Use the Builder class for convenient dialog construction
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), AlertDialog.THEME_HOLO_LIGHT);
         /*
         builder.setMessage(R.string.modification_dialog_message)
                 .setPositiveButton(R.string.modification_dialog_save, new DialogInterface.OnClickListener() {
@@ -42,6 +42,7 @@ public class ModificationDialogFragment extends DialogFragment {
         LayoutInflater inflater = getActivity().getLayoutInflater();
 
         final View view = inflater.inflate(R.layout.dialog_modification, null);
+
         // get arguments for item_name, expiration date
         String item_name = "";
         String expiration_date = "mm/dd/yyyy";
@@ -51,12 +52,13 @@ public class ModificationDialogFragment extends DialogFragment {
            expiration_date = args.getString("expiration_date", "mm/dd/yyyy");
         }
         EditText nameView = view.findViewById(R.id.item_name);
-        nameView.setText(item_name);
+        nameView.setHint(item_name);
         EditText expirationView = view.findViewById(R.id.item_expiration);
-        expirationView.setText(expiration_date);
+        expirationView.setHint(expiration_date);
 
         // Inflate and set the layout for the dialog
         builder.setView(view)
+                .setTitle("Modification")
                 // Add action buttons
                 .setPositiveButton(R.string.modification_dialog_save, new DialogInterface.OnClickListener() {
                     @Override

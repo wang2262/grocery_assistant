@@ -35,7 +35,8 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp">
         <TextView
             android:id="@+id/name_lable"
             android:layout_width="wrap_content"
@@ -44,12 +45,15 @@
         <EditText
             android:id="@+id/item_name"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textCursorDrawable="@drawable/cursor_color"
+            android:backgroundTint="@android:color/darker_gray"/>
     </LinearLayout>
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp">
         <TextView
             android:id="@+id/expiration_lable"
             android:layout_width="wrap_content"
@@ -58,6 +62,8 @@
         <EditText
             android:id="@+id/item_expiration"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textCursorDrawable="@drawable/cursor_color"
+            android:backgroundTint="@android:color/darker_gray"/>
     </LinearLayout>
 </LinearLayout>
