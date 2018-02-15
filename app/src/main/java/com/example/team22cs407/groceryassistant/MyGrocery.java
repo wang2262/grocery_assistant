@@ -69,9 +69,13 @@ public class MyGrocery extends Fragment {
                 .setCancelable(false)
                 .setPositiveButton("Save", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        //Toast.makeText(getActivity().getApplicationContext(),"OK CLICKED",1000).show();
-                        Log.d("ITEMNAME", editText1.getText().toString());
-                        Log.d("EDATE", editText2.getText().toString());
+                        long row;
+                        row = MainActivity.db.insertData(editText1.getText().toString(), editText2.getText().toString());
+                        if (row < 0) {
+                            //Log.d("DATA", "Insert fail");
+                            //send notification
+                        }
+                        //Log.d("DATA", MainActivity.db.getData());
                     }
                 })
                 .setNegativeButton("Cancel",
