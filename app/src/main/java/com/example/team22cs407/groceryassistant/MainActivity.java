@@ -16,7 +16,7 @@ import android.database.sqlite.*;
 
 public class MainActivity extends AppCompatActivity {
 
-    SQLiteDatabase db;
+    static dataHelp db;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        db = new dataHelp(this);
         setContentView(R.layout.activity_main);
         Fragment default_fragment = new MyGrocery();
         FragmentManager manager = getFragmentManager();

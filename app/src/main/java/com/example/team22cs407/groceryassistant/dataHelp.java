@@ -20,10 +20,14 @@ public class dataHelp {
     public long insertData(String name, String date) {
         SQLiteDatabase db = dataHelp.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(myDbHelper.NAME, name);
-        contentValues.put(myDbHelper.DATE, date);
-        long id = db.insert(myDbHelper.TABLE_NAME, null , contentValues);
-        return id;
+        if(name != null && !name.isEmpty()) {
+            contentValues.put(myDbHelper.NAME, name);
+            if(date != null && !date.isEmpty())
+                contentValues.put(myDbHelper.DATE, date);
+            long id = db.insertWithOnConflict(myDbHelper.TABLE_NAME, null , contentValues, SQLiteDatabase.CONFLICT_ABORT);
+            return id;
+        } else return -1;
+
     }
 
 
@@ -72,7 +76,7 @@ public class dataHelp {
         private static final String NAME = "Name";    //Column II
         private static final String DATE = "Date";    // Date that food expires
         private static final String CREATE_TABLE = "CREATE TABLE "+TABLE_NAME+
-                " ("+UID+" INTEGER PRIMARY KEY AUTOINCREMENT, "+NAME+" VARCHAR(255) ,"+ DATE+" VARCHAR(225));";
+                " ("+UID+" INTEGER PRIMARY KEY AUTOINCREMENT, "+NAME+" VARCHAR(255), "+ DATE+" VARCHAR(225));";
         private static final String DROP_TABLE ="DROP TABLE IF EXISTS "+TABLE_NAME;
         private Context context;
 

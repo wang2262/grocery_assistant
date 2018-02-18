@@ -7,6 +7,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -52,6 +54,13 @@ public class MyGrocery extends Fragment {
                 showInputDialog();
             }
         });
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.listRecyclerView);
+
+        ListAdapter listAdapter = new ListAdapter();
+        recyclerView.setAdapter(listAdapter);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(layoutManager);
+
         return view;
         //return inflater.inflate(R.layout.fragment_my_grocery, container, false);
     }
@@ -69,9 +78,13 @@ public class MyGrocery extends Fragment {
                 .setCancelable(false)
                 .setPositiveButton("Save", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        //Toast.makeText(getActivity().getApplicationContext(),"OK CLICKED",1000).show();
-                        Log.d("ITEMNAME", editText1.getText().toString());
-                        Log.d("EDATE", editText2.getText().toString());
+                        long row;
+                        row = MainActivity.db.insertData(editText1.getText().toString(), editText2.getText().toString());
+                        if (row < 0) {
+                            //Log.d("DATA", "Insert fail");
+                            //send notification
+                        }
+                        //Log.d("DATA", MainActivity.db.getData());
                     }
                 })
                 .setNegativeButton("Cancel",
