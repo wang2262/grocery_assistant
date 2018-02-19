@@ -34,7 +34,7 @@ public class MyGroceryFragment extends Fragment {
                 //Toast.makeText(getActivity(), ((TextView) view).getText(), Toast.LENGTH_SHORT).show();
                 ModificationDialogFragment dialog = new ModificationDialogFragment();
                 FragmentManager fragmentManager = getFragmentManager();
-                dialog.show(fragmentManager, "ModificationDialogFragment");
+                //dialog.show(fragmentManager, "ModificationDialogFragment");  // If ModificationDialogFragment extends android.support.v4.fragment, it will work!!
             }
         });
 

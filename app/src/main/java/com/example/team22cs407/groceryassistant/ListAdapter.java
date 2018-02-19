@@ -1,6 +1,9 @@
 package com.example.team22cs407.groceryassistant;
 
+import android.app.Activity;
 import android.content.Context;
+import android.os.Bundle;
+import android.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -38,7 +41,7 @@ public class ListAdapter extends RecyclerView.Adapter {
         });
     }
 
-    public void showPopupMenu(View view, int position){
+    public void showPopupMenu(View view, final int position){
         PopupMenu popupMenu = new PopupMenu(mContext, view);
         popupMenu.getMenuInflater().inflate(R.menu.action, popupMenu.getMenu());
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -47,6 +50,7 @@ public class ListAdapter extends RecyclerView.Adapter {
                 switch (menuItem.getItemId()) {
                     case R.id.modify:
                         Log.d("in OnMenuItemClick", "I am in modify");
+                        showModificationDialog(position);
                         return true;
                     case R.id.delete:
                         Log.d("in OnMenuItemClick", "I am in delete");
@@ -57,6 +61,17 @@ public class ListAdapter extends RecyclerView.Adapter {
             }
         });
         popupMenu.show();
+    }
+    public void showModificationDialog(int position){
+
+        ModificationDialogFragment dialog = new ModificationDialogFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("item_name", OurData.title[position]);
+        bundle.putString("expiration_date", "01/12/2018");
+        dialog.setArguments(bundle);
+        FragmentManager fragmentManager = ((Activity)mContext).getFragmentManager();
+        dialog.show(fragmentManager, "ModificationDialogFragment");
+
     }
 
     @Override

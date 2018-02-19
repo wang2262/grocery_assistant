@@ -13,8 +13,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.database.sqlite.*;
+import android.widget.EditText;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ModificationDialogFragment.ModificationDialogListener {
 
     static dataHelp db;
 
@@ -60,4 +61,19 @@ public class MainActivity extends AppCompatActivity {
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
     }
+
+    @Override
+    public void onDialogPositiveClick(View view) {
+        System.out.println("I AM IN POSITIVE");
+        EditText nameView = view.findViewById(R.id.item_name);
+        System.out.println("name: " + nameView.getText());
+        EditText expirationView = view.findViewById(R.id.item_expiration);
+        System.out.println("expirationDate: " + expirationView.getText());
+    }
+    @Override
+    public void onDialogNegativeClick(View view){
+        System.out.println("I AM IN NEGATIVE");
+
+    }
+
 }
