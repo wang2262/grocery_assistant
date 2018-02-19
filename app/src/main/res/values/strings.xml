@@ -9,11 +9,14 @@
     <string name="recipeText">Recipe fragment</string>
     <string name="plus_sign">+</string>
 
+    <!-- for popup menu for actions -->
+    <string name="modify">Modify</string>
+    <string name="delete">Delete</string>
+
     <!-- for modification dialog-->
     <string name="modification_dialog_message">Are you sure?</string>
     <string name="modification_dialog_save">Save </string>
     <string name="modification_dialog_cancel">Cancel </string>
     <string name="item_name">Name</string>
     <string name="item_expiration">Expiration Date</string>
-
 </resources>
