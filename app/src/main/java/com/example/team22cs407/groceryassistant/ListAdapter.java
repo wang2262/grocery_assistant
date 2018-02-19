@@ -86,19 +86,8 @@ public class ListAdapter extends RecyclerView.Adapter {
         public  ListViewHolder(final View itemView) {
             super(itemView);
             mItemText = (TextView) itemView.findViewById(R.id.itemText);
-            //itemView.setOnClickListener(this);
 
             listLayout = (LinearLayout) itemView.findViewById(R.id.list_layout);
-            /*
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view){
-                    int position = getAdapterPosition();
-                    Toast.makeText(itemView.getContext(), OurData.title[position], Toast.LENGTH_SHORT).show();
-
-                }
-            });
-            */
 
         }
 
