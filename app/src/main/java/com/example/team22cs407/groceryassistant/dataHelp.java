@@ -66,6 +66,24 @@ public class dataHelp {
         return count;
     }
 
+    // the argument order is supposed to be oldName, newName, newDate, which either newName or newDate could be optional.
+    public int updateData(String... args) {
+        if (args.length <= 1 || args.length > 3) {
+            return 0;
+        }
+        SQLiteDatabase db = dataHelp.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        String[] whereArgs= {args[0]};
+        if (!args[1].equals("")) {
+            contentValues.put(myDbHelper.NAME, args[1]);
+        }
+        if (args.length > 2 && !args[2].equals("")) {
+            contentValues.put(myDbHelper.DATE, args[2]);
+        }
+        int count = db.update(myDbHelper.TABLE_NAME,contentValues, myDbHelper.NAME+" = ?",whereArgs );
+        return count;
+    }
+
     static class myDbHelper extends SQLiteOpenHelper
     {
 
