@@ -17,6 +17,9 @@ import android.widget.Button;
 import android.app.AlertDialog;
 import android.widget.EditText;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
@@ -26,6 +29,8 @@ import android.widget.EditText;
  * create an instance of this fragment.
  */
 public class MyGrocery extends Fragment {
+
+
     public MyGrocery() {
         // Required empty public constructor
     }
@@ -52,8 +57,11 @@ public class MyGrocery extends Fragment {
             public void onClick(View v)
             {
                 showInputDialog();
+
             }
         });
+
+
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.listRecyclerView);
 
         ListAdapter listAdapter = new ListAdapter();
@@ -84,6 +92,7 @@ public class MyGrocery extends Fragment {
                             //Log.d("DATA", "Insert fail");
                             //send notification
                         }
+
                         //Log.d("DATA", MainActivity.db.getData());
                     }
                 })

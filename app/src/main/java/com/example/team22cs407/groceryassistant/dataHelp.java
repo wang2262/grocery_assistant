@@ -7,6 +7,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Sam on 2/13/18.
  */
@@ -45,6 +48,24 @@ public class dataHelp {
             buffer.append(cid+ "   " + name + "   " + password +" \n");
         }
         return buffer.toString();
+    }
+
+    public List<Food> getDatas()
+    {
+        SQLiteDatabase db = dataHelp.getWritableDatabase();
+        String[] columns = {myDbHelper.UID,myDbHelper.NAME,myDbHelper.DATE};
+        Cursor cursor = db.query(myDbHelper.TABLE_NAME,columns,null,null,null,null,null);
+        StringBuffer buffer= new StringBuffer();
+        List<Food> foods = new ArrayList<>();
+        while (cursor.moveToNext())
+        {
+            Food food = new Food();
+            int cid =cursor.getInt(cursor.getColumnIndex(myDbHelper.UID));
+            food.setFoodItem(cursor.getString(cursor.getColumnIndex(myDbHelper.NAME)));
+            food.setExpirationDate(cursor.getString(cursor.getColumnIndex(myDbHelper.DATE)));
+            foods.add(food);
+        }
+        return foods;
     }
 
     public  int delete(String uname)
