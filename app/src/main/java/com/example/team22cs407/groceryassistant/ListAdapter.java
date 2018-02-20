@@ -15,12 +15,17 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by SignInSon on 2/17/18.
  */
 
 public class ListAdapter extends RecyclerView.Adapter {
     private Context mContext;
+
+    List<Food> foods = MainActivity.db.getDatas();
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -66,6 +71,7 @@ public class ListAdapter extends RecyclerView.Adapter {
 
         ModificationDialogFragment dialog = new ModificationDialogFragment();
         Bundle bundle = new Bundle();
+        bundle.putInt("position", position);
         bundle.putString("item_name", OurData.title[position]);
         bundle.putString("expiration_date", "01/12/2018");
         dialog.setArguments(bundle);
@@ -76,23 +82,29 @@ public class ListAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
-        return OurData.title.length;
+        return foods.size();
     }
 
     private class ListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView mItemText;
+        private TextView mExpirationText;
         private LinearLayout listLayout;
+
 
         public  ListViewHolder(final View itemView) {
             super(itemView);
             mItemText = (TextView) itemView.findViewById(R.id.itemText);
-
+            mExpirationText = (TextView) itemView.findViewById(R.id.expirationText);
             listLayout = (LinearLayout) itemView.findViewById(R.id.list_layout);
 
         }
 
+
         public void bindView(int position) {
-            mItemText.setText(OurData.title[position]);
+            String foodName = foods.get(position).getFoodItem();
+            String expirationDate = foods.get(position).getExpirationDate();
+            mItemText.setText(foodName);
+            mExpirationText.setText(expirationDate);
         }
 
         public void onClick(View view) {

@@ -46,11 +46,13 @@ public class ModificationDialogFragment extends DialogFragment {
         // get arguments for item_name, expiration date
         String item_name = "";
         String expiration_date = "mm/dd/yyyy";
+
         Bundle args = getArguments();
-        if (args != null) {
-            item_name = args.getString("item_name", "");
-            expiration_date = args.getString("expiration_date", "mm/dd/yyyy");
-        }
+
+        final int position = args.getInt("position", 0);
+        item_name = args.getString("item_name", "");
+        expiration_date = args.getString("expiration_date", "mm/dd/yyyy");
+
         EditText nameView = view.findViewById(R.id.item_name);
         nameView.setHint(item_name);
         EditText expirationView = view.findViewById(R.id.item_expiration);
@@ -64,12 +66,12 @@ public class ModificationDialogFragment extends DialogFragment {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
                         // Send the positive button event back to the host activity
-                        mListener.onDialogPositiveClick(view);
+                        mListener.onDialogPositiveClick(view, position);
                     }
                 })
                 .setNegativeButton(R.string.modification_dialog_cancel, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        mListener.onDialogNegativeClick(view);
+                        mListener.onDialogNegativeClick(view, position);
                     }
                 });
         // Create the AlertDialog object and return it
@@ -77,8 +79,8 @@ public class ModificationDialogFragment extends DialogFragment {
     }
 
     public interface ModificationDialogListener {
-        public void onDialogPositiveClick(View view);
-        public void onDialogNegativeClick(View view);
+        public void onDialogPositiveClick(View view, int position);
+        public void onDialogNegativeClick(View view, int position);
     }
 
 

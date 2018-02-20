@@ -7,6 +7,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Sam on 2/13/18.
  */
@@ -47,6 +50,24 @@ public class dataHelp {
         return buffer.toString();
     }
 
+    public List<Food> getDatas()
+    {
+        SQLiteDatabase db = dataHelp.getWritableDatabase();
+        String[] columns = {myDbHelper.UID,myDbHelper.NAME,myDbHelper.DATE};
+        Cursor cursor = db.query(myDbHelper.TABLE_NAME,columns,null,null,null,null,null);
+        StringBuffer buffer= new StringBuffer();
+        List<Food> foods = new ArrayList<>();
+        while (cursor.moveToNext())
+        {
+            Food food = new Food();
+            int cid =cursor.getInt(cursor.getColumnIndex(myDbHelper.UID));
+            food.setFoodItem(cursor.getString(cursor.getColumnIndex(myDbHelper.NAME)));
+            food.setExpirationDate(cursor.getString(cursor.getColumnIndex(myDbHelper.DATE)));
+            foods.add(food);
+        }
+        return foods;
+    }
+
     public  int delete(String uname)
     {
         SQLiteDatabase db = dataHelp.getWritableDatabase();
@@ -63,6 +84,24 @@ public class dataHelp {
         contentValues.put(myDbHelper.NAME,newName);
         String[] whereArgs= {oldName};
         int count =db.update(myDbHelper.TABLE_NAME,contentValues, myDbHelper.NAME+" = ?",whereArgs );
+        return count;
+    }
+
+    // the argument order is supposed to be oldName, newName, newDate, which either newName or newDate could be optional.
+    public int updateData(String... args) {
+        if (args.length <= 1 || args.length > 3) {
+            return 0;
+        }
+        SQLiteDatabase db = dataHelp.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        String[] whereArgs= {args[0]};
+        if (!args[1].equals("")) {
+            contentValues.put(myDbHelper.NAME, args[1]);
+        }
+        if (args.length > 2 && !args[2].equals("")) {
+            contentValues.put(myDbHelper.DATE, args[2]);
+        }
+        int count = db.update(myDbHelper.TABLE_NAME,contentValues, myDbHelper.NAME+" = ?",whereArgs );
         return count;
     }
 

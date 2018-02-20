@@ -6,7 +6,7 @@ package com.example.team22cs407.groceryassistant;
 
 public class OurData {
     public static String[] title = new String[] {
-            "Food One",
+            "ttt",
             "Food Two",
             "Food Three",
             "Food Four",
