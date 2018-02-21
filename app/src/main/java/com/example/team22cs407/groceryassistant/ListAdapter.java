@@ -40,7 +40,7 @@ public class ListAdapter extends RecyclerView.Adapter {
         ((ListViewHolder) holder).listLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(mContext, OurData.title[position], Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, foods.get(position).getFoodItem(), Toast.LENGTH_SHORT).show();
                 showPopupMenu(view, position);
             }
         });
@@ -73,7 +73,7 @@ public class ListAdapter extends RecyclerView.Adapter {
         ModificationDialogFragment dialog = new ModificationDialogFragment();
         Bundle bundle = new Bundle();
         bundle.putInt("position", position);
-        bundle.putString("item_name", OurData.title[position]);
+        bundle.putString("item_name", foods.get(position).getFoodItem());
         bundle.putString("expiration_date", "01/12/2018");
         dialog.setArguments(bundle);
         FragmentManager fragmentManager = ((Activity)mContext).getFragmentManager();
