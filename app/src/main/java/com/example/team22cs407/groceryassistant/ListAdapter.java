@@ -59,6 +59,7 @@ public class ListAdapter extends RecyclerView.Adapter {
                         return true;
                     case R.id.delete:
                         Log.d("in OnMenuItemClick", "I am in delete");
+                        showDeleteDialog(position);
                         return true;
                     default:
                         return false;
@@ -77,6 +78,18 @@ public class ListAdapter extends RecyclerView.Adapter {
         dialog.setArguments(bundle);
         FragmentManager fragmentManager = ((Activity)mContext).getFragmentManager();
         dialog.show(fragmentManager, "ModificationDialogFragment");
+
+    }
+
+    public void showDeleteDialog(int position){
+
+        DeleteDialogFragment dialog = new DeleteDialogFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt("position", position);
+        bundle.putString("item_name", foods.get(position).getFoodItem());
+        dialog.setArguments(bundle);
+        FragmentManager fragmentManager = ((Activity)mContext).getFragmentManager();
+        dialog.show(fragmentManager, "DeleteDialogFragment");
 
     }
 
