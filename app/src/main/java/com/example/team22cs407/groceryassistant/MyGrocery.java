@@ -89,14 +89,31 @@ public class MyGrocery extends Fragment {
                         long row;
                         row = MainActivity.db.insertData(editText1.getText().toString(), editText2.getText().toString());
                         if (row < 0) {
-                            //Log.d("DATA", "Insert fail");
-                            //send notification
+                            showDBFailMessage();
                         }
 
                         //Log.d("DATA", MainActivity.db.getData());
                     }
                 })
                 .setNegativeButton("Cancel",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+
+        AlertDialog alert = alertDialogBuilder.create();
+        alert.show();
+    }
+
+    public void showDBFailMessage(){
+        LayoutInflater layoutInflater = LayoutInflater.from(MyGrocery.this.getActivity());
+        View promptView = layoutInflater.inflate(R.layout.invalid_input_alert, null);
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                MyGrocery.this.getActivity());
+        alertDialogBuilder.setView(promptView);
+        alertDialogBuilder
+                .setPositiveButton("OK",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 dialog.cancel();
