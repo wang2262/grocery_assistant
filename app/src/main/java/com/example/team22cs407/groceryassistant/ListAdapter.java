@@ -40,7 +40,7 @@ public class ListAdapter extends RecyclerView.Adapter {
         ((ListViewHolder) holder).listLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(mContext, foods.get(position).getFoodItem(), Toast.LENGTH_SHORT).show();
+               // Toast.makeText(mContext, foods.get(position).getFoodItem(), Toast.LENGTH_SHORT).show();
                 showPopupMenu(view, position);
             }
         });
