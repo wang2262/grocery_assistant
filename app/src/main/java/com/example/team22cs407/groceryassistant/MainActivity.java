@@ -73,12 +73,16 @@ public class MainActivity extends AppCompatActivity implements ModificationDialo
 
 
         // compare old name with new name, and old date with new date  // is the position equals UID
-        List<Food> data = db.getDatas();
+        List<Food> data = ListAdapter.foods;
         String oldName = data.get(position).getFoodItem();
         String oldDate = data.get(position).getExpirationDate();
 
         String newName = nameView.getText().toString();
         String newDate = expirationView.getText().toString();
+
+        System.out.println("before:");
+        System.out.println(db.getData());
+
 
         if (!oldName.equals(newName) && !oldDate.equals(newDate)) {
             db.updateData(oldName, newName, newDate);
@@ -90,9 +94,13 @@ public class MainActivity extends AppCompatActivity implements ModificationDialo
             return;
         }
 
+        System.out.println("after:");
+        System.out.println(db.getData());
         // reload the current fragment
-        Fragment fragment = getFragmentManager().findFragmentById(R.id.frame_layout);
-        getFragmentManager().beginTransaction().detach(fragment).attach(fragment).commit();
+        //Fragment fragment = getFragmentManager().findFragmentById(R.id.frame_layout);
+        //getFragmentManager().beginTransaction().detach(fragment).attach(fragment).commit();
+        Fragment fragment = new MyGrocery();
+        getFragmentManager().beginTransaction().replace(R.id.frame_layout, fragment).commit();
     }
     @Override
     public void onDialogNegativeClick(View view, int position){
@@ -100,5 +108,6 @@ public class MainActivity extends AppCompatActivity implements ModificationDialo
         System.out.println("position: " + position);
 
     }
+
 
 }

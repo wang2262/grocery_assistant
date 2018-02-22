@@ -25,7 +25,8 @@ import java.util.List;
 public class ListAdapter extends RecyclerView.Adapter {
     private Context mContext;
 
-    List<Food> foods = MainActivity.db.getDatas();
+    static List<Food> foods = HelperTool.sortByExpiration(MainActivity.db.getDatas());
+    //List<Food> foods = MainActivity.db.getDatas();
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {

@@ -23,7 +23,7 @@
         android:id="@+id/editTextDialogEDateInput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Expiration Date (Optional)"
+        android:hint="dd/MM/yyyy (Optional)"
         android:ems="10"
         android:inputType="date"    />
 </LinearLayout>
