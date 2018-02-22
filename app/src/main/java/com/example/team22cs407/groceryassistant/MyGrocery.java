@@ -86,16 +86,36 @@ public class MyGrocery extends Fragment {
                 .setCancelable(false)
                 .setPositiveButton("Save", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        long row;
-                        row = MainActivity.db.insertData(editText1.getText().toString(), editText2.getText().toString());
-                        if (row < 0) {
-                            showDBFailMessage();
+                        List<Food> foods = MainActivity.db.getDatas();
+                        String name = editText1.getText().toString();
+                        String date = editText2.getText().toString();
+                        boolean valid = true;
+                        for (int i = 0; i < foods.size(); i++) {
+                            if (foods.get(i).getFoodItem().equals(name)) {
+                                if (foods.get(i).getExpirationDate() == null && date.isEmpty()) {
+                                    valid = false;
+                                    showDBFailMessage();
+                                    break;
+                                } else if (foods.get(i).getExpirationDate() != null && foods.get(i).getExpirationDate().equals(date)) {
+                                    valid = false;
+                                    showDBFailMessage();
+                                    break;
+                                }
+                            }
                         }
-                        //Log.d("DATA", MainActivity.db.getData());
-                        ListAdapter.foods = HelperTool.sortByExpiration(MainActivity.db.getDatas());
-                        // reload the current fragment
-                        Fragment fragment = getFragmentManager().findFragmentById(R.id.frame_layout);
-                        getFragmentManager().beginTransaction().detach(fragment).attach(fragment).commit();
+                        if (valid) {
+                            long row = MainActivity.db.insertData(editText1.getText().toString(), editText2.getText().toString());
+                            if (row < 0) {
+                                showDBFailMessage();
+                            } else {
+
+                                //Log.d("DATA", MainActivity.db.getData());
+                                ListAdapter.foods = HelperTool.sortByExpiration(MainActivity.db.getDatas());
+                                // reload the current fragment
+                                Fragment fragment = getFragmentManager().findFragmentById(R.id.frame_layout);
+                                getFragmentManager().beginTransaction().detach(fragment).attach(fragment).commit();
+                            }
+                        }
                     }
                 })
                 .setNegativeButton("Cancel",
