@@ -92,7 +92,7 @@ public class MyGrocery extends Fragment {
                             showDBFailMessage();
                         }
                         //Log.d("DATA", MainActivity.db.getData());
-
+                        ListAdapter.foods = HelperTool.sortByExpiration(MainActivity.db.getDatas());
                         // reload the current fragment
                         Fragment fragment = getFragmentManager().findFragmentById(R.id.frame_layout);
                         getFragmentManager().beginTransaction().detach(fragment).attach(fragment).commit();

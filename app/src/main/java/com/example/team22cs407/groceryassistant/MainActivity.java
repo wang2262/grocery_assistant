@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.database.sqlite.*;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -72,18 +73,28 @@ public class MainActivity extends AppCompatActivity implements ModificationDialo
         EditText expirationView = view.findViewById(R.id.item_expiration);
 
 
-        // compare old name with new name, and old date with new date  // is the position equals UID
         List<Food> data = ListAdapter.foods;
         String oldName = data.get(position).getFoodItem();
         String oldDate = data.get(position).getExpirationDate();
+        if (oldDate == null)   //allow user adding expiration dates
+            oldDate = "";
 
         String newName = nameView.getText().toString();
         String newDate = expirationView.getText().toString();
-
+        /*
+        System.out.println("new name: " + newName);
+        System.out.println("new date: " + newDate);
+       */
+        if (emptyNameCheck(newName))
+            return;
+        if (newDate.isEmpty()) {   // allow user changing expiration date to null
+            newDate = null;
+        }
+        /*
         System.out.println("before:");
         System.out.println(db.getData());
-
-
+        */
+        // update database
         if (!oldName.equals(newName) && !oldDate.equals(newDate)) {
             db.updateData(oldName, newName, newDate);
         } else if (!oldDate.equals(newDate)) {
@@ -94,13 +105,15 @@ public class MainActivity extends AppCompatActivity implements ModificationDialo
             return;
         }
 
+        /*
         System.out.println("after:");
         System.out.println(db.getData());
+        */
+        // update in-memory data
+        ListAdapter.foods = HelperTool.sortByExpiration(MainActivity.db.getDatas());
         // reload the current fragment
-        //Fragment fragment = getFragmentManager().findFragmentById(R.id.frame_layout);
-        //getFragmentManager().beginTransaction().detach(fragment).attach(fragment).commit();
-        Fragment fragment = new MyGrocery();
-        getFragmentManager().beginTransaction().replace(R.id.frame_layout, fragment).commit();
+        Fragment fragment = getFragmentManager().findFragmentById(R.id.frame_layout);
+        getFragmentManager().beginTransaction().detach(fragment).attach(fragment).commit();
     }
     @Override
     public void onDialogNegativeClick(View view, int position){
@@ -109,5 +122,13 @@ public class MainActivity extends AppCompatActivity implements ModificationDialo
 
     }
 
+    public boolean emptyNameCheck(String name) {
+        if (name.isEmpty()) {
+            //Toast.makeText(getApplicationContext(), "Item name can not be empty", Toast.LENGTH_SHORT);
+            // TODO: give error message and stay on this dialog if possible
+            return true;
+        }
+        return false;
+    }
 
 }

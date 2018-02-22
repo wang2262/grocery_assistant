@@ -3,6 +3,7 @@ package com.example.team22cs407.groceryassistant;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -14,19 +15,26 @@ import java.util.List;
  */
 
 public class HelperTool {
-
+    private static final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
     public static List<Food> sortByExpiration(List<Food> foodList) {
 
-        final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.YEAR, 10);
+        final Date longest = cal.getTime();
+
         Collections.sort(foodList, new Comparator<Food>() {
 
             @Override
             public int compare(Food f1, Food f2) {
                 try {
-                    Date date1 = sdf.parse(f1.getExpirationDate());
+                    Date date1 = longest;
+                    Date date2 = longest;
+                    if (f1.getExpirationDate() != null && !f1.getExpirationDate().isEmpty())
+                        date1 = sdf.parse(f1.getExpirationDate());
 
-                    Date date2 = sdf.parse(f2.getExpirationDate());
+                    if (f2.getExpirationDate() != null && !f2.getExpirationDate().isEmpty())
+                        date2 = sdf.parse(f2.getExpirationDate());
 
                     return date1.compareTo(date2);
 

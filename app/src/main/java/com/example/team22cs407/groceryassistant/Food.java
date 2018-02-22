@@ -8,6 +8,15 @@ public class Food {
     private String foodItem;
     private String expirationDate;
 
+    public Food() {
+        super();
+    }
+
+    public Food(String foodItem, String expirationDate) {
+        this.foodItem = foodItem;
+        this.expirationDate = expirationDate;
+    }
+
     public String getFoodItem() {
         return foodItem;
     }

@@ -98,7 +98,7 @@ public class dataHelp {
         if (!args[1].equals("")) {
             contentValues.put(myDbHelper.NAME, args[1]);
         }
-        if (args.length > 2 && !args[2].equals("")) {
+        if (args.length > 2) {
             contentValues.put(myDbHelper.DATE, args[2]);
         }
         int count = db.update(myDbHelper.TABLE_NAME,contentValues, myDbHelper.NAME+" = ?",whereArgs );
