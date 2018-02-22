@@ -21,9 +21,9 @@ public class dataHelp {
     }
 
     public long insertData(String name, String date) {
-        SQLiteDatabase db = dataHelp.getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
         if(name != null && !name.isEmpty()) {
+            SQLiteDatabase db = dataHelp.getWritableDatabase();
+            ContentValues contentValues = new ContentValues();
             contentValues.put(myDbHelper.NAME, name);
             if(date != null && !date.isEmpty())
                 contentValues.put(myDbHelper.DATE, date);
