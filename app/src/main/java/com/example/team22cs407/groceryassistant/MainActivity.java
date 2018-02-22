@@ -15,6 +15,8 @@ import android.view.View;
 import android.database.sqlite.*;
 import android.widget.EditText;
 
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity implements ModificationDialogFragment.ModificationDialogListener {
 
     static dataHelp db;
@@ -64,23 +66,31 @@ public class MainActivity extends AppCompatActivity implements ModificationDialo
 
     @Override
     public void onDialogPositiveClick(View view, int position) {
-        System.out.println("I AM IN POSITIVE");
-        System.out.println("position: " + position);
+        System.out.println("position: " + position);   // 0 based
 
         EditText nameView = view.findViewById(R.id.item_name);
-        System.out.println("name: " + nameView.getText());
-
         EditText expirationView = view.findViewById(R.id.item_expiration);
-        System.out.println("expirationDate: " + expirationView.getText());
 
-        // compare old name with new name, and old date with new date
-        String oldName = OurData.title[position];
+
+        // compare old name with new name, and old date with new date  // is the position equals UID
+        List<Food> data = db.getDatas();
+        String oldName = data.get(position).getFoodItem();
+        String oldDate = data.get(position).getExpirationDate();
+
         String newName = nameView.getText().toString();
+        String newDate = expirationView.getText().toString();
+
+        System.out.println("before---------------");
         System.out.println(db.getData());
 
-        if (!oldName.equals(newName)) {
+        if (!oldName.equals(newName) && !oldDate.equals(newDate)) {
+            db.updateData(oldName, newName, newDate);
+        } else if (!oldDate.equals(newDate)) {
+            db.updateData(oldName, "", newDate);  // we just modify date
+        } else if (!oldName.equals(newName)) {
             db.updateData(oldName, newName);
         }
+
         System.out.println("after---------------");
         System.out.println(db.getData());
 
@@ -92,4 +102,7 @@ public class MainActivity extends AppCompatActivity implements ModificationDialo
 
     }
 
+    public void refresh(Fragment fragment){
+
+    }
 }

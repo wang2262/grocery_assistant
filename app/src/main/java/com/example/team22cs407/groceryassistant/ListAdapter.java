@@ -74,7 +74,7 @@ public class ListAdapter extends RecyclerView.Adapter {
         Bundle bundle = new Bundle();
         bundle.putInt("position", position);
         bundle.putString("item_name", foods.get(position).getFoodItem());
-        bundle.putString("expiration_date", "01/12/2018");
+        bundle.putString("expiration_date", foods.get(position).getExpirationDate());
         dialog.setArguments(bundle);
         FragmentManager fragmentManager = ((Activity)mContext).getFragmentManager();
         dialog.show(fragmentManager, "ModificationDialogFragment");

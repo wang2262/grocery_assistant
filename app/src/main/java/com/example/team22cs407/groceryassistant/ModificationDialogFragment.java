@@ -54,10 +54,9 @@ public class ModificationDialogFragment extends DialogFragment {
         expiration_date = args.getString("expiration_date", "mm/dd/yyyy");
 
         EditText nameView = view.findViewById(R.id.item_name);
-        nameView.setHint(item_name);
+        nameView.setText(item_name);
         EditText expirationView = view.findViewById(R.id.item_expiration);
-        expirationView.setHint(expiration_date);
-
+        expirationView.setText(expiration_date);
         // Inflate and set the layout for the dialog
         builder.setView(view)
                 .setTitle("Modification")
