@@ -36,6 +36,7 @@ public class DeleteDialogFragment extends DialogFragment {
 
         final int position = args.getInt("position", 0);
         final String item_name = args.getString("item_name", "");
+        final String expDate = args.getString("exp_date", "");
 
 
         // Inflate and set the layout for the dialog
@@ -48,7 +49,7 @@ public class DeleteDialogFragment extends DialogFragment {
                     public void onClick(DialogInterface dialog, int id) {
                         // Send the positive button event back to the host activity
                        // mListener.onDialogPositiveClick(view, position);
-                        MainActivity.db.delete(item_name);
+                        MainActivity.db.delete(item_name, expDate);
 
                         // update in-memory data
                         ListAdapter.foods.remove(position);

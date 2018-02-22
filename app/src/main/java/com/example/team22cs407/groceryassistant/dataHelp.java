@@ -6,6 +6,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,12 +69,12 @@ public class dataHelp {
         return foods;
     }
 
-    public  int delete(String uname)
+    public  int delete(String uname, String date)
     {
         SQLiteDatabase db = dataHelp.getWritableDatabase();
-        String[] whereArgs ={uname};
-
-        int count =db.delete(myDbHelper.TABLE_NAME ,myDbHelper.NAME+" = ?",whereArgs);
+        String[] whereArgs ={uname, date};
+        Log.d("log of out", myDbHelper.NAME+" = " + uname + " AND " + myDbHelper.DATE + " = " + date);
+        int count =db.delete(myDbHelper.TABLE_NAME ,myDbHelper.NAME+" =?" + " AND " + myDbHelper.DATE + " =?", whereArgs);
         return  count;
     }
 
