@@ -80,20 +80,19 @@ public class MainActivity extends AppCompatActivity implements ModificationDialo
         String newName = nameView.getText().toString();
         String newDate = expirationView.getText().toString();
 
-        System.out.println("before---------------");
-        System.out.println(db.getData());
-
         if (!oldName.equals(newName) && !oldDate.equals(newDate)) {
             db.updateData(oldName, newName, newDate);
         } else if (!oldDate.equals(newDate)) {
             db.updateData(oldName, "", newDate);  // we just modify date
         } else if (!oldName.equals(newName)) {
             db.updateData(oldName, newName);
+        } else {
+            return;
         }
 
-        System.out.println("after---------------");
-        System.out.println(db.getData());
-
+        // reload the current fragment
+        Fragment fragment = getFragmentManager().findFragmentById(R.id.frame_layout);
+        getFragmentManager().beginTransaction().detach(fragment).attach(fragment).commit();
     }
     @Override
     public void onDialogNegativeClick(View view, int position){
@@ -102,7 +101,4 @@ public class MainActivity extends AppCompatActivity implements ModificationDialo
 
     }
 
-    public void refresh(Fragment fragment){
-
-    }
 }

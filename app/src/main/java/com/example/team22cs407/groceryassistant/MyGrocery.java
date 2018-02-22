@@ -91,8 +91,11 @@ public class MyGrocery extends Fragment {
                         if (row < 0) {
                             showDBFailMessage();
                         }
-
                         //Log.d("DATA", MainActivity.db.getData());
+
+                        // reload the current fragment
+                        Fragment fragment = getFragmentManager().findFragmentById(R.id.frame_layout);
+                        getFragmentManager().beginTransaction().detach(fragment).attach(fragment).commit();
                     }
                 })
                 .setNegativeButton("Cancel",

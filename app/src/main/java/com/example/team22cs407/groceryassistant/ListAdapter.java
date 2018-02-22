@@ -41,9 +41,10 @@ public class ListAdapter extends RecyclerView.Adapter {
             @Override
             public void onClick(View view) {
                // Toast.makeText(mContext, foods.get(position).getFoodItem(), Toast.LENGTH_SHORT).show();
-                showPopupMenu(view, position);
+               showPopupMenu(view, position);
             }
         });
+
     }
 
     public void showPopupMenu(View view, final int position){
@@ -54,11 +55,9 @@ public class ListAdapter extends RecyclerView.Adapter {
             public boolean onMenuItemClick(MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
                     case R.id.modify:
-                        Log.d("in OnMenuItemClick", "I am in modify");
                         showModificationDialog(position);
                         return true;
                     case R.id.delete:
-                        Log.d("in OnMenuItemClick", "I am in delete");
                         showDeleteDialog(position);
                         return true;
                     default:

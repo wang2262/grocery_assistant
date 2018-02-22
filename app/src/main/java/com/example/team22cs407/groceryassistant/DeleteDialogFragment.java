@@ -3,6 +3,7 @@ package com.example.team22cs407.groceryassistant;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.AlertDialog;
+import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -48,6 +49,10 @@ public class DeleteDialogFragment extends DialogFragment {
                         // Send the positive button event back to the host activity
                        // mListener.onDialogPositiveClick(view, position);
                         MainActivity.db.delete(item_name);
+                        
+                        // reload the current fragment
+                        Fragment fragment = getFragmentManager().findFragmentById(R.id.frame_layout);
+                        getFragmentManager().beginTransaction().detach(fragment).attach(fragment).commit();
                     }
                 })
                 .setNegativeButton("No", new DialogInterface.OnClickListener() {
