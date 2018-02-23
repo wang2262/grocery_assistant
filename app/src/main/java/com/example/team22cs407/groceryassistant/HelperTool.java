@@ -15,7 +15,7 @@ import java.util.List;
  */
 
 public class HelperTool {
-    private static final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+    private static final SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
 
     public static List<Food> sortByExpiration(List<Food> foodList) {
 
