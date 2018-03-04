@@ -16,11 +16,17 @@ import android.database.sqlite.*;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity implements ModificationDialogFragment.ModificationDialogListener {
 
     static dataHelp db;
+
+    private Timer timer;
+    private CheckCloseExpiredTimerTask checkExpirationTimerTask;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -61,8 +67,13 @@ public class MainActivity extends AppCompatActivity implements ModificationDialo
         transaction.commit();
 
         BottomNavigationView navigation = findViewById(R.id.navigation);
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
+        timer = new Timer();
+        checkExpirationTimerTask = new CheckCloseExpiredTimerTask();
+        Date today = new Date();
+        // TODO : when is the first run?
+        long period = 1000 * 60 * 60 * 24; // 24 hr in million second
+        timer.schedule(checkExpirationTimerTask, today, period);
     }
 
     @Override
