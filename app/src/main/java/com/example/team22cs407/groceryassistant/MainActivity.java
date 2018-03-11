@@ -16,10 +16,13 @@ import android.database.sqlite.*;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity implements ModificationDialogFragment.ModificationDialogListener {
 
@@ -68,13 +71,36 @@ public class MainActivity extends AppCompatActivity implements ModificationDialo
 
         BottomNavigationView navigation = findViewById(R.id.navigation);
 
+        // for notification
         timer = new Timer();
         checkExpirationTimerTask = new CheckCloseExpiredTimerTask();
         Date today = new Date();
         // TODO : when is the first run?
         long period = 1000 * 60 * 60 * 24; // 24 hr in million second
-        timer.schedule(checkExpirationTimerTask, today, period);
+        //long period = 3;
+        //LocalTime time = LocalTime.of(16, 0, 0);  // only usable in API 26 minimum
+        long delayToFirstTime = getDelayToFirstTime();
+        System.out.println("delay: " + delayToFirstTime);
+        //timer.schedule(checkExpirationTimerTask, today, period);
+        timer.schedule(checkExpirationTimerTask, delayToFirstTime, period);
     }
+    // assuming the first time is 16:00 during the day
+    public long getDelayToFirstTime() {
+        Calendar scheduledTime = Calendar.getInstance();
+        Date today = scheduledTime.getTime();
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+        System.out.println("NOW time: " + sdf.format(today));
+
+        scheduledTime.set(Calendar.HOUR_OF_DAY, 13);
+        scheduledTime.set(Calendar.MINUTE, 30);
+        long timediff = scheduledTime.getTimeInMillis() - Calendar.getInstance().getTimeInMillis();
+        if (timediff > 0) {
+            return timediff;
+        }
+        long dayInMillis = 24 * 60 * 60 * 1000; // 24 hr in million second
+        return timediff + dayInMillis;
+    }
+
 
     @Override
     public void onDialogPositiveClick(View view, int position) {
