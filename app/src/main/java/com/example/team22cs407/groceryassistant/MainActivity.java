@@ -87,8 +87,8 @@ public class MainActivity extends AppCompatActivity implements ModificationDialo
         Calendar scheduledTime = Calendar.getInstance();
         Date today = scheduledTime.getTime();
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-          System.out.println("NOW time: " + sdf.format(today));
 
+        System.out.println("NOW time: " + sdf.format(today));
         scheduledTime.set(Calendar.HOUR_OF_DAY, 13);
         scheduledTime.set(Calendar.MINUTE, 32);
         long timediff = scheduledTime.getTimeInMillis() - Calendar.getInstance().getTimeInMillis();
