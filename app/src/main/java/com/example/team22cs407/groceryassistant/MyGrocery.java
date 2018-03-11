@@ -92,13 +92,12 @@ public class MyGrocery extends Fragment {
                         boolean valid = true;
                         for (int i = 0; i < foods.size(); i++) {
                             if (foods.get(i).getFoodItem().equals(name)) {
-                                if (foods.get(i).getExpirationDate() == null && date.isEmpty()) {
+                                if (foods.get(i).getExpirationDate() == null && date.isEmpty()
+                                        ||
+                                        foods.get(i).getExpirationDate() != null && foods.get(i).getExpirationDate().equals(date)) {
                                     valid = false;
-                                    showDBFailMessage();
-                                    break;
-                                } else if (foods.get(i).getExpirationDate() != null && foods.get(i).getExpirationDate().equals(date)) {
-                                    valid = false;
-                                    showDBFailMessage();
+                                    //duplicate
+                                    showDBFailMessage(2);
                                     break;
                                 }
                             }
@@ -106,7 +105,13 @@ public class MyGrocery extends Fragment {
                         if (valid) {
                             long row = MainActivity.db.insertData(editText1.getText().toString(), editText2.getText().toString());
                             if (row < 0) {
-                                showDBFailMessage();
+                                if (date != null && !date.isEmpty()) {
+                                    //no name
+                                    showDBFailMessage(1);
+                                }else {
+                                    //empty row
+                                    showDBFailMessage(0);
+                                }
                             } else {
 
                                 //Log.d("DATA", MainActivity.db.getData());
@@ -129,10 +134,20 @@ public class MyGrocery extends Fragment {
         alert.show();
     }
 
-    public void showDBFailMessage(){
+    public void showDBFailMessage(int type){
         LayoutInflater layoutInflater = LayoutInflater.from(MyGrocery.this.getActivity());
-        View promptView = layoutInflater.inflate(R.layout.invalid_input_alert, null);
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+        View promptView;
+        if (type == 0) {
+            //empty
+             promptView = layoutInflater.inflate(R.layout.empty_input_alert, null);
+        } else if (type == 1) {
+            //no name
+            promptView = layoutInflater.inflate(R.layout.invalid_input_alert, null);
+        } else {
+            //duplicate
+            promptView = layoutInflater.inflate(R.layout.invalid_input_alert, null);
+        }
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                 MyGrocery.this.getActivity());
         alertDialogBuilder.setView(promptView);
         alertDialogBuilder
