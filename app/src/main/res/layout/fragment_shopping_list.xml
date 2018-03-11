@@ -3,11 +3,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.team22cs407.groceryassistant.ShoppingList">
-
+<!--
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:text="@string/shoppingText"
         android:id="@+id/shoppingListFragment"/>
+-->
+    <Button
+        android:id="@+id/add_button"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_gravity="end|top"
+        android:text="@string/plus_sign" />
 
 </FrameLayout>
