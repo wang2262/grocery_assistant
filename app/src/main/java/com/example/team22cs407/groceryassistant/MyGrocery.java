@@ -145,7 +145,7 @@ public class MyGrocery extends Fragment {
             promptView = layoutInflater.inflate(R.layout.invalid_input_alert, null);
         } else {
             //duplicate
-            promptView = layoutInflater.inflate(R.layout.invalid_input_alert, null);
+            promptView = layoutInflater.inflate(R.layout.duplicate_input_alert, null);
         }
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                 MyGrocery.this.getActivity());
