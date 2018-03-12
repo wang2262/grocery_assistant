@@ -7,13 +7,28 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimerTask;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
+
 /**
  * Created by yuanyuanji on 3/3/18.
  */
 
 public class CheckCloseExpiredTimerTask extends TimerTask {
+    private Context parentContext;  // Main activity which call run.
     private  int count = 0;
-    private int closeInDays = 2;
+    private int closeInDays = 1;
+    private String CHANNEL_ID = "1";
+    private int notificationId = 1;
+
+    public CheckCloseExpiredTimerTask(Context parentContext, int closeInDays) {
+        this.parentContext = parentContext;
+        this.closeInDays = closeInDays;
+    }
 
     @Override
     public void run() {
@@ -30,6 +45,26 @@ public class CheckCloseExpiredTimerTask extends TimerTask {
         System.out.println("printing foodToNotify:");
         for (Food item : foodToNotify) {
             System.out.println(item.getFoodItem() + ", " + item.getExpirationDate());
+        }
+
+        if (foodToNotify.size() > 0) {
+            Intent intent = new Intent(parentContext, MainActivity.class);
+            // the below is to resume the activity instead of restarting the activity.
+            intent.setAction(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_LAUNCHER);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+            PendingIntent pendingIntent = PendingIntent.getActivity(parentContext, 0, intent, 0);
+
+            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(parentContext, CHANNEL_ID)
+                    .setSmallIcon(R.drawable.ic_notifications_black_24dp)
+                    .setContentTitle("Notification")
+                    .setContentText("Hello world!")
+                    .setContentIntent(pendingIntent)
+                    .setAutoCancel(true);
+            
+            NotificationManagerCompat notificationManager = NotificationManagerCompat.from(parentContext);
+            notificationManager.notify(notificationId, mBuilder.build());
         }
     }
 

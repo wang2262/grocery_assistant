@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.Calendar;
+import android.support.v4.app.NotificationCompat;
 
 public class MainActivity extends AppCompatActivity implements ModificationDialogFragment.ModificationDialogListener {
 
@@ -73,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements ModificationDialo
 
         // for notification
         timer = new Timer();
-        checkExpirationTimerTask = new CheckCloseExpiredTimerTask();
+        checkExpirationTimerTask = new CheckCloseExpiredTimerTask(this, 1);
         Date today = new Date();
         long period = 1000 * 60 * 60 * 24; // 24 hr in million second
         //long period = 3;
@@ -89,8 +90,9 @@ public class MainActivity extends AppCompatActivity implements ModificationDialo
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
 
         System.out.println("NOW time: " + sdf.format(today));
-        scheduledTime.set(Calendar.HOUR_OF_DAY, 13);
-        scheduledTime.set(Calendar.MINUTE, 32);
+        scheduledTime.set(Calendar.HOUR_OF_DAY, 21);
+        scheduledTime.set(Calendar.MINUTE, 1);
+        scheduledTime.set(Calendar.SECOND, 10);
         long timediff = scheduledTime.getTimeInMillis() - Calendar.getInstance().getTimeInMillis();
         if (timediff > 0) {
             return timediff;
