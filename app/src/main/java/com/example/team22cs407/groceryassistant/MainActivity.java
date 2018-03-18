@@ -71,6 +71,7 @@ public class MainActivity extends AppCompatActivity implements ModificationDialo
         transaction.commit();
 
         BottomNavigationView navigation = findViewById(R.id.navigation);
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         // for notification
         timer = new Timer();
@@ -83,6 +84,8 @@ public class MainActivity extends AppCompatActivity implements ModificationDialo
         //timer.schedule(checkExpirationTimerTask, today, period);
         timer.schedule(checkExpirationTimerTask, delayToFirstTime, period);
     }
+
+
     // assuming the first time is 16:00 during the day
     public long getDelayToFirstTime() {
         Calendar scheduledTime = Calendar.getInstance();
