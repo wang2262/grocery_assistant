@@ -24,10 +24,35 @@ public class CheckCloseExpiredTimerTask extends TimerTask {
     private int closeInDays = 1;
     private String CHANNEL_ID = "1";
     private int notificationId = 1;
+    private int notificationTime = 16;  // 16:00 pm every day
 
-    public CheckCloseExpiredTimerTask(Context parentContext, int closeInDays) {
+    public CheckCloseExpiredTimerTask(Context parentContext){
+        this.parentContext = parentContext;
+        this.closeInDays = 1;
+        this.notificationTime = 16;
+    }
+
+    public int getNotificationTime() {
+        return notificationTime;
+    }
+
+    public void setNotificationTime(int notificationTime) {
+        this.notificationTime = notificationTime;
+    }
+
+    public int getCloseInDays() {
+
+        return closeInDays;
+    }
+
+    public void setCloseInDays(int closeInDays) {
+        this.closeInDays = closeInDays;
+    }
+
+    public CheckCloseExpiredTimerTask(Context parentContext, int closeInDays, int notificationTime) {
         this.parentContext = parentContext;
         this.closeInDays = closeInDays;
+        this.notificationTime = notificationTime;
     }
 
     @Override
@@ -46,6 +71,7 @@ public class CheckCloseExpiredTimerTask extends TimerTask {
         for (Food item : foodToNotify) {
             System.out.println(item.getFoodItem() + ", " + item.getExpirationDate());
         }
+        String notificationMsg = constructNotificationMessage(foodToNotify);
 
         if (foodToNotify.size() > 0) {
             Intent intent = new Intent(parentContext, MainActivity.class);
@@ -58,14 +84,36 @@ public class CheckCloseExpiredTimerTask extends TimerTask {
 
             NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(parentContext, CHANNEL_ID)
                     .setSmallIcon(R.drawable.ic_notifications_black_24dp)
-                    .setContentTitle("Notification")
-                    .setContentText("Hello world!")
+                    .setContentTitle("Grocery Assistant Notification")
+                    .setContentText(notificationMsg)
+                    .setStyle(new NotificationCompat.BigTextStyle().bigText(notificationMsg))
                     .setContentIntent(pendingIntent)
                     .setAutoCancel(true);
             
             NotificationManagerCompat notificationManager = NotificationManagerCompat.from(parentContext);
             notificationManager.notify(notificationId, mBuilder.build());
         }
+    }
+
+    public String constructNotificationMessage(List<Food> foodToNotify) {
+        StringBuilder sb = new StringBuilder();
+        int size = foodToNotify.size();
+        for(int i = 0; i < size; i++) {
+            sb.append(foodToNotify.get(i).getFoodItem() + ", ");
+        }
+        sb.delete(sb.length() - 2, sb.length());
+        // insert substring "and"
+        if (size > 1) {
+            int index = sb.lastIndexOf(",");
+            sb.replace(index, index + 1, " and");
+            sb.append(" are ");
+        }
+        else {
+            sb.append(" is ");
+        }
+        sb.append("about to expire on " + foodToNotify.get(0).getExpirationDate() + ".");
+        System.out.println(sb.toString());
+        return sb.toString();
     }
 
     /**

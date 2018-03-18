@@ -75,27 +75,34 @@ public class MainActivity extends AppCompatActivity implements ModificationDialo
 
         // for notification
         timer = new Timer();
-        checkExpirationTimerTask = new CheckCloseExpiredTimerTask(this, 1);
+        checkExpirationTimerTask = new CheckCloseExpiredTimerTask(this);
+        scheduleTask();
+    }
+
+    public void scheduleTask() {
+        if (timer == null || checkExpirationTimerTask == null) {
+            return;
+        }
         Date today = new Date();
         long period = 1000 * 60 * 60 * 24; // 24 hr in million second
         //long period = 3;
-        long delayToFirstTime = getDelayToFirstTime();
+        //long delayToFirstTime = getDelayToFirstTime(checkExpirationTimerTask.getNotificationTime());
+        long delayToFirstTime = getDelayToFirstTime(17); // change 21 to notificationTime
         System.out.println("delay: " + delayToFirstTime);
         //timer.schedule(checkExpirationTimerTask, today, period);
         timer.schedule(checkExpirationTimerTask, delayToFirstTime, period);
     }
 
-
     // assuming the first time is 16:00 during the day
-    public long getDelayToFirstTime() {
+    public long getDelayToFirstTime(int notificationTime) {
         Calendar scheduledTime = Calendar.getInstance();
         Date today = scheduledTime.getTime();
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
 
         System.out.println("NOW time: " + sdf.format(today));
-        scheduledTime.set(Calendar.HOUR_OF_DAY, 21);
-        scheduledTime.set(Calendar.MINUTE, 1);
-        scheduledTime.set(Calendar.SECOND, 10);
+        scheduledTime.set(Calendar.HOUR_OF_DAY, notificationTime);
+        scheduledTime.set(Calendar.MINUTE, 42); // change to 0 later
+        scheduledTime.set(Calendar.SECOND, 10); // change to 0 later
         long timediff = scheduledTime.getTimeInMillis() - Calendar.getInstance().getTimeInMillis();
         if (timediff > 0) {
             return timediff;
@@ -121,19 +128,13 @@ public class MainActivity extends AppCompatActivity implements ModificationDialo
 
         String newName = nameView.getText().toString();
         String newDate = expirationView.getText().toString();
-        /*
-        System.out.println("new name: " + newName);
-        System.out.println("new date: " + newDate);
-       */
+
         if (emptyNameCheck(newName))
             return;
         if (newDate.isEmpty()) {   // allow user changing expiration date to null
             newDate = null;
         }
-        /*
-        System.out.println("before:");
-        System.out.println(db.getData());
-        */
+
         // update database
         if (!oldName.equals(newName) && !oldDate.equals(newDate)) {
             db.updateData(oldName, newName, newDate);
