@@ -17,8 +17,11 @@ import android.widget.Button;
 import android.app.AlertDialog;
 import android.widget.EditText;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Date;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -68,6 +71,8 @@ public class MyGrocery extends Fragment {
         recyclerView.setAdapter(listAdapter);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
+
+        changeExpiringItemColor();
 
         return view;
         //return inflater.inflate(R.layout.fragment_my_grocery, container, false);
@@ -132,6 +137,27 @@ public class MyGrocery extends Fragment {
 
         AlertDialog alert = alertDialogBuilder.create();
         alert.show();
+    }
+
+    public void changeExpiringItemColor() {
+        List<Food> foodList = MainActivity.db.getDatas();
+        List<Food> foodToNotify = new ArrayList<>();
+        for (Food item : foodList) {
+            System.out.println(item.getFoodItem());
+            System.out.println(item.getExpirationDate());
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy");
+            Date itemDate;
+            Date today = new Date();
+            //get Date of two days in future to compare with
+            try {
+                itemDate = sdf.parse(item.getExpirationDate());
+                if (itemDate.after(today)) {
+                    //expired, change to red
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public void showDBFailMessage(int type){
