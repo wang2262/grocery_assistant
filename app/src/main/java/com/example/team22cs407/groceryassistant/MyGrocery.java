@@ -1,5 +1,6 @@
 package com.example.team22cs407.groceryassistant;
 
+import android.app.FragmentManager;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -16,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.app.AlertDialog;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,6 +60,14 @@ public class MyGrocery extends Fragment {
             {
                 showInputDialog();
 
+            }
+        });
+
+        ImageButton imageButton = view.findViewById(R.id.notification_setting_button);
+        imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showNotificationSettingDialog();
             }
         });
 
@@ -160,6 +170,12 @@ public class MyGrocery extends Fragment {
 
         AlertDialog alert = alertDialogBuilder.create();
         alert.show();
+    }
+
+    public void showNotificationSettingDialog(){
+        NotificationSettingDialogFragment dialog = new NotificationSettingDialogFragment();
+        FragmentManager fragmentManager = MyGrocery.this.getActivity().getFragmentManager();
+        dialog.show(fragmentManager, "NotificationSettingDialogFragment");
     }
     /**
      * This interface must be implemented by activities that contain this

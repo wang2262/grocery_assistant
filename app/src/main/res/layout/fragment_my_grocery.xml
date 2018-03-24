@@ -11,13 +11,25 @@
         android:layout_marginTop="36dp"
         android:text="@string/groceryText" />
 -->
-    <Button
-        android:id="@+id/add_button"
-        style="?android:attr/borderlessButtonStyle"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:layout_gravity="end|top"
-        android:text="@string/plus_sign" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/add_button"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_gravity="end|top"
+            android:text="@string/plus_sign"
+            android:layout_toLeftOf="@+id/notification_setting_button"/>
+        <ImageButton
+            android:id="@+id/notification_setting_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/notification_setting_icon1"
+            android:layout_alignParentRight="true"/>
+
+    </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/listRecyclerView"
