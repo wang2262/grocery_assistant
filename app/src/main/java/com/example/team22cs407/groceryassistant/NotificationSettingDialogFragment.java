@@ -20,8 +20,10 @@ import java.util.Calendar;
  * Created by yuanyuanji on 3/21/18.
  */
 
-public class NotificationSettingDialogFragment extends DialogFragment {
-
+public class NotificationSettingDialogFragment extends DialogFragment implements TimePickerFragment.TimePickerFragmentListener {
+    private int closeDays = 2;
+    private int hourOfDay = 16;
+    private int minute = 0;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -29,26 +31,27 @@ public class NotificationSettingDialogFragment extends DialogFragment {
         LayoutInflater layoutInflater = getActivity().getLayoutInflater();
         View view = layoutInflater.inflate(R.layout.dialog_notification_setting, null);
 
-        CheckBox checkBox = view.findViewById(R.id.notification_setting_checkbox);
+        final CheckBox checkBox = view.findViewById(R.id.notification_setting_checkbox);
 
-        NumberPicker closeInDays = view.findViewById(R.id.notification_setting_closeInDays);
+        final NumberPicker closeInDays = view.findViewById(R.id.notification_setting_closeInDays);
         closeInDays.setMinValue(0);
         closeInDays.setMaxValue(12);
         closeInDays.setWrapSelectorWheel(true);
+        closeInDays.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker numberPicker, int oldVal, int newVal) {
+                closeDays = newVal;
+            }
+        });
 
-        //Use the current time as the default values for the time picker
-        final Calendar c = Calendar.getInstance();
-        final int hour = c.get(Calendar.HOUR_OF_DAY);
-        int minute = c.get(Calendar.MINUTE);
-
-        //Create and return a new instance of TimePickerDialog
         Button notificationSettingTime = view.findViewById(R.id.notification_setting_time);
 
         notificationSettingTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 DialogFragment newFragment = new TimePickerFragment();
-                newFragment.show(getFragmentManager(),"TimePicker");
+                newFragment.setTargetFragment(NotificationSettingDialogFragment.this, 0);
+                newFragment.show(getFragmentManager(),"TimePickerFragment");
             }
         });
 
@@ -59,6 +62,11 @@ public class NotificationSettingDialogFragment extends DialogFragment {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         System.out.println("I am in Positive: " + i);
+                        // how to get closeInDays and time to run a new TimerTask
+                        System.out.println("checkbox value: " + checkBox.isChecked());
+                        System.out.println("selected close in days:" + closeDays);
+                        System.out.println("I am in Notification setting fragment, save button: hour: " + hourOfDay);
+                        System.out.println("I am in Notification setting fragment: save button: " + minute);
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -69,4 +77,14 @@ public class NotificationSettingDialogFragment extends DialogFragment {
                 });
         return builder.create();
     }
+
+
+    @Override
+    public void onTimeSetDone(int hourOfDay, int minute) {
+
+        this.hourOfDay = hourOfDay;
+        this.minute = minute;
+
+    }
+
 }
