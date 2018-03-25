@@ -86,24 +86,26 @@ public class MyGrocery extends Fragment {
                 .setCancelable(false)
                 .setPositiveButton("Save", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        List<Food> foods = MainActivity.db.getDatas();
+                        List<Food> foods = MainActivity.db.getDatasWithTable("GroceryList");
                         String name = editText1.getText().toString();
                         String date = editText2.getText().toString();
                         boolean valid = true;
-                        for (int i = 0; i < foods.size(); i++) {
-                            if (foods.get(i).getFoodItem().equals(name)) {
-                                if (foods.get(i).getExpirationDate() == null && date.isEmpty()
-                                        ||
-                                        foods.get(i).getExpirationDate() != null && foods.get(i).getExpirationDate().equals(date)) {
-                                    valid = false;
-                                    //duplicate
-                                    showDBFailMessage(2);
-                                    break;
+                        if (name != null) {
+                            for (int i = 0; i < foods.size(); i++) {
+                                if (foods.get(i).getFoodItem().equals(name)) {
+                                    if (foods.get(i).getExpirationDate() == null && date.isEmpty()
+                                            ||
+                                            foods.get(i).getExpirationDate() != null && foods.get(i).getExpirationDate().equals(date)) {
+                                        valid = false;
+                                        //duplicate
+                                        showDBFailMessage(2);
+                                        break;
+                                    }
                                 }
                             }
                         }
                         if (valid) {
-                            long row = MainActivity.db.insertData(editText1.getText().toString(), editText2.getText().toString());
+                            long row = MainActivity.db.insertDatas(name, date, "GroceryList");
                             if (row < 0) {
                                 if (date != null && !date.isEmpty()) {
                                     //no name
@@ -147,7 +149,7 @@ public class MyGrocery extends Fragment {
             //duplicate
             promptView = layoutInflater.inflate(R.layout.duplicate_input_alert, null);
         }
-            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                 MyGrocery.this.getActivity());
         alertDialogBuilder.setView(promptView);
         alertDialogBuilder

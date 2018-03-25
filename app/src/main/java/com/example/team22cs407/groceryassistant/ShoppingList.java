@@ -79,26 +79,60 @@ public class ShoppingList extends Fragment {
                 .setCancelable(false)
                 .setPositiveButton("Save", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        List<Food> foods = MainActivity.db.getDatas();
                         String name = editText1.getText().toString();
+
+                        //List<Food> foods = MainActivity.db.getDatasWithTable("ShoppingList");
+
                         boolean valid = true;
                         /*
-                        for (int i = 0; i < foods.size(); i++) {
-                            //check for duplicate, set valid = false if found
+                        if (name != null) {
+                            for (int i = 0; i < foods.size(); i++) {
+                                if (foods.get(i).getFoodItem().equals(name)) {
+                                    valid = false;
+                                    showInsertFail(0);
+                                    break;
+                                }
+                            }
+                        }
+
+                        if (valid) {
+                            long row = MainActivity.db.insertDatas(name, "", "ShoppingList");
+                            Log.d("PAST", name);
+                            if (row < 0) {
+                                showInsertFail(1);
+                            }else {
+                                // reload the current fragment
+                                Fragment fragment = getFragmentManager().findFragmentById(R.id.frame_layout);
+                                getFragmentManager().beginTransaction().detach(fragment).attach(fragment).commit();
+                            }
                         }
                         */
-                        if (valid) {
-                            Log.d("DATA", name);
-                            //call db add function
-                            //long row = MainActivity.db.insertData(editText1.getText().toString(), editText2.getText().toString());
-                            ListAdapter.foods = HelperTool.sortByExpiration(MainActivity.db.getDatas());
-                            // reload the current fragment
-                            Fragment fragment = getFragmentManager().findFragmentById(R.id.frame_layout);
-                            getFragmentManager().beginTransaction().detach(fragment).attach(fragment).commit();
-                        }
                     }
                 })
                 .setNegativeButton("Cancel",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+
+        AlertDialog alert = alertDialogBuilder.create();
+        alert.show();
+    }
+    public void showInsertFail(int type) {
+        LayoutInflater layoutInflater = LayoutInflater.from(ShoppingList.this.getActivity());
+        View promptView;
+        if (type == 0) {
+            promptView = layoutInflater.inflate(R.layout.duplicate_input_alert, null);
+        } else {
+            //no name
+            promptView = layoutInflater.inflate(R.layout.invalid_input_alert, null);
+        }
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                ShoppingList.this.getActivity());
+        alertDialogBuilder.setView(promptView);
+        alertDialogBuilder
+                .setPositiveButton("OK",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 dialog.cancel();
