@@ -178,7 +178,7 @@ public class dataHelp {
 
         private static final String DATABASE_NAME = "database";    // Database Name
         private static final String TABLE_NAME = "GroceryList";   // Table Name
-        private static final int DATABASE_Version = 1;    // Database Version
+        private static final int DATABASE_Version = 2;    // Database Version
         private static final String UID="_id";     // Column I (Primary Key)
         private static final String NAME = "Name";    //Column II
         private static final String DATE = "Date";    // Date that food expires
