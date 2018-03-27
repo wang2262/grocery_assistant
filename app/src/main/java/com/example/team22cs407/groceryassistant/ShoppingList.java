@@ -59,7 +59,7 @@ public class ShoppingList extends Fragment {
 
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.listRecyclerView);
 
-        ListAdapter listAdapter = new ListAdapter();
+        ListAdapterShopping listAdapter = new ListAdapterShopping();
         recyclerView.setAdapter(listAdapter);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
