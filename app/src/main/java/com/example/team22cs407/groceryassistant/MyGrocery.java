@@ -30,7 +30,7 @@ import java.util.List;
  * Use the {@link MyGrocery#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MyGrocery extends Fragment {
+public class MyGrocery extends Fragment implements NotificationSettingDialogFragment.NotificationSettingDialogListener{
 
 
     public MyGrocery() {
@@ -175,8 +175,20 @@ public class MyGrocery extends Fragment {
     public void showNotificationSettingDialog(){
         NotificationSettingDialogFragment dialog = new NotificationSettingDialogFragment();
         FragmentManager fragmentManager = MyGrocery.this.getActivity().getFragmentManager();
+        dialog.setTargetFragment(this, 0);
         dialog.show(fragmentManager, "NotificationSettingDialogFragment");
     }
+
+    @Override
+    public void cancelCurrentTimerTask() {
+        System.out.println("I am in my Grocery");
+    }
+
+    @Override
+    public void updateCurrentTimerTask(int hourOfDay, int minute) {
+
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated

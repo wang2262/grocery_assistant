@@ -16,21 +16,17 @@ import android.database.sqlite.*;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import java.text.SimpleDateFormat;
-import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Timer;
-import java.util.TimerTask;
-import java.util.Calendar;
-import android.support.v4.app.NotificationCompat;
+
 
 public class MainActivity extends AppCompatActivity implements ModificationDialogFragment.ModificationDialogListener {
 
     static dataHelp db;
-
+    // we have to set timer and the timer task static, because we could not access the current MainActivity instance in NotificationSettingDialogFragment.
     private Timer timer;
-    private CheckCloseExpiredTimerTask checkExpirationTimerTask;
+    private CheckCloseExpiredTimerTask checkExpirationTimerTask;  // TO DO: deal with this warning later
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -75,42 +71,29 @@ public class MainActivity extends AppCompatActivity implements ModificationDialo
 
         // for notification
         timer = new Timer();
-        checkExpirationTimerTask = new CheckCloseExpiredTimerTask(this);
-        scheduleTask();
+        scheduleTask(new CheckCloseExpiredTimerTask(this));
     }
 
-    public void scheduleTask() {
-        if (timer == null || checkExpirationTimerTask == null) {
+    public void scheduleTask(CheckCloseExpiredTimerTask timerTask) {
+        if (timer == null || timerTask == null) {
             return;
         }
+        checkExpirationTimerTask = timerTask;
         Date today = new Date();
         long period = 1000 * 60 * 60 * 24; // 24 hr in million second
         //long period = 3;
-        //long delayToFirstTime = getDelayToFirstTime(checkExpirationTimerTask.getNotificationTime());
-        long delayToFirstTime = getDelayToFirstTime(17); // change 21 to notificationTime
+        //long delayToFirstTime = getDelayToFirstTime(timerTask.getNotificationTime());
+        long delayToFirstTime = checkExpirationTimerTask.getDelayToFirstTime(); // change 21 to notificationTime
         System.out.println("delay: " + delayToFirstTime);
-        //timer.schedule(checkExpirationTimerTask, today, period);
-        timer.schedule(checkExpirationTimerTask, delayToFirstTime, period);
+        //timer.schedule(timerTask, today, period);
+        timer.schedule(timerTask, delayToFirstTime, period);
     }
 
-    // assuming the first time is 16:00 during the day
-    public long getDelayToFirstTime(int notificationTime) {
-        Calendar scheduledTime = Calendar.getInstance();
-        Date today = scheduledTime.getTime();
-        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-
-        System.out.println("NOW time: " + sdf.format(today));
-        scheduledTime.set(Calendar.HOUR_OF_DAY, notificationTime);
-        scheduledTime.set(Calendar.MINUTE, 42); // change to 0 later
-        scheduledTime.set(Calendar.SECOND, 10); // change to 0 later
-        long timediff = scheduledTime.getTimeInMillis() - Calendar.getInstance().getTimeInMillis();
-        if (timediff > 0) {
-            return timediff;
+    public void cancelTimerTask(){
+        if (checkExpirationTimerTask != null) {
+            checkExpirationTimerTask.cancel();
         }
-        long dayInMillis = 24 * 60 * 60 * 1000; // 24 hr in million second
-        return timediff + dayInMillis;
     }
-
 
     @Override
     public void onDialogPositiveClick(View view, int position) {

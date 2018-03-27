@@ -3,6 +3,7 @@ package com.example.team22cs407.groceryassistant;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.TimerTask;
@@ -20,39 +21,45 @@ import android.support.v4.app.NotificationManagerCompat;
 
 public class CheckCloseExpiredTimerTask extends TimerTask {
     private Context parentContext;  // Main activity which call run.
-    private  int count = 0;
-    private int closeInDays = 1;
+    private  int count = 0; // testing purpose, can be deleted later
     private String CHANNEL_ID = "1";
     private int notificationId = 1;
-    private int notificationTime = 16;  // 16:00 pm every day
+    // defaul values:
+    private int closeInDays = 2;
+    private int notificationHour = 16;  // 16:00 pm every day
+    private int notificationMinute = 0;
+
 
     public CheckCloseExpiredTimerTask(Context parentContext){
         this.parentContext = parentContext;
-        this.closeInDays = 1;
-        this.notificationTime = 16;
+        this.closeInDays = 2;
+        this.notificationHour = 23;  // change to 16 later
+        this.notificationMinute = 3;
     }
 
-    public int getNotificationTime() {
-        return notificationTime;
-    }
-
-    public void setNotificationTime(int notificationTime) {
-        this.notificationTime = notificationTime;
-    }
-
-    public int getCloseInDays() {
-
-        return closeInDays;
-    }
-
-    public void setCloseInDays(int closeInDays) {
-        this.closeInDays = closeInDays;
-    }
-
-    public CheckCloseExpiredTimerTask(Context parentContext, int closeInDays, int notificationTime) {
+    public CheckCloseExpiredTimerTask(Context parentContext, int closeInDays, int notificationHour, int notificationMinute) {
         this.parentContext = parentContext;
         this.closeInDays = closeInDays;
-        this.notificationTime = notificationTime;
+        this.notificationHour = notificationHour;
+        this.notificationMinute = notificationMinute;
+    }
+
+    // assuming the first time is 16:00 during the day
+    public long getDelayToFirstTime() {
+        Calendar scheduledTime = Calendar.getInstance();
+        Date today = scheduledTime.getTime();
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+
+        System.out.println("NOW time: " + sdf.format(today));
+        scheduledTime.set(Calendar.HOUR_OF_DAY, notificationHour);
+        scheduledTime.set(Calendar.MINUTE, notificationMinute); // change to 0 later
+        scheduledTime.set(Calendar.SECOND, 0); // change to 0 later
+        long timediff = scheduledTime.getTimeInMillis() - Calendar.getInstance().getTimeInMillis();
+        if (timediff > 0) {
+            return timediff;
+        }
+        long dayInMillis = 24 * 60 * 60 * 1000; // 24 hr in million second
+        return timediff + dayInMillis;
     }
 
     @Override
