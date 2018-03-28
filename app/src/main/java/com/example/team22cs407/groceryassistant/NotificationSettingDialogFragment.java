@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.NumberPicker;
+import android.widget.TextView;
 import android.widget.TimePicker;
 
 import java.util.Calendar;
@@ -48,6 +49,7 @@ public class NotificationSettingDialogFragment extends DialogFragment implements
 
         final CheckBox checkBox = view.findViewById(R.id.notification_setting_checkbox);
 
+
         final NumberPicker closeInDays = view.findViewById(R.id.notification_setting_closeInDays);
         closeInDays.setMinValue(0);
         closeInDays.setMaxValue(12);
@@ -60,7 +62,7 @@ public class NotificationSettingDialogFragment extends DialogFragment implements
             }
         });
 
-        Button notificationSettingTime = view.findViewById(R.id.notification_setting_time);
+        final Button notificationSettingTime = view.findViewById(R.id.notification_setting_time);
 
         notificationSettingTime.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,6 +73,27 @@ public class NotificationSettingDialogFragment extends DialogFragment implements
             }
         });
 
+        final TextView notification_setting_days_msg = view.findViewById(R.id.notification_setting_days_msg);
+        final TextView notification_setting_time_msg = view.findViewById(R.id.notification_setting_time_msg);
+        checkBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (checkBox.isChecked()) {
+                    
+                    notification_setting_days_msg.setEnabled(false);
+                    closeInDays.setEnabled(false);
+                    notification_setting_time_msg.setEnabled(false);
+                    notificationSettingTime.setEnabled(false);
+
+                } else {
+                    closeInDays.setEnabled(true);
+                    notificationSettingTime.setEnabled(true);
+                    notification_setting_days_msg.setEnabled(true);
+                    notification_setting_time_msg.setEnabled(true);
+
+                }
+            }
+        });
 
         builder.setView(view)
                 .setTitle("Notification Setting")

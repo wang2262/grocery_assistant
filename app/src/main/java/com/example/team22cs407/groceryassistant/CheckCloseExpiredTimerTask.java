@@ -26,8 +26,8 @@ public class CheckCloseExpiredTimerTask extends TimerTask {
     private int notificationId = 1;
     // defaul values:
     private int closeInDays = 2;
-    private int notificationHour = 9;  // 16:00 pm every day
-    private int notificationMinute = 34;
+    private int notificationHour = 16;  // 16:00 pm every day
+    private int notificationMinute = 0;
 
 
     public CheckCloseExpiredTimerTask(Context parentContext){
