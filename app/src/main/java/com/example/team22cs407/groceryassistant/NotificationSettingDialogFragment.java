@@ -25,15 +25,18 @@ public class NotificationSettingDialogFragment extends DialogFragment implements
     private int closeDays = 2;
     private int hourOfDay = 16;
     private int minute = 0;
-    private NotificationSettingDialogListener notificationSettingDialogListener;
+    //private NotificationSettingDialogListener notificationSettingDialogListener;
+
 
     // this listener only for positive click
+    /*
     public interface NotificationSettingDialogListener{
          void cancelCurrentTimerTask();
 
          // create a new timer task with arguments and replace current one.
          void updateCurrentTimerTask(int hourOfDay, int minute);
     }
+    */
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -41,7 +44,7 @@ public class NotificationSettingDialogFragment extends DialogFragment implements
         LayoutInflater layoutInflater = getActivity().getLayoutInflater();
         View view = layoutInflater.inflate(R.layout.dialog_notification_setting, null);
 
-        onAttachToParentFragment(getTargetFragment());
+        //onAttachToParentFragment(getTargetFragment());
 
         final CheckBox checkBox = view.findViewById(R.id.notification_setting_checkbox);
 
@@ -105,7 +108,7 @@ public class NotificationSettingDialogFragment extends DialogFragment implements
         this.minute = minute;
 
     }
-
+   /*
     public void onAttachToParentFragment(Fragment parentFragment) {
         if (parentFragment != null) {
             try {
@@ -115,10 +118,10 @@ public class NotificationSettingDialogFragment extends DialogFragment implements
             }
         }
     }
-
+    */
     public void updateCurrentTimerTask(int hourOfDay, int minute) {
         CheckCloseExpiredTimerTask newTimerTask = new CheckCloseExpiredTimerTask(getContext(), closeDays, hourOfDay, minute);
-        System.out.println("I am here");
+        System.out.println("I am in updateCurrentTimerTask");
         //MainActivity.scheduleTask(newTimerTask);
         ((MainActivity) getActivity()).scheduleTask(newTimerTask);
     }

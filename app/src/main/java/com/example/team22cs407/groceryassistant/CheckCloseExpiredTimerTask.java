@@ -26,15 +26,15 @@ public class CheckCloseExpiredTimerTask extends TimerTask {
     private int notificationId = 1;
     // defaul values:
     private int closeInDays = 2;
-    private int notificationHour = 16;  // 16:00 pm every day
-    private int notificationMinute = 0;
+    private int notificationHour = 9;  // 16:00 pm every day
+    private int notificationMinute = 34;
 
 
     public CheckCloseExpiredTimerTask(Context parentContext){
         this.parentContext = parentContext;
-        this.closeInDays = 2;
-        this.notificationHour = 23;  // change to 16 later
-        this.notificationMinute = 3;
+        this.closeInDays = 1;
+        this.notificationHour = 22;  // change to 16 later
+        this.notificationMinute = 14;
     }
 
     public CheckCloseExpiredTimerTask(Context parentContext, int closeInDays, int notificationHour, int notificationMinute) {
@@ -78,9 +78,10 @@ public class CheckCloseExpiredTimerTask extends TimerTask {
         for (Food item : foodToNotify) {
             System.out.println(item.getFoodItem() + ", " + item.getExpirationDate());
         }
-        String notificationMsg = constructNotificationMessage(foodToNotify);
 
         if (foodToNotify.size() > 0) {
+            String notificationMsg = constructNotificationMessage(foodToNotify);
+
             Intent intent = new Intent(parentContext, MainActivity.class);
             // the below is to resume the activity instead of restarting the activity.
             intent.setAction(Intent.ACTION_MAIN);
@@ -108,7 +109,9 @@ public class CheckCloseExpiredTimerTask extends TimerTask {
         for(int i = 0; i < size; i++) {
             sb.append(foodToNotify.get(i).getFoodItem() + ", ");
         }
-        sb.delete(sb.length() - 2, sb.length());
+        if (sb.length() >= 2) {
+            sb.delete(sb.length() - 2, sb.length());
+        }
         // insert substring "and"
         if (size > 1) {
             int index = sb.lastIndexOf(",");
