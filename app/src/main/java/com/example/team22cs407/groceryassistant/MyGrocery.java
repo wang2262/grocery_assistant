@@ -16,12 +16,14 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.app.AlertDialog;
 import android.widget.EditText;
+import android.widget.ListView;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Date;
+import java.util.Calendar;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -150,9 +152,16 @@ public class MyGrocery extends Fragment {
             Date today = new Date();
             //get Date of two days in future to compare with
             try {
+                Calendar cal = Calendar.getInstance();
+                cal.add(Calendar.DAY_OF_YEAR, 2);
                 itemDate = sdf.parse(item.getExpirationDate());
+                Date secondDate = cal.getTime();
+                View view = getView();
+                //ListView lv = view.findViewById();
                 if (itemDate.after(today)) {
                     //expired, change to red
+                } else if (itemDate.after(secondDate)) {
+                    //close to expiring, change to yellow?
                 }
             } catch (ParseException e) {
                 e.printStackTrace();
