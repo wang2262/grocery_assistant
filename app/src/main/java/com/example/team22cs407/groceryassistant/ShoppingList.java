@@ -80,11 +80,8 @@ public class ShoppingList extends Fragment {
                 .setPositiveButton("Save", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         String name = editText1.getText().toString();
-
-                        //List<Food> foods = MainActivity.db.getDatasWithTable("ShoppingList");
-
+                        List<Food> foods = MainActivity.db.getDatasWithTable("ShoppingList");
                         boolean valid = true;
-                        /*
                         if (name != null) {
                             for (int i = 0; i < foods.size(); i++) {
                                 if (foods.get(i).getFoodItem().equals(name)) {
@@ -97,7 +94,6 @@ public class ShoppingList extends Fragment {
 
                         if (valid) {
                             long row = MainActivity.db.insertDatas(name, "", "ShoppingList");
-                            Log.d("PAST", name);
                             if (row < 0) {
                                 showInsertFail(1);
                             }else {
@@ -106,7 +102,6 @@ public class ShoppingList extends Fragment {
                                 getFragmentManager().beginTransaction().detach(fragment).attach(fragment).commit();
                             }
                         }
-                        */
                     }
                 })
                 .setNegativeButton("Cancel",
