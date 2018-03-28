@@ -97,6 +97,7 @@ public class ShoppingList extends Fragment {
                             if (row < 0) {
                                 showInsertFail(1);
                             }else {
+                                ListAdapterShopping.foods = HelperTool.sortByExpiration(MainActivity.db.getDatasWithTable("ShoppingList"));
                                 // reload the current fragment
                                 Fragment fragment = getFragmentManager().findFragmentById(R.id.frame_layout);
                                 getFragmentManager().beginTransaction().detach(fragment).attach(fragment).commit();
