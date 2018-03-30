@@ -1,5 +1,6 @@
 package com.example.team22cs407.groceryassistant;
 
+import android.app.FragmentManager;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -17,6 +18,7 @@ import android.widget.Button;
 import android.app.AlertDialog;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.ImageButton;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -66,6 +68,14 @@ public class MyGrocery extends Fragment {
             }
         });
 
+        ImageButton imageButton = view.findViewById(R.id.notification_setting_button);
+        imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showNotificationSettingDialog();
+            }
+        });
+
 
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.listRecyclerView);
 
@@ -91,24 +101,26 @@ public class MyGrocery extends Fragment {
                 .setCancelable(false)
                 .setPositiveButton("Save", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        List<Food> foods = MainActivity.db.getDatas();
+                        List<Food> foods = MainActivity.db.getDatasWithTable("GroceryList");
                         String name = editText1.getText().toString();
                         String date = editText2.getText().toString();
                         boolean valid = true;
-                        for (int i = 0; i < foods.size(); i++) {
-                            if (foods.get(i).getFoodItem().equals(name)) {
-                                if (foods.get(i).getExpirationDate() == null && date.isEmpty()
-                                        ||
-                                        foods.get(i).getExpirationDate() != null && foods.get(i).getExpirationDate().equals(date)) {
-                                    valid = false;
-                                    //duplicate
-                                    showDBFailMessage(2);
-                                    break;
+                        if (name != null) {
+                            for (int i = 0; i < foods.size(); i++) {
+                                if (foods.get(i).getFoodItem().equals(name)) {
+                                    if (foods.get(i).getExpirationDate() == null && date.isEmpty()
+                                            ||
+                                            foods.get(i).getExpirationDate() != null && foods.get(i).getExpirationDate().equals(date)) {
+                                        valid = false;
+                                        //duplicate
+                                        showDBFailMessage(2);
+                                        break;
+                                    }
                                 }
                             }
                         }
                         if (valid) {
-                            long row = MainActivity.db.insertData(editText1.getText().toString(), editText2.getText().toString());
+                            long row = MainActivity.db.insertDatas(name, date, "GroceryList");
                             if (row < 0) {
                                 if (date != null && !date.isEmpty()) {
                                     //no name
@@ -152,7 +164,7 @@ public class MyGrocery extends Fragment {
             //duplicate
             promptView = layoutInflater.inflate(R.layout.duplicate_input_alert, null);
         }
-            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                 MyGrocery.this.getActivity());
         alertDialogBuilder.setView(promptView);
         alertDialogBuilder
@@ -166,6 +178,14 @@ public class MyGrocery extends Fragment {
         AlertDialog alert = alertDialogBuilder.create();
         alert.show();
     }
+
+    public void showNotificationSettingDialog(){
+        NotificationSettingDialogFragment dialog = new NotificationSettingDialogFragment();
+        FragmentManager fragmentManager = MyGrocery.this.getActivity().getFragmentManager();
+        dialog.setTargetFragment(this, 0);
+        dialog.show(fragmentManager, "NotificationSettingDialogFragment");
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated

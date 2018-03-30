@@ -19,4 +19,10 @@
     <string name="modification_dialog_cancel">Cancel </string>
     <string name="item_name">Name</string>
     <string name="item_expiration">Expiration Date</string>
+
+    <!--for notification setting dialog-->
+    <string name="notification_setting_checkbox">Don\'t want to receive notification</string>
+    <string name="notification_setting_days_msg">Days close to expiration date to get notified: </string>
+    <string name="notification_setting_time_msg">Time to get notified: </string>
+    <string name="notification_setting_time_button_msg">Pick a time </string>
 </resources>
