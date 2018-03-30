@@ -25,7 +25,8 @@ import java.util.List;
 public class ListAdapterShopping extends RecyclerView.Adapter {
     private Context mContext;
 
-    static List<Food> foods = HelperTool.sortByExpiration(MainActivity.db.getDatasWithTable("ShoppingList"));
+    //static List<Food> foods = HelperTool.sortByExpiration(MainActivity.db.getDatasWithTable("ShoppingList"));
+    static List<Food> foods = MainActivity.db.getDatasWithTable("ShoppingList");
     //List<Food> foods = MainActivity.db.getDatas();
 
     @Override
@@ -50,14 +51,14 @@ public class ListAdapterShopping extends RecyclerView.Adapter {
 
     public void showPopupMenu(View view, final int position){
         PopupMenu popupMenu = new PopupMenu(mContext, view);
-        popupMenu.getMenuInflater().inflate(R.menu.action, popupMenu.getMenu());
+        popupMenu.getMenuInflater().inflate(R.menu.shopping_action, popupMenu.getMenu());
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
-                    case R.id.modify:
-                        showModificationDialog(position);
-                        return true;
+                   // case R.id.modify:
+                     //   showModificationDialog(position);
+                       // return true;
                     case R.id.delete:
                         showDeleteDialog(position);
                         return true;
@@ -83,14 +84,14 @@ public class ListAdapterShopping extends RecyclerView.Adapter {
 
     public void showDeleteDialog(int position){
 
-        DeleteDialogFragment dialog = new DeleteDialogFragment();
+        ShoppingDeleteDialogFragment dialog = new ShoppingDeleteDialogFragment();
         Bundle bundle = new Bundle();
         bundle.putInt("position", position);
         bundle.putString("item_name", foods.get(position).getFoodItem());
-        bundle.putString("exp_date", foods.get(position).getExpirationDate());
+        //bundle.putString("exp_date", foods.get(position).getExpirationDate());
         dialog.setArguments(bundle);
         FragmentManager fragmentManager = ((Activity)mContext).getFragmentManager();
-        dialog.show(fragmentManager, "DeleteDialogFragment");
+        dialog.show(fragmentManager, "ShoppingDeleteDialogFragment");
 
     }
 
