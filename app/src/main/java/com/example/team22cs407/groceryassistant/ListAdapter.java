@@ -126,8 +126,8 @@ public class ListAdapter extends RecyclerView.Adapter {
             String foodName = foods.get(position).getFoodItem();
             String expirationDate = foods.get(position).getExpirationDate();
             mItemText.setText(foodName);
+            mExpirationText.setText(expirationDate);
             if (expirationDate != null && !expirationDate.isEmpty()) {
-                mExpirationText.setText(expirationDate);
                 SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy", Locale.US);
                 System.out.println(mItemText.getText());
                 Date itemDate;
