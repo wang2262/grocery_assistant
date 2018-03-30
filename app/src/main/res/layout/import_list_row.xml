@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/import_list_layout">
+
+    <TextView
+        android:id="@+id/itemText"
+        android:layout_width="160dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="22dp"
+        android:layout_weight="3"
+        android:text="New Text"
+        android:textSize="22sp" />
+
+
+
+    <CheckBox
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/importCheckbox"
+        android:textSize="22sp"
+        android:layout_weight="3"
+        android:layout_margin="22dp"/>
+
+</LinearLayout>
