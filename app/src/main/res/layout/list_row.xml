@@ -8,7 +8,7 @@
 
     <TextView
         android:id="@+id/itemText"
-        android:layout_width="140dp"
+        android:layout_width="141dp"
         android:layout_height="wrap_content"
         android:layout_margin="22dp"
         android:layout_weight="3"
