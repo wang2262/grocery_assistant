@@ -15,6 +15,9 @@ import android.app.AlertDialog;
 import android.widget.EditText;
 import java.util.List;
 import android.util.Log;
+import android.widget.ImageButton;
+import android.app.FragmentManager;
+
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
@@ -54,6 +57,14 @@ public class ShoppingList extends Fragment {
             {
                 showInputDialog();
 
+            }
+        });
+
+        Button imageButton = view.findViewById(R.id.import_button);
+        imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showImportFragment();
             }
         });
 
@@ -138,6 +149,13 @@ public class ShoppingList extends Fragment {
         AlertDialog alert = alertDialogBuilder.create();
         alert.show();
     }
+
+    public void showImportFragment(){
+                ImportFragment dialog = new ImportFragment();
+                FragmentManager fragmentManager = ShoppingList.this.getActivity().getFragmentManager();
+                dialog.show(fragmentManager, "ImportFragment");
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
