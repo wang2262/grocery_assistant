@@ -136,6 +136,15 @@ public class dataHelp {
         return  count;
     }
 
+    public  int deleteShopping(String uname, String tableName)
+    {
+        SQLiteDatabase db = dataHelp.getWritableDatabase();
+        String[] whereArgs ={uname};
+        Log.d("log of out", myDbHelper.NAME+" = " + tableName);
+        int count =db.delete(tableName ,myDbHelper.NAME+" =?", whereArgs);
+        return  count;
+    }
+
     public int updateName(String oldName , String newName)
     {
         SQLiteDatabase db = dataHelp.getWritableDatabase();
@@ -196,7 +205,7 @@ public class dataHelp {
 
         private static final String DATABASE_NAME = "database";    // Database Name
         private static final String TABLE_NAME = "GroceryList";   // Table Name
-        private static final int DATABASE_Version = 2;    // Database Version
+        private static final int DATABASE_Version = 3;    // Database Version
         private static final String UID="_id";     // Column I (Primary Key)
         private static final String NAME = "Name";    //Column II
         private static final String DATE = "Date";    // Date that food expires
