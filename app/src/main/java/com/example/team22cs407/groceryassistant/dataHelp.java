@@ -82,6 +82,24 @@ public class dataHelp {
         return foods;
     }
 
+    public List<ShoppingFood> getImportDatas()
+    {
+        SQLiteDatabase db = dataHelp.getWritableDatabase();
+        String[] columns = {myDbHelper.UID,myDbHelper.NAME,myDbHelper.DATE};
+        Cursor cursor = db.query(myDbHelper.TABLE_NAME,columns,null,null,null,null,null);
+        StringBuffer buffer= new StringBuffer();
+        List<ShoppingFood> foods = new ArrayList<>();
+        while (cursor.moveToNext())
+        {
+            ShoppingFood food = new ShoppingFood();
+            int cid =cursor.getInt(cursor.getColumnIndex(myDbHelper.UID));
+            food.setFoodItem(cursor.getString(cursor.getColumnIndex(myDbHelper.NAME)));
+            food.setCheckBox(false);
+            foods.add(food);
+        }
+        return foods;
+    }
+
     public List<Food> getDatasWithTable(String tableName)
     {
         SQLiteDatabase db = dataHelp.getWritableDatabase();

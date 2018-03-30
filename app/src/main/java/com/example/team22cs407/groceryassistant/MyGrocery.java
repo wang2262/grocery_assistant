@@ -17,10 +17,15 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.app.AlertDialog;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.ImageButton;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Date;
+import java.util.Calendar;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -127,8 +132,8 @@ public class MyGrocery extends Fragment {
                             } else {
 
                                 //Log.d("DATA", MainActivity.db.getData());
-                                ListAdapter.foods = HelperTool.sortByExpiration(MainActivity.db.getDatas());
                                 // reload the current fragment
+                                ListAdapter.foods = HelperTool.sortByExpiration(MainActivity.db.getDatas());
                                 Fragment fragment = getFragmentManager().findFragmentById(R.id.frame_layout);
                                 getFragmentManager().beginTransaction().detach(fragment).attach(fragment).commit();
                             }
