@@ -30,7 +30,7 @@ public class ShoppingDeleteDialogFragment extends DialogFragment {
         LayoutInflater inflater = getActivity().getLayoutInflater();
 
         final View view = inflater.inflate(R.layout.dialog_delete, null);
-        final List<Food> foods = HelperTool.sortByExpiration(MainActivity.db.getDatasWithTable("ShoppingList"));
+        final List<Food> foodShopping = MainActivity.db.getDatasWithTable("ShoppingList");
 
         // get arguments for item_name, expiration date
         String expiration_date = "mm/dd/yyyy";
@@ -52,11 +52,17 @@ public class ShoppingDeleteDialogFragment extends DialogFragment {
                     public void onClick(DialogInterface dialog, int id) {
                         // Send the positive button event back to the host activity
                         // mListener.onDialogPositiveClick(view, position);
-                        MainActivity.db.deletes(item_name, null, "ShoppingList");
+                        MainActivity.db.deleteShopping(item_name, "ShoppingList");
 
                         // update in-memory data
-                        foods.remove(position);
+                        foodShopping.remove(position);
 
+                        // reload the current fragment
+                       // Fragment fragment = getFragmentManager().findFragmentById(R.id.frame_layout);
+                       // getFragmentManager().beginTransaction().detach(fragment).attach(fragment).commit();
+
+
+                        ListAdapterShopping.foods = HelperTool.sortByExpiration(MainActivity.db.getDatasWithTable("ShoppingList"));
                         // reload the current fragment
                         Fragment fragment = getFragmentManager().findFragmentById(R.id.frame_layout);
                         getFragmentManager().beginTransaction().detach(fragment).attach(fragment).commit();
