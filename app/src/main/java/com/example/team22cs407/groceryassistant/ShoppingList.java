@@ -14,7 +14,10 @@ import android.widget.Button;
 import android.app.AlertDialog;
 import android.widget.EditText;
 import java.util.List;
+import java.util.Objects;
+
 import android.util.Log;
+import android.support.annotation.NonNull;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
@@ -97,11 +100,72 @@ public class ShoppingList extends Fragment {
                             if (row < 0) {
                                 showInsertFail(1);
                             }else {
-                                ListAdapterShopping.foods = HelperTool.sortByExpiration(MainActivity.db.getDatasWithTable("ShoppingList"));
                                 // reload the current fragment
+                                ListAdapterShopping.foods = HelperTool.sortByExpiration(MainActivity.db.getDatasWithTable("ShoppingList"));
                                 Fragment fragment = getFragmentManager().findFragmentById(R.id.frame_layout);
                                 getFragmentManager().beginTransaction().detach(fragment).attach(fragment).commit();
                             }
+                        }
+                    }
+                })
+                .setNegativeButton("Cancel",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+
+        AlertDialog alert = alertDialogBuilder.create();
+        alert.show();
+    }
+
+    protected void showCheckoffDialog(@NonNull final String itemName) {
+        Objects.requireNonNull(itemName);
+        if (itemName.isEmpty()) return;
+        LayoutInflater layoutInflater = LayoutInflater.from(ShoppingList.this.getActivity());
+        View promptView = layoutInflater.inflate(R.layout.shopping_check_off, null);
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                ShoppingList.this.getActivity());
+        alertDialogBuilder.setView(promptView);
+        final EditText editText1 = promptView
+                .findViewById(R.id.editTextDialogCost);
+        final EditText editText2 = promptView
+                .findViewById(R.id.editTextDialogEDateInput);
+        alertDialogBuilder
+                .setCancelable(false)
+                .setPositiveButton("Save", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        String date = editText2.getText().toString();
+                        if (editText1 != null) {
+                            double cost = Double.parseDouble(editText1.getText().toString());
+                            /*
+                            if (budget > 0) {
+                                decrease budget by cost
+                                if (budget now < 0) send notification
+                            }
+                            */
+                        }
+                        List<Food> foods = MainActivity.db.getDatasWithTable("GroceryList");
+                        boolean valid = true;
+                        for (int i = 0; i < foods.size(); i++) {
+                            if (foods.get(i).getFoodItem().equals(itemName)) {
+                                if (foods.get(i).getExpirationDate() == null && date.isEmpty()
+                                        ||
+                                        foods.get(i).getExpirationDate() != null && foods.get(i).getExpirationDate().equals(date)) {
+                                    valid = false;
+                                    showInsertFail(0);
+                                    break;
+                                }
+                            }
+                        }
+                        if (valid) {
+                            long row = MainActivity.db.insertDatas(itemName, date, "GroceryList");
+                            //delete item from shopping list here
+
+                            // reload the current fragment
+                            ListAdapterShopping.foods = HelperTool.sortByExpiration(MainActivity.db.getDatasWithTable("ShoppingList"));
+                            Fragment fragment = getFragmentManager().findFragmentById(R.id.frame_layout);
+                            getFragmentManager().beginTransaction().detach(fragment).attach(fragment).commit();
                         }
                     }
                 })
@@ -120,10 +184,11 @@ public class ShoppingList extends Fragment {
         View promptView;
         if (type == 0) {
             promptView = layoutInflater.inflate(R.layout.duplicate_input_alert, null);
-        } else {
+        } else if (type == 1) {
             //no name
             promptView = layoutInflater.inflate(R.layout.invalid_input_alert, null);
-        }
+        } else promptView = layoutInflater.inflate(R.layout.empty_input_alert, null);
+
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                 ShoppingList.this.getActivity());
         alertDialogBuilder.setView(promptView);
