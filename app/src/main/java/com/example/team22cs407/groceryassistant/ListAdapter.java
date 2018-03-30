@@ -2,6 +2,7 @@ package com.example.team22cs407.groceryassistant;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,7 +16,11 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -26,7 +31,7 @@ public class ListAdapter extends RecyclerView.Adapter {
     private Context mContext;
 
     static List<Food> foods = HelperTool.sortByExpiration(MainActivity.db.getDatas());
-    //List<Food> foods = MainActivity.db.getDatas();
+    //gList<Food> foods = MainActivity.db.getDatas();
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -119,6 +124,27 @@ public class ListAdapter extends RecyclerView.Adapter {
             String expirationDate = foods.get(position).getExpirationDate();
             mItemText.setText(foodName);
             mExpirationText.setText(expirationDate);
+           /* SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy");
+            Date itemDate;
+            Date today = new Date();
+            System.out.println(mItemText.getText());
+            //get Date of two days in future to compare with
+            try {
+                Calendar cal = Calendar.getInstance();
+                cal.add(Calendar.DAY_OF_YEAR, 2);
+                itemDate = sdf.parse(expirationDate);
+                Date secondDate = cal.getTime();
+                //ListView lv = view.findViewById();
+                if (itemDate.after(today)) {
+                    //expired, change to red
+                    mItemText.setTextColor(Color.RED);
+                } else if (itemDate.after(secondDate)) {
+                    //close to expiring, change to blue
+                    mItemText.setTextColor(Color.BLUE);
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }*/
         }
 
         public void onClick(View view) {
