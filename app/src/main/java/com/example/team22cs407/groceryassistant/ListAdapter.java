@@ -17,11 +17,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.ParseException;
+import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by SignInSon on 2/17/18.
@@ -123,28 +125,34 @@ public class ListAdapter extends RecyclerView.Adapter {
             String foodName = foods.get(position).getFoodItem();
             String expirationDate = foods.get(position).getExpirationDate();
             mItemText.setText(foodName);
-            mExpirationText.setText(expirationDate);
-           /* SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy");
-            Date itemDate;
-            Date today = new Date();
-            System.out.println(mItemText.getText());
-            //get Date of two days in future to compare with
-            try {
-                Calendar cal = Calendar.getInstance();
-                cal.add(Calendar.DAY_OF_YEAR, 2);
-                itemDate = sdf.parse(expirationDate);
-                Date secondDate = cal.getTime();
-                //ListView lv = view.findViewById();
-                if (itemDate.after(today)) {
-                    //expired, change to red
-                    mItemText.setTextColor(Color.RED);
-                } else if (itemDate.after(secondDate)) {
-                    //close to expiring, change to blue
-                    mItemText.setTextColor(Color.BLUE);
+            if (expirationDate != null && !expirationDate.isEmpty()) {
+                mExpirationText.setText(expirationDate);
+                SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy", Locale.US);
+                System.out.println(mItemText.getText());
+                Date itemDate;
+                Date today = new Date();
+                System.out.println("today: " + today);
+                //get Date of two days in future to compare with
+                try {
+                    Calendar cal = Calendar.getInstance();
+                    cal.add(Calendar.DAY_OF_YEAR, 2);
+                    itemDate = sdf.parse(expirationDate);
+                    System.out.println("itemDate: " + itemDate);
+                    Date secondDate = cal.getTime();
+                    System.out.println("secondDate " + secondDate);
+                    if (itemDate.before(today)) {
+                        //expired, change to red
+                        mItemText.setTextColor(Color.RED);
+                        mExpirationText.setTextColor(Color.RED);
+                    } else if (itemDate.before(secondDate)) {
+                        //close to expiring, change to blue
+                        mItemText.setTextColor(Color.BLUE);
+                        mExpirationText.setTextColor(Color.BLUE);
+                    }
+                } catch (ParseException e) {
+                    e.printStackTrace();
                 }
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }*/
+            }
         }
 
         public void onClick(View view) {

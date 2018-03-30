@@ -74,8 +74,6 @@ public class MyGrocery extends Fragment {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
 
-        changeExpiringItemColor();
-
         return view;
         //return inflater.inflate(R.layout.fragment_my_grocery, container, false);
     }
@@ -139,34 +137,6 @@ public class MyGrocery extends Fragment {
 
         AlertDialog alert = alertDialogBuilder.create();
         alert.show();
-    }
-
-    public void changeExpiringItemColor() {
-        List<Food> foodList = MainActivity.db.getDatas();
-        List<Food> foodToNotify = new ArrayList<>();
-        for (Food item : foodList) {
-            System.out.println(item.getFoodItem());
-            System.out.println(item.getExpirationDate());
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy");
-            Date itemDate;
-            Date today = new Date();
-            //get Date of two days in future to compare with
-            try {
-                Calendar cal = Calendar.getInstance();
-                cal.add(Calendar.DAY_OF_YEAR, 2);
-                itemDate = sdf.parse(item.getExpirationDate());
-                Date secondDate = cal.getTime();
-                View view = getView();
-                //ListView lv = view.findViewById();
-                if (itemDate.after(today)) {
-                    //expired, change to red
-                } else if (itemDate.after(secondDate)) {
-                    //close to expiring, change to yellow?
-                }
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-        }
     }
 
     public void showDBFailMessage(int type){
