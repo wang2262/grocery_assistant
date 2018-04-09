@@ -74,6 +74,20 @@ public class ShoppingList extends Fragment {
             }
         });
 
+        String budget = "0.00";
+        //budget = (retrive from db);
+        Button budgetButton = view.findViewById(R.id.budget_button);
+        budgetButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                showBudgetDialog();
+            }
+        });
+        //budget = (retrive from db);
+        budgetButton.setText("Budget: " + budget);
+
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.listRecyclerView);
 
         ListAdapterShopping listAdapter = new ListAdapterShopping();
@@ -208,6 +222,34 @@ public class ShoppingList extends Fragment {
         alertDialogBuilder.setView(promptView);
         alertDialogBuilder
                 .setPositiveButton("OK",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+
+        AlertDialog alert = alertDialogBuilder.create();
+        alert.show();
+    }
+    public void showBudgetDialog(){
+        LayoutInflater layoutInflater = LayoutInflater.from(ShoppingList.this.getActivity());
+        View promptView = layoutInflater.inflate(R.layout.input_budget, null);
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                ShoppingList.this.getActivity());
+        alertDialogBuilder.setView(promptView);
+        final EditText editText1 = promptView
+                .findViewById(R.id.editTextDialogBudgetInput);
+        alertDialogBuilder
+                .setCancelable(false)
+                .setPositiveButton("Save", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        String b = editText1.getText().toString();
+                        if(b != null || !b.isEmpty()) {
+                            //modify budget in db
+                        }
+                    }
+                })
+                .setNegativeButton("Cancel",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 dialog.cancel();

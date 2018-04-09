@@ -40,6 +40,7 @@ public class Recipes extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         try {
+            
             SpoonacularAPI s =  new SpoonacularAPI();
             //s.getRes();
             s.getRecipeByIngredients();
