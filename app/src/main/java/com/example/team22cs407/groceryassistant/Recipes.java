@@ -39,6 +39,13 @@ public class Recipes extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        try {
+            SpoonacularAPI s =  new SpoonacularAPI();
+            //s.getRes();
+            s.getRecipeByIngredients();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_recipes, container, false);
     }
