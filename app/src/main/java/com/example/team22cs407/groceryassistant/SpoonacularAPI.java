@@ -9,7 +9,6 @@ import android.os.AsyncTask;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
-
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -19,6 +18,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class SpoonacularAPI {
+    private final static String X_Mashape_Key = "U19lNQuw25msh8MhwobUmfwgYEr9p1zhfcGjsn1AiU3QYpMzcQ";
+    private final static String X_Mashape_Host = "spoonacular-recipe-food-nutrition-v1.p.mashape.com";
+    public static String baseUrl = "https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/";
 
     public JSONObject clickedRecipe;
 
@@ -26,17 +28,17 @@ public class SpoonacularAPI {
         this.clickedRecipe = new JSONObject();
     }
 
-    public void getRes() throws Exception {
+    public void getRes(String recipeId) throws Exception {
 
-        new GetRecipeInfo().execute();
+        new GetRecipeInfo().execute(recipeId);
     }
 
-    public  void getRecipeByIngredients() throws Exception {
-        new SearchRecipeByIngredients().execute();
+    public  void getRecipeByIngredients(String... ingredients) throws Exception {
+        new SearchRecipeByIngredients().execute(ingredients);
     }
 
 
-    class SearchRecipeByIngredients extends AsyncTask<Void, Void, Void> {
+    class SearchRecipeByIngredients extends AsyncTask<String, Void, Void> {
 
         @Override
         protected void onPreExecute() {
@@ -44,15 +46,25 @@ public class SpoonacularAPI {
         }
 
         @Override
-        protected Void doInBackground(Void... voids) {
+        protected Void doInBackground(String... ingredients) {
             try {
-                URL url = new URL("https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/findByIngredients?ingredients=potato&number=3");
+                // default number is 5 in spoonaular API
+                //URL url = new URL("https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/findByIngredients?ingredients=potato&number=3");
+                String startUrl = baseUrl + "findByIngredients?";
+                String finalUrl;
+                finalUrl = addQueryParams(startUrl, "ingredients", ingredients);
+                finalUrl += '&';
+                finalUrl = addQueryParams(finalUrl, "number", "3");
+                System.out.println("urlStr:" + finalUrl);
+
+                
+                URL url = new URL(finalUrl);
                 HttpURLConnection con = (HttpURLConnection) url.openConnection();
                 con.setRequestMethod("GET");
                 con.setDoInput(true);
                 con.setRequestProperty("Content-Type", "application/json");
-                con.setRequestProperty("X-Mashape-Key", "U19lNQuw25msh8MhwobUmfwgYEr9p1zhfcGjsn1AiU3QYpMzcQ");
-                con.setRequestProperty("X-Mashape-Host", "spoonacular-recipe-food-nutrition-v1.p.mashape.com");
+                con.setRequestProperty("X-Mashape-Key", X_Mashape_Key);
+                con.setRequestProperty("X-Mashape-Host", X_Mashape_Host);
                 //con.setConnectTimeout(5000);
                 //con.disconnect();
                 /*
@@ -96,18 +108,43 @@ public class SpoonacularAPI {
 
     }
 
+    public String addQueryParams(String startUrl, String name, String... values) {
+        if (values.length < 0) {
+            return startUrl;
+        }
+        StringBuilder res = new StringBuilder(startUrl + name + "=");
+        if (values.length  > 1) {
+            for(int i = 0 ; i < values.length; i++) {
+                res.append(values[i]);
+                if (i != values.length -1) {
+                    res.append("%2C+");
+                }
+            }
+            return res.toString();
+
+        } else {
+
+            res.append(values[0]);
+            return res.toString();
+        }
+    }
 
     // calling get recipe information function on API
-    class GetRecipeInfo extends AsyncTask<Void,Void,Void> {
+    class GetRecipeInfo extends AsyncTask<String, Void, Void> {
 
 
         protected void onPreExecute() {
             //display progress dialog.
 
         }
-
+        /*
         @Override
         protected Void doInBackground(Void... voids) {
+            return null;
+        }
+        */
+        @Override
+        protected Void doInBackground(String... recipeIds) {
 
                   /*
 
@@ -120,13 +157,13 @@ public class SpoonacularAPI {
         System.out.println(res.toString());
         */
             try {
-                URL url = new URL("https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/986374/information");
+                URL url = new URL(baseUrl + recipeIds[0] + "/information");
                 HttpURLConnection con = (HttpURLConnection) url.openConnection();
                 con.setRequestMethod("GET");
                 con.setDoInput(true);
                 con.setRequestProperty("Content-Type", "application/json");
-                con.setRequestProperty("X-Mashape-Key", "U19lNQuw25msh8MhwobUmfwgYEr9p1zhfcGjsn1AiU3QYpMzcQ");
-                con.setRequestProperty("X-Mashape-Host", "spoonacular-recipe-food-nutrition-v1.p.mashape.com");
+                con.setRequestProperty("X-Mashape-Key", X_Mashape_Key);
+                con.setRequestProperty("X-Mashape-Host",  X_Mashape_Host);
                 //con.setConnectTimeout(5000);
                 //con.disconnect();
 
