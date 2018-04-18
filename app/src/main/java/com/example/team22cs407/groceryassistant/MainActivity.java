@@ -129,10 +129,6 @@ public class MainActivity extends AppCompatActivity implements ModificationDialo
             return;
         }
 
-        /*
-        System.out.println("after:");
-        System.out.println(db.getData());
-        */
         // update in-memory data
         ListAdapter.foods = HelperTool.sortByExpiration(MainActivity.db.getDatas());
         // reload the current fragment

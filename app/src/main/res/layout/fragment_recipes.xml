@@ -1,13 +1,28 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.example.team22cs407.groceryassistant.Recipes">
 
     <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="8pt"
+        android:text="@string/select_ingredients_msg"
+        android:layout_marginBottom="30dp"/>
+
+
+    <ListView
+        android:id="@+id/unexpiredItems"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/recipeText"
-        android:id="@+id/RecipeFragment"/>
+        android:paddingLeft="@dimen/page_margin"
+        android:paddingRight="@dimen/page_margin"
+        android:scrollbarStyle="outsideOverlay"
+        android:choiceMode="multipleChoice"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="10.0sp"/>
 
-</FrameLayout>
+</LinearLayout>

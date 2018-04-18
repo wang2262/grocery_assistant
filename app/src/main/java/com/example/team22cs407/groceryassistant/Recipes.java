@@ -7,6 +7,19 @@ import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
+import android.widget.CheckedTextView;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -20,9 +33,12 @@ import android.view.ViewGroup;
 public class Recipes extends Fragment {
 
     //private OnFragmentInteractionListener mListener;
+    private final int INGRE_LIMIT = 1;
+    private int ingredients_count;
 
     public Recipes() {
         // Required empty public constructor
+        ingredients_count = 0;
     }
 
 
@@ -39,6 +55,18 @@ public class Recipes extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_recipes, container, false);
+
+        ListView foodList = view.findViewById(R.id.unexpiredItems);
+
+        // get all the unexpired items on grocery list
+        List<String> unexpiredItems = getUnexpiredNames();
+
+        ListAdapterStringCheckbox listAdapter = new ListAdapterStringCheckbox(Recipes.this.getContext(), unexpiredItems);
+        foodList.setAdapter(listAdapter);
+
+        // send ingredients to next page
+
         try {
 
             SpoonacularAPI s =  new SpoonacularAPI();
@@ -48,8 +76,24 @@ public class Recipes extends Fragment {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_recipes, container, false);
+
+        return view;
+    }
+
+    public List<String> getUnexpiredNames(){
+        List<Food> food = MainActivity.db.getDatas();
+        List<String> unexpired = new ArrayList<>();
+        Date today = new Date();  //TODO: Think about whether we should include grocery items with expiration date of today. (currently don't).
+
+        for (Food item : food) {
+            Date expirationDate = HelperTool.convert2Date(item.getExpirationDate());
+            if (expirationDate != null && expirationDate.compareTo(today) > 0) {
+                System.out.println("adding in unexpired: " + item.getFoodItem());
+                unexpired.add(item.getFoodItem());
+            }
+
+        }
+        return unexpired;
     }
 
     /**

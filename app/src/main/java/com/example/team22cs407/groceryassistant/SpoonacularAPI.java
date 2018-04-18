@@ -57,7 +57,7 @@ public class SpoonacularAPI {
                 finalUrl = addQueryParams(finalUrl, "number", "3");
                 System.out.println("urlStr:" + finalUrl);
 
-                
+
                 URL url = new URL(finalUrl);
                 HttpURLConnection con = (HttpURLConnection) url.openConnection();
                 con.setRequestMethod("GET");
@@ -148,13 +148,13 @@ public class SpoonacularAPI {
 
                   /*
 
-        HttpResponse<JsonNode> response = Unirest.get("https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/986374/information")
-                .header("X-Mashape-Key", "U19lNQuw25msh8MhwobUmfwgYEr9p1zhfcGjsn1AiU3QYpMzcQ")
-                .header("X-Mashape-Host", "spoonacular-recipe-food-nutrition-v1.p.mashape.com")
-                .asJson();
-        JsonNode res = response.getBody();
+            HttpResponse<JsonNode> response = Unirest.get("https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/986374/information")
+                    .header("X-Mashape-Key", "U19lNQuw25msh8MhwobUmfwgYEr9p1zhfcGjsn1AiU3QYpMzcQ")
+                    .header("X-Mashape-Host", "spoonacular-recipe-food-nutrition-v1.p.mashape.com")
+                    .asJson();
+            JsonNode res = response.getBody();
 
-        System.out.println(res.toString());
+            System.out.println(res.toString());
         */
             try {
                 URL url = new URL(baseUrl + recipeIds[0] + "/information");
