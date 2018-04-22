@@ -13,12 +13,13 @@ import android.content.DialogInterface;
 import android.widget.Button;
 import android.app.AlertDialog;
 import android.widget.EditText;
+
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.util.List;
 import java.util.Objects;
 
-import android.util.Log;
 
-import android.widget.ImageButton;
 import android.app.FragmentManager;
 
 
@@ -74,18 +75,16 @@ public class ShoppingList extends Fragment {
             }
         });
 
-        String budget = "0.00";
-        //budget = (retrive from db);
+        String budget = readBudget();
         Button budgetButton = view.findViewById(R.id.budget_button);
         budgetButton.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
-                showBudgetDialog();
+                showBudgetDialog(v);
             }
         });
-        //budget = (retrive from db);
         budgetButton.setText("Budget: " + budget);
 
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.listRecyclerView);
@@ -117,7 +116,7 @@ public class ShoppingList extends Fragment {
                             for (int i = 0; i < foods.size(); i++) {
                                 if (foods.get(i).getFoodItem().equals(name)) {
                                     valid = false;
-                                    showInsertFail(0);
+                                    showNotification(0);
                                     break;
                                 }
                             }
@@ -126,7 +125,7 @@ public class ShoppingList extends Fragment {
                         if (valid) {
                             long row = MainActivity.db.insertDatas(name, "", "ShoppingList");
                             if (row < 0) {
-                                showInsertFail(1);
+                                showNotification(1);
                             }else {
                                 // reload the current fragment
                                 ListAdapterShopping.foods = HelperTool.sortByExpiration(MainActivity.db.getDatasWithTable("ShoppingList"));
@@ -166,12 +165,14 @@ public class ShoppingList extends Fragment {
                         String date = editText2.getText().toString();
                         if (editText1 != null) {
                             double cost = Double.parseDouble(editText1.getText().toString());
-                            /*
+                            double budget = Double.parseDouble(readBudget());
                             if (budget > 0) {
-                                decrease budget by cost
-                                if (budget now < 0) send notification
+                                budget -= cost;
+                                if (budget < 0) {
+                                    updateBudget("0.00");
+                                    showNotification(3);
+                                } else updateBudget(Double.toString(budget));
                             }
-                            */
                         }
                         List<Food> foods = MainActivity.db.getDatasWithTable("GroceryList");
                         boolean valid = true;
@@ -181,7 +182,7 @@ public class ShoppingList extends Fragment {
                                         ||
                                         foods.get(i).getExpirationDate() != null && foods.get(i).getExpirationDate().equals(date)) {
                                     valid = false;
-                                    showInsertFail(0);
+                                    showNotification(0);
                                     break;
                                 }
                             }
@@ -207,7 +208,7 @@ public class ShoppingList extends Fragment {
         AlertDialog alert = alertDialogBuilder.create();
         alert.show();
     }
-    public void showInsertFail(int type) {
+    public void showNotification(int type) {
         LayoutInflater layoutInflater = LayoutInflater.from(ShoppingList.this.getActivity());
         View promptView;
         if (type == 0) {
@@ -215,7 +216,11 @@ public class ShoppingList extends Fragment {
         } else if (type == 1) {
             //no name
             promptView = layoutInflater.inflate(R.layout.invalid_input_alert, null);
-        } else promptView = layoutInflater.inflate(R.layout.empty_input_alert, null);
+        } else if (type == 2) {
+            promptView = layoutInflater.inflate(R.layout.empty_input_alert, null);
+        } else {
+            promptView = layoutInflater.inflate(R.layout.reached_budget, null);
+        }
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                 ShoppingList.this.getActivity());
@@ -231,7 +236,7 @@ public class ShoppingList extends Fragment {
         AlertDialog alert = alertDialogBuilder.create();
         alert.show();
     }
-    public void showBudgetDialog(){
+    public void showBudgetDialog(final View view){
         LayoutInflater layoutInflater = LayoutInflater.from(ShoppingList.this.getActivity());
         View promptView = layoutInflater.inflate(R.layout.input_budget, null);
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
@@ -244,8 +249,10 @@ public class ShoppingList extends Fragment {
                 .setPositiveButton("Save", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         String b = editText1.getText().toString();
-                        if(b != null || !b.isEmpty()) {
-                            //modify budget in db
+                        if(editText1 != null && !b.isEmpty() && b.matches("\\d+.\\d{2}")) {
+                            updateBudget(b);
+                            Button button = view.findViewById(R.id.budget_button);
+                            button.setText("Budget: " + readBudget());
                         }
                     }
                 })
@@ -259,7 +266,37 @@ public class ShoppingList extends Fragment {
         AlertDialog alert = alertDialogBuilder.create();
         alert.show();
     }
+    public void showReachBudget(){
 
+    }
+    public void updateBudget(String newbudget){
+        FileOutputStream outputStream;
+        try {
+            outputStream = getActivity().openFileOutput("budgetData", Context.MODE_PRIVATE);
+            outputStream.write(newbudget.getBytes());
+            outputStream.close();
+        } catch (Exception a) {
+            a.printStackTrace();
+        }
+    }
+    public String readBudget(){
+        byte[] b = new byte[1];
+        String budget = "";
+        FileInputStream inputStream;
+        try {
+            inputStream = getActivity().openFileInput("budgetData");
+            StringBuilder sb = new StringBuilder();
+            while (inputStream.read(b) != -1) {
+                sb.append(new String(b));
+                b = new byte[1];
+            }
+            inputStream.close();
+            budget = sb.toString();
+        } catch (Exception a) {
+            a.printStackTrace();
+        }
+        return budget;
+    }
     public void showImportFragment(){
                 ImportFragment dialog = new ImportFragment();
                 FragmentManager fragmentManager = ShoppingList.this.getActivity().getFragmentManager();

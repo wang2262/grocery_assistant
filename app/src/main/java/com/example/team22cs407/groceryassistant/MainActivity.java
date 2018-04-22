@@ -1,21 +1,19 @@
 package com.example.team22cs407.groceryassistant;
 
-import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.os.Bundle;
-import android.provider.BaseColumns;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
-import android.database.sqlite.*;
 import android.widget.EditText;
-import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.Date;
 import java.util.List;
 import java.util.Timer;
@@ -59,6 +57,25 @@ public class MainActivity extends AppCompatActivity implements ModificationDialo
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         db = new dataHelp(this);
+        File budgetData = new File(this.getFilesDir(), "budgetData");
+        if (!budgetData.exists()) {
+            try {
+                budgetData.createNewFile();
+                FileOutputStream outputStream;
+                String fileContents = "0.00";
+                try {
+                    outputStream = this.openFileOutput("budgetData", Context.MODE_PRIVATE);
+                    outputStream.write(fileContents.getBytes());
+                    outputStream.close();
+                } catch (Exception a) {
+                    a.printStackTrace();
+                }
+            }catch(Exception ex){
+                ex.printStackTrace();
+            }
+        }
+
+
         setContentView(R.layout.activity_main);
         Fragment default_fragment = new MyGrocery();
         FragmentManager manager = getFragmentManager();
