@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,14 +18,20 @@ import java.util.List;
 public class ListAdapterStringCheckbox extends ArrayAdapter<String>{
     private final static int INGRE_LIMIT = 1; // change to 5 later
     private int ingre_count = 0;
+    private List<String> checkedItems;
 
     public ListAdapterStringCheckbox (Context context, List<String> list) {
         super(context, 0, list);
+        checkedItems = new ArrayList<>();
+    }
+
+    public List<String> getCheckedItems(){
+        return checkedItems;
     }
 
     @NonNull
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+    public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.select_ingredients_row, parent, false);
         }
@@ -44,15 +51,18 @@ public class ListAdapterStringCheckbox extends ArrayAdapter<String>{
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
 
                 if (isChecked) {
-                    ingre_count++;
+                    if (ingre_count < INGRE_LIMIT) {
+                        ingre_count++;
+                        checkedItems.add(getItem(position));
+                    } else {
+                        String msg = "Ingredients Limit is " + INGRE_LIMIT;
+                        Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
+                        compoundButton.setChecked(false);
+                    }
+
                 } else {
                     ingre_count--;
-                }
-                if (ingre_count > INGRE_LIMIT) {
-                    String msg = "Ingredients Limit is " + INGRE_LIMIT;
-                    Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
-                    ingre_count--;
-                    compoundButton.setChecked(false);
+                    checkedItems.remove(getItem(position));
                 }
 
             }

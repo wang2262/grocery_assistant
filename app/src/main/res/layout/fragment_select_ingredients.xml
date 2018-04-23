@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.example.team22cs407.groceryassistant.Recipes">
-    <!--
+
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
@@ -47,11 +47,4 @@
             android:paddingEnd="@dimen/page_margin"
             android:layout_alignParentEnd="true" />
     </RelativeLayout>
-    -->
-    <FrameLayout
-        android:id="@+id/recipe_fragment_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </FrameLayout>
-
 </LinearLayout>

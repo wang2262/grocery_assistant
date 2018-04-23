@@ -4,11 +4,16 @@ package com.example.team22cs407.groceryassistant;
  * Created by yuanyuanji on 4/8/18.
  */
 
+import android.app.Fragment;
+import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
+
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -23,8 +28,11 @@ public class SpoonacularAPI {
     public static String baseUrl = "https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/";
 
     public JSONObject clickedRecipe;
+    public JSONArray recipes;
+    private OnRecipesReturnedInterface handleRecipesReturned;
 
-    public SpoonacularAPI() {
+    public SpoonacularAPI(OnRecipesReturnedInterface handleRecipesReturned) {
+        this.handleRecipesReturned = handleRecipesReturned;
         this.clickedRecipe = new JSONObject();
     }
 
@@ -38,7 +46,7 @@ public class SpoonacularAPI {
     }
 
 
-    class SearchRecipeByIngredients extends AsyncTask<String, Void, Void> {
+    class SearchRecipeByIngredients extends AsyncTask<String, Void, JSONArray> {
 
         @Override
         protected void onPreExecute() {
@@ -46,7 +54,7 @@ public class SpoonacularAPI {
         }
 
         @Override
-        protected Void doInBackground(String... ingredients) {
+        protected JSONArray doInBackground(String... ingredients) {
             try {
                 // default number is 5 in spoonaular API
                 //URL url = new URL("https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/findByIngredients?ingredients=potato&number=3");
@@ -91,7 +99,9 @@ public class SpoonacularAPI {
 
                 //clickedRecipe = new JSONObject(response.toString());
                 //print result
-                System.out.println(response.toString());
+
+                //recipes = new JSONArray(response.toString());
+                return new JSONArray(response.toString());
                 //System.out.println(clickedRecipe.toString());
             } catch (Exception e) {
                 e.printStackTrace();
@@ -101,8 +111,9 @@ public class SpoonacularAPI {
         }
 
         @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
+        protected void onPostExecute(JSONArray recipes) {
+            handleRecipesReturned.onRecipesReturned(recipes);
+            super.onPostExecute(recipes);
         }
 
 
@@ -197,7 +208,8 @@ public class SpoonacularAPI {
     }
 
 
-    //public static JSONObject
-
+    public interface OnRecipesReturnedInterface {
+        public void onRecipesReturned(JSONArray recipes);
+    }
 
 }

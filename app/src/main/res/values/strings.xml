@@ -28,4 +28,7 @@
 
     <!--for recipe page -->
     <string name="select_ingredients_msg">Please select ingredients first:</string>
+    <string name="next_step_arrow">move to next step</string>
+    <string name="next_step">Next Step:</string>
+    <string name="search_recipes"> Search Recipes</string>
 </resources>
