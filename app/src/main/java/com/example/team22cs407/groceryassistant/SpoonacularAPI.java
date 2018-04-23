@@ -30,13 +30,18 @@ public class SpoonacularAPI {
     public JSONObject clickedRecipe;
     public JSONArray recipes;
     private OnRecipesReturnedInterface handleRecipesReturned;
+    private OnRecipeDetailsInterface onRecipeDetailsInterface;
 
     public SpoonacularAPI(OnRecipesReturnedInterface handleRecipesReturned) {
         this.handleRecipesReturned = handleRecipesReturned;
         this.clickedRecipe = new JSONObject();
     }
 
-    public void getRes(String recipeId) throws Exception {
+    public SpoonacularAPI(OnRecipeDetailsInterface onRecipeDetailsInterface) {
+        this.onRecipeDetailsInterface = onRecipeDetailsInterface;
+        this.clickedRecipe = new JSONObject();
+    }
+    public void getRecipeInfo(String recipeId) throws Exception {
 
         new GetRecipeInfo().execute(recipeId);
     }
@@ -112,7 +117,9 @@ public class SpoonacularAPI {
 
         @Override
         protected void onPostExecute(JSONArray recipes) {
-            handleRecipesReturned.onRecipesReturned(recipes);
+            if (handleRecipesReturned != null) {
+                handleRecipesReturned.onRecipesReturned(recipes);
+            }
             super.onPostExecute(recipes);
         }
 
@@ -141,7 +148,7 @@ public class SpoonacularAPI {
     }
 
     // calling get recipe information function on API
-    class GetRecipeInfo extends AsyncTask<String, Void, Void> {
+    class GetRecipeInfo extends AsyncTask<String, Void, String> {
 
 
         protected void onPreExecute() {
@@ -155,7 +162,7 @@ public class SpoonacularAPI {
         }
         */
         @Override
-        protected Void doInBackground(String... recipeIds) {
+        protected String doInBackground(String... recipeIds) {
 
                   /*
 
@@ -195,6 +202,7 @@ public class SpoonacularAPI {
                 //print result
                 //System.out.println(response.toString());
                 System.out.println(clickedRecipe.toString());
+                return clickedRecipe.getString("spoonacularSourceUrl");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -202,8 +210,12 @@ public class SpoonacularAPI {
             return null;
         }
 
-        protected void onPostExecute(Void result) {
+        protected void onPostExecute(String detailUrl) {
             // dismiss progress dialog and update ui
+            if (onRecipeDetailsInterface != null)  {
+                onRecipeDetailsInterface.onRecipeDetailsReturned(detailUrl);
+            }
+            super.onPostExecute(detailUrl);
         }
     }
 
@@ -212,4 +224,7 @@ public class SpoonacularAPI {
         public void onRecipesReturned(JSONArray recipes);
     }
 
+    public interface OnRecipeDetailsInterface {
+        void onRecipeDetailsReturned(String detailUrl);
+    }
 }

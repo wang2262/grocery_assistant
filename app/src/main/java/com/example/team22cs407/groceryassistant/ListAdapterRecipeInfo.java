@@ -39,16 +39,16 @@ public class ListAdapterRecipeInfo extends ArrayAdapter<RecipeInfo> {
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         if (convertView == null) {
-            System.out.println("I am here in bfore inflating getView");
+
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.recipe_info_row, parent, false);
         }
-        System.out.println("I am here in getView");
+
         TextView textView = convertView.findViewById(R.id.recipe_title);
         ImageView imageView = convertView.findViewById(R.id.recipe_image);
 
         RecipeInfo item = recipeInfos.get(position);
         textView.setText(item.getTitle());
-        System.out.println("image url: " + item.getImage());
+
         Picasso.with(context)
                 .load(item.getImage())
                 .into(imageView);

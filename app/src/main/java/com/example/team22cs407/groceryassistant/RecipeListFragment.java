@@ -11,6 +11,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import org.json.JSONObject;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -18,7 +20,7 @@ import java.util.List;
  * Created by yuanyuanji on 4/22/18.
  */
 
-public class RecipeListFragment extends Fragment {
+public class RecipeListFragment extends Fragment implements SpoonacularAPI.OnRecipeDetailsInterface{
 
     List<RecipeInfo> recipeInfos;
 
@@ -40,20 +42,23 @@ public class RecipeListFragment extends Fragment {
         RecipeInfo[] recipes = (RecipeInfo[]) args.getSerializable("recipe_info_array");
         if (recipes != null) {
             recipeInfos = Arrays.asList(recipes);
+            /* testing purpose
             for (RecipeInfo recipeInfo : recipeInfos) {
                 System.out.println("id : " + recipeInfo.getId());
             }
-
+            */
             ListView listView = view.findViewById(R.id.recipe_info_list);
             ListAdapterRecipeInfo recipeList = new ListAdapterRecipeInfo(getContext(), recipeInfos);
             listView.setAdapter(recipeList);
-            System.out.println("I am here");
+            
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                     RecipeInfo item = recipeInfos.get(i);
                     System.out.println("I am clicking " + item.getTitle());
-                    //TODO: HERE invoking the fragment of recipe detail.
+                    // get Recipe details for this recipe
+                    getRecipeDetails(item.getId());
+
                 }
             });
         }
@@ -61,5 +66,21 @@ public class RecipeListFragment extends Fragment {
         return view;
     }
     // TODO : back button back to select ingredients page
-    // TODO: if the recipe-info  page wait a little bit long time, it will crash.
+    // TODO: if the recipe-info  page wait a little bit long time, it will crash. problem with serialible
+
+    public void getRecipeDetails(int recipeId) {
+        SpoonacularAPI spoon = new SpoonacularAPI(this);
+        try {
+            spoon.getRecipeInfo(String.valueOf(recipeId));
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onRecipeDetailsReturned(String detailUrl) {
+        //TODO: HERE invoking the fragment of recipe detail and pass the url to load web page inside of app.
+        System.out.println(detailUrl);
+    }
+
 }
