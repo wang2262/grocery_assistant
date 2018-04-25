@@ -50,7 +50,7 @@ public class RecipeListFragment extends Fragment implements SpoonacularAPI.OnRec
             ListView listView = view.findViewById(R.id.recipe_info_list);
             ListAdapterRecipeInfo recipeList = new ListAdapterRecipeInfo(getContext(), recipeInfos);
             listView.setAdapter(recipeList);
-            
+
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {

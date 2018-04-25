@@ -67,7 +67,12 @@ public class SelectIngredientsFragment extends Fragment implements SpoonacularAP
             try {
                 SpoonacularAPI s = new SpoonacularAPI(SelectIngredientsFragment.this);
                 //s.getRes("285930");
-                String[] ingredients = {"potato", "tomato"};
+                //String[] ingredients = {"potato", "tomato"};
+                //String[] ingredients = (String[]) checkedItems.toArray();  // It doesn't work.
+                String[] ingredients = new String[checkedItems.size()];
+                for (int i= 0; i < checkedItems.size(); i++) {
+                    ingredients[i] = checkedItems.get(i);
+                }
                 s.getRecipeByIngredients(ingredients);
             } catch (Exception e) {
                 e.printStackTrace();
