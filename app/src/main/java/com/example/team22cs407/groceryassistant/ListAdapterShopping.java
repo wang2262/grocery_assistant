@@ -56,9 +56,9 @@ public class ListAdapterShopping extends RecyclerView.Adapter {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
-                   // case R.id.modify:
-                     //   showModificationDialog(position);
-                       // return true;
+                    case R.id.add_quantity:
+                        showModificationDialog(position);
+                        return true;
                     case R.id.delete:
                         showDeleteDialog(position);
                         return true;
@@ -71,15 +71,13 @@ public class ListAdapterShopping extends RecyclerView.Adapter {
     }
     public void showModificationDialog(int position){
 
-        ModificationDialogFragment dialog = new ModificationDialogFragment();
+        AddQuantityDialogFragment dialog = new AddQuantityDialogFragment();
         Bundle bundle = new Bundle();
-        bundle.putInt("position", position);
+        //bundle.putInt("position", position);
         bundle.putString("item_name", foods.get(position).getFoodItem());
-        bundle.putString("expiration_date", foods.get(position).getExpirationDate());
         dialog.setArguments(bundle);
         FragmentManager fragmentManager = ((Activity)mContext).getFragmentManager();
-        dialog.show(fragmentManager, "ModificationDialogFragment");
-
+        dialog.show(fragmentManager, "AddQuantityDialogFragment");
     }
 
     public void showDeleteDialog(int position){

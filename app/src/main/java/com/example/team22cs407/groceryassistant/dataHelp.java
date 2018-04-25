@@ -182,7 +182,14 @@ public class dataHelp {
         int count = db.update(myDbHelper.TABLE_NAME,contentValues, myDbHelper.NAME+" = ?",whereArgs );
         return count;
     }
-
+    public int addQuantity(String name, String quantity) {
+        SQLiteDatabase db = dataHelp.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        String[] whereArgs= {name};
+        contentValues.put(myDbHelper.DATE, quantity);
+        int count = db.update(myDbHelper.SHOPPING_TABLE_NAME,contentValues, myDbHelper.NAME+" = ?",whereArgs);
+        return count;
+    }
     public int updateDatas(String tableName, String... args) {
         if (args.length <= 1 || args.length > 3) {
             return 0;
