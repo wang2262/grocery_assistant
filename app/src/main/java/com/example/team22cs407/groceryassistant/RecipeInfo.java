@@ -18,6 +18,8 @@ public class RecipeInfo implements Serializable {
     private int missedIngredientCount;
     private int likes;
 
+    private final static long serialUID = 339L;
+
     public RecipeInfo(int id, String title, String image) {
         this.id = id;
         this.title = title;

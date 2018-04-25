@@ -31,7 +31,7 @@ public class ListAdapterRecipeInfo extends ArrayAdapter<RecipeInfo> {
         super(context,0, recipeInfos); // Notes: without passing list of items, the constructor does not get called.
         this.context = context;
         this.recipeInfos = recipeInfos;
-        
+
 
     }
 
