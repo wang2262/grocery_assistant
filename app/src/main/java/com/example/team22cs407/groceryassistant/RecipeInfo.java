@@ -3,11 +3,13 @@ package com.example.team22cs407.groceryassistant;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
+
 /**
  * Created by yuanyuanji on 4/22/18.
  */
 
-public class RecipeInfo {
+public class RecipeInfo implements Serializable {
     private int id;
     private String title;
     private String image; // image url

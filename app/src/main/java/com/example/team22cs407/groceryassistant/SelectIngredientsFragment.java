@@ -1,6 +1,7 @@
 package com.example.team22cs407.groceryassistant;
 
 import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -114,7 +115,10 @@ public class SelectIngredientsFragment extends Fragment implements SpoonacularAP
             Bundle bundle = new Bundle();
             bundle.putSerializable("recipe_info_array", recipeInfos);
             recipeListFragment.setArguments(bundle);
-            getFragmentManager().beginTransaction().replace(R.id.recipe_fragment_container, recipeListFragment).commit();
+            FragmentTransaction transaction = getFragmentManager().beginTransaction();
+            transaction.replace(R.id.recipe_fragment_container, recipeListFragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
         }
 
     }

@@ -65,8 +65,6 @@ public class Recipes extends Fragment{
         View view = inflater.inflate(R.layout.fragment_recipes, container, false);
         SelectIngredientsFragment ingredientsFragment =  new SelectIngredientsFragment();
         getFragmentManager().beginTransaction().add(R.id.recipe_fragment_container, ingredientsFragment).commit();
-        
-
         return view;
     }
 

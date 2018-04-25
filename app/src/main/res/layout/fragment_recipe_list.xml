@@ -3,6 +3,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+    <ImageButton
+        android:id="@+id/back_to_ingredients"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/back"
+        android:textStyle="normal"
+        android:src="@drawable/arrow_left"
+        android:background="@drawable/arrow_left"
+        />
 
     <ListView
         android:id="@+id/recipe_info_list"
