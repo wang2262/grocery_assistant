@@ -80,7 +80,6 @@ public class RecipeListFragment extends Fragment implements SpoonacularAPI.OnRec
 
         return view;
     }
-    // TODO : back button back to select ingredients page
     // TODO: if the recipe-info  page wait a little bit long time, it will crash. problem with serialible
 
     public void getRecipeDetails(int recipeId) {
@@ -98,62 +97,20 @@ public class RecipeListFragment extends Fragment implements SpoonacularAPI.OnRec
             try {
                 String detailUrl = recipeDetail.getString("spoonacularSourceUrl");
                 System.out.println(recipeDetail);
-                parseFood(recipeDetail);
         		System.out.println("RecipeListURL:" + detailUrl);
-        		Fragment detailFrag = new RecipeDetailFragment();
+        		RecipeDetailFragment detailFrag = new RecipeDetailFragment();
         		Bundle bundle = new Bundle();
         		bundle.putString("webView", detailUrl);
+        		bundle.putString("AllInfo", recipeDetail.toString());
         		detailFrag.setArguments(bundle);
         		FragmentManager manager = getFragmentManager();
         		FragmentTransaction transaction = manager.beginTransaction();
-        		transaction.replace(R.id.frame_layout, detailFrag);
-        		transaction.addToBackStack(null);
+        		transaction.replace(R.id.recipe_fragment_container, detailFrag);
+        		transaction.addToBackStack("detailFrag");
         		transaction.commit();
-
-
-
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        }
-    }
-
-    public void parseFood(JSONObject recipeDetail) {
-        try {
-            //String foodItems = recipeDetail.getString("extendedIngredients");
-            List<String> list = new ArrayList<String>();
-            List<String> toAddList = new ArrayList<String>();
-            JSONArray array = recipeDetail.getJSONArray("extendedIngredients");
-            List<Food> shoppingFoods = MainActivity.db.getDatasWithTable("ShoppingList");
-            List<Food> groceryFoods = MainActivity.db.getDatasWithTable("GroceryList");
-            for(int i = 0 ; i < array.length() ; i++){
-                list.add(array.getJSONObject(i).getString("name"));
-            }
-            for(int j = 0; j < list.size(); j++) {
-                boolean addToList = true;
-                for(int gf = 0; gf < groceryFoods.size(); gf++) {
-                    if(groceryFoods.get(gf).getFoodItem().toLowerCase().equals(list.get(j).toLowerCase())) {
-                        addToList = false;
-                    }
-                }
-                for(int sf = 0; sf < shoppingFoods.size(); sf++) {
-                    if(shoppingFoods.get(sf).getFoodItem().toLowerCase().equals(list.get(j).toLowerCase())) {
-                        addToList = false;
-                    }
-                }
-                if(addToList) {
-                    toAddList.add(list.get(j));
-                    System.out.println("Item name: " + list.get(j) + "\n");
-                }
-            }
-            for(int add = 0; add < toAddList.size(); add++) {
-                MainActivity.db.insertDatas(toAddList.get(add), "", "ShoppingList");
-            }
-            ListAdapterShopping.foods = HelperTool.sortByExpiration(MainActivity.db.getDatasWithTable("ShoppingList"));
-            ListAdapterImport.shoppingFoods = MainActivity.db.getImportDatas();
-
-        } catch (JSONException e) {
-            e.printStackTrace();
         }
     }
 
