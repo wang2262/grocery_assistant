@@ -1,12 +1,10 @@
 package com.example.team22cs407.groceryassistant;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,9 +13,7 @@ import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -123,7 +119,7 @@ public class ListAdapterImport extends RecyclerView.Adapter {
 
         DeleteDialogFragment dialog = new DeleteDialogFragment();
         Bundle bundle = new Bundle();
-        bundle.putInt("position", position);
+        bundle.putInt("position", foods.get(position).getId());
         bundle.putString("item_name", foods.get(position).getFoodItem());
         bundle.putString("exp_date", foods.get(position).getExpirationDate());
         dialog.setArguments(bundle);

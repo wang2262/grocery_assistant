@@ -49,11 +49,12 @@ public class DeleteDialogFragment extends DialogFragment {
                     public void onClick(DialogInterface dialog, int id) {
                         // Send the positive button event back to the host activity
                        // mListener.onDialogPositiveClick(view, position);
-                        MainActivity.db.delete(item_name, expDate);
+                        MainActivity.db.delete(ListAdapter.foods.get(position).getId());
 
                         // update in-memory data
-                        ListAdapter.foods.remove(position);
-
+                        ListAdapter.foods = HelperTool.sortByExpiration(MainActivity.db.getDatas());
+                        ListAdapterImport.foods = HelperTool.sortByExpiration(MainActivity.db.getDatas());
+                        ListAdapterImport.shoppingFoods = MainActivity.db.getImportDatas();
                         // reload the current fragment
                         Fragment fragment = getFragmentManager().findFragmentById(R.id.frame_layout);
                         getFragmentManager().beginTransaction().detach(fragment).attach(fragment).commit();

@@ -5,7 +5,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,10 +12,10 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.CheckBox;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by SignInSon on 2/17/18.
@@ -32,22 +31,36 @@ public class ListAdapterShopping extends RecyclerView.Adapter {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         mContext = parent.getContext();
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_row, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_row_shopping, parent, false);
         return new ListViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
         ((ListViewHolder) holder).bindView(position);
-        ((ListViewHolder) holder).listLayout.setOnClickListener(new View.OnClickListener() {
+        ((ListViewHolder) holder).cbox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                boolean checked = foods.get(position).getCheckBox();
+                if (checked) {
+                    foods.get(position).setCheckBox(false);
+                } else {
+                    foods.get(position).setCheckBox(true);
+                    String itemName = foods.get(position).getFoodItem();
+                    showCheckoffDialog(itemName);
+                }
+            }
+        });
+        ((ListViewHolder) holder).mItemText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // Toast.makeText(mContext, foods.get(position).getFoodItem(), Toast.LENGTH_SHORT).show();
                 showPopupMenu(view, position);
             }
         });
-
     }
+
+
 
     public void showPopupMenu(View view, final int position){
         PopupMenu popupMenu = new PopupMenu(mContext, view);
@@ -80,6 +93,17 @@ public class ListAdapterShopping extends RecyclerView.Adapter {
         dialog.show(fragmentManager, "AddQuantityDialogFragment");
     }
 
+    public void showCheckoffDialog(String itemname){
+        Objects.requireNonNull(itemname);
+        if (itemname.isEmpty()) return;
+        CheckOffDialogFragment dialog = new CheckOffDialogFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("item_name", itemname);
+        dialog.setArguments(bundle);
+        FragmentManager fragmentManager = ((Activity)mContext).getFragmentManager();
+        dialog.show(fragmentManager, "CheckOffDialogFragment");
+    }
+
     public void showDeleteDialog(int position){
 
         ShoppingDeleteDialogFragment dialog = new ShoppingDeleteDialogFragment();
@@ -102,6 +126,7 @@ public class ListAdapterShopping extends RecyclerView.Adapter {
         private TextView mItemText;
         private TextView mExpirationText;
         private LinearLayout listLayout;
+        private CheckBox cbox;
 
 
         public  ListViewHolder(final View itemView) {
@@ -109,6 +134,7 @@ public class ListAdapterShopping extends RecyclerView.Adapter {
             mItemText = (TextView) itemView.findViewById(R.id.itemText);
             mExpirationText = (TextView) itemView.findViewById(R.id.expirationText);
             listLayout = (LinearLayout) itemView.findViewById(R.id.list_layout);
+            cbox = (CheckBox) itemView.findViewById(R.id.shoppingCheckBox);
 
         }
 
@@ -118,6 +144,7 @@ public class ListAdapterShopping extends RecyclerView.Adapter {
             String expirationDate = foods.get(position).getExpirationDate();
             mItemText.setText(foodName);
             mExpirationText.setText(expirationDate);
+            cbox.setEnabled(true);
         }
 
         public void onClick(View view) {
