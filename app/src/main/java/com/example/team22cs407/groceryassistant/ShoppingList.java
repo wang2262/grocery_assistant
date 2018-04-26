@@ -146,7 +146,8 @@ public class ShoppingList extends Fragment {
         alert.show();
     }
 
-    protected void showCheckoffDialog(@NonNull final String itemName) {
+    public void showCheckoffDialog(@NonNull final String itemName) {
+        Log.d("calledFunction", "showCheckOffDialog was called");
         Objects.requireNonNull(itemName);
         if (itemName.isEmpty()) return;
         LayoutInflater layoutInflater = LayoutInflater.from(ShoppingList.this.getActivity());
