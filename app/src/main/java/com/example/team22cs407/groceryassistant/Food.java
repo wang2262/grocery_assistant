@@ -5,6 +5,7 @@ package com.example.team22cs407.groceryassistant;
  */
 
 public class Food {
+    private int id;
     private String foodItem;
     private String expirationDate;
     private boolean checkBox;
@@ -13,12 +14,15 @@ public class Food {
         super();
     }
 
-    public Food(String foodItem, String expirationDate, boolean checkBox) {
+    public Food(int id, String foodItem, String expirationDate, boolean checkBox) {
+        this.id = id;
         this.foodItem = foodItem;
         this.expirationDate = expirationDate;
         this.checkBox = checkBox;
     }
-
+    public int getId() {
+        return id;
+    }
     public String getFoodItem() {
         return foodItem;
     }
@@ -29,7 +33,7 @@ public class Food {
     public void setCheckBox(boolean checkBox) {
         this.checkBox = checkBox;
     }
-
+    public void setId(int uid) {this.id = uid;}
 
     public String getExpirationDate() {
         return expirationDate;

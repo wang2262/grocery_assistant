@@ -1,25 +1,21 @@
 package com.example.team22cs407.groceryassistant;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.CheckBox;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by SignInSon on 2/17/18.
@@ -51,11 +47,7 @@ public class ListAdapterShopping extends RecyclerView.Adapter {
                 } else {
                     foods.get(position).setCheckBox(true);
                     String itemName = foods.get(position).getFoodItem();
-                    //Fragment fragment = ((Activity)mContext).getFragmentManager().findFragmentByTag("ShoppingList");
-                    ShoppingList list = new ShoppingList();
-                    System.out.println("itemName: " + itemName);
-                    list.showCheckoffDialog(itemName);
-                    Log.d("function, ", "checkoffDialog");
+                    showCheckoffDialog(itemName);
                 }
             }
         });
@@ -99,6 +91,17 @@ public class ListAdapterShopping extends RecyclerView.Adapter {
         dialog.setArguments(bundle);
         FragmentManager fragmentManager = ((Activity)mContext).getFragmentManager();
         dialog.show(fragmentManager, "AddQuantityDialogFragment");
+    }
+
+    public void showCheckoffDialog(String itemname){
+        Objects.requireNonNull(itemname);
+        if (itemname.isEmpty()) return;
+        CheckOffDialogFragment dialog = new CheckOffDialogFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("item_name", itemname);
+        dialog.setArguments(bundle);
+        FragmentManager fragmentManager = ((Activity)mContext).getFragmentManager();
+        dialog.show(fragmentManager, "CheckOffDialogFragment");
     }
 
     public void showDeleteDialog(int position){

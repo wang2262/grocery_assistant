@@ -4,19 +4,13 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.Fragment;
-import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.NumberPicker;
-import android.widget.TextView;
-import android.widget.TimePicker;
 
 
 import java.util.Calendar;
@@ -69,9 +63,9 @@ public class ImportFragment extends DialogFragment {
                             if(listFood.get(go).getCheckBox()) {
                                 for(int j = 0; j < shoppingFood.size(); j++) {
                                     ShoppingFood sf = listFood.get(go);
-                                    String name = sf.getFoodItem().toString();
+                                    String name = sf.getFoodItem();
                                     Food food = shoppingFood.get(j);
-                                    String sName = food.getFoodItem().toString();
+                                    String sName = food.getFoodItem();
                                     if(sName.equals(name)) {
                                         flag = false;
                                         break;
@@ -79,19 +73,13 @@ public class ImportFragment extends DialogFragment {
                                 }
                                 if(flag) {
                                     MainActivity.db.insertDatas(listFood.get(go).getFoodItem(), "", "ShoppingList");
+                                    ListAdapterShopping.foods = HelperTool.sortByExpiration(MainActivity.db.getDatasWithTable("ShoppingList"));
+                                    Fragment fragment = getFragmentManager().findFragmentById(R.id.frame_layout);
+                                    getFragmentManager().beginTransaction().detach(fragment).attach(fragment).commit();
                                 }
                                 flag = true;
                             }
                         }
-                        ListAdapterShopping.foods = HelperTool.sortByExpiration(MainActivity.db.getDatasWithTable("ShoppingList"));
-                        ListAdapterImport.shoppingFoods = MainActivity.db.getImportDatas();
-                        // reload the current fragment
-                        Fragment fragment = getFragmentManager().findFragmentById(R.id.frame_layout);
-                        getFragmentManager().beginTransaction().detach(fragment).attach(fragment).commit();
-                        // sending data back to myGrocery
-                        //((MainActivity) getActivity()).cancelTimerTask();
-
-
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -105,17 +93,4 @@ public class ImportFragment extends DialogFragment {
         return builder.create();
     }
 
-
-
-    /*
-     public void onAttachToParentFragment(Fragment parentFragment) {
-         if (parentFragment != null) {
-             try {
-                 notificationSettingDialogListener = (NotificationSettingDialogListener) parentFragment;
-             } catch (ClassCastException e) {
-                 throw new ClassCastException(parentFragment.toString() + " must implement NotificationSettingDialogListener interface.");
-             }
-         }
-     }
-     */
 }

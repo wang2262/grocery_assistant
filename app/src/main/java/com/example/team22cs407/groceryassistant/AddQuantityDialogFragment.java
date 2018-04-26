@@ -47,7 +47,7 @@ public class AddQuantityDialogFragment extends DialogFragment {
                         String quantity = editText1.getText().toString();
                         Log.d("QUAN", quantity);
                         MainActivity.db.addQuantity(item_name, quantity);
-                        ListAdapterShopping.foods = HelperTool.sortByExpiration(MainActivity.db.getDatasWithTable("ShoppingList"));
+                        ListAdapterShopping.foods = MainActivity.db.getDatasWithTable("ShoppingList");
                         Fragment fragment = getFragmentManager().findFragmentById(R.id.frame_layout);
                         getFragmentManager().beginTransaction().detach(fragment).attach(fragment).commit();
                     }
