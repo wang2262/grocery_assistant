@@ -1,6 +1,8 @@
 package com.example.team22cs407.groceryassistant;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.app.ListFragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -90,7 +92,17 @@ public class RecipeListFragment extends Fragment implements SpoonacularAPI.OnRec
     @Override
     public void onRecipeDetailsReturned(String detailUrl) {
         //TODO: HERE invoking the fragment of recipe detail and pass the url to load web page inside of app.
-        System.out.println(detailUrl);
+        System.out.println("RecipeListURL:" + detailUrl);
+        Fragment detailFrag = new RecipeDetailFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("webView", detailUrl);
+        detailFrag.setArguments(bundle);
+        FragmentManager manager = getFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.replace(R.id.frame_layout, detailFrag);
+        transaction.addToBackStack(null);
+        transaction.commit();
+
     }
 
 }
