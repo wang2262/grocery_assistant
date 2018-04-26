@@ -58,11 +58,12 @@ public class ImportFragment extends DialogFragment {
                         // how to get closeInDays and time to run a new TimerTask
                         boolean flag = true;
                         List<ShoppingFood> listFood = ListAdapterImport.shoppingFoods;
+                        List<Food> groceryItems = HelperTool.sortByExpiration(MainActivity.db.getDatas());
                         List<Food> shoppingFood = MainActivity.db.getDatasWithTable("ShoppingList");
                         for(int go = 0; go < listFood.size(); go++) {
                             if(listFood.get(go).getCheckBox()) {
                                 for(int j = 0; j < shoppingFood.size(); j++) {
-                                    ShoppingFood sf = listFood.get(go);
+                                    Food sf = groceryItems.get(go);
                                     String name = sf.getFoodItem();
                                     Food food = shoppingFood.get(j);
                                     String sName = food.getFoodItem();
@@ -72,7 +73,7 @@ public class ImportFragment extends DialogFragment {
                                     }
                                 }
                                 if(flag) {
-                                    MainActivity.db.insertDatas(listFood.get(go).getFoodItem(), "", "ShoppingList");
+                                    MainActivity.db.insertDatas(groceryItems.get(go).getFoodItem(), "", "ShoppingList");
                                     ListAdapterShopping.foods = HelperTool.sortByExpiration(MainActivity.db.getDatasWithTable("ShoppingList"));
                                     Fragment fragment = getFragmentManager().findFragmentById(R.id.frame_layout);
                                     getFragmentManager().beginTransaction().detach(fragment).attach(fragment).commit();
