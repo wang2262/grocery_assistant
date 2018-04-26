@@ -13,6 +13,7 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Arrays;
@@ -88,9 +89,20 @@ public class RecipeListFragment extends Fragment implements SpoonacularAPI.OnRec
     }
 
     @Override
-    public void onRecipeDetailsReturned(String detailUrl) {
-        //TODO: HERE invoking the fragment of recipe detail and pass the url to load web page inside of app.
-        System.out.println(detailUrl);
+    public void onRecipeDetailsReturned(JSONObject recipeDetail) {
+        if (recipeDetail != null) {
+            try {
+                String detailUrl = recipeDetail.getString("spoonacularSourceUrl");
+                //TODO: HERE invoking the fragment of recipe detail and pass the url to load web page inside of app.
+                System.out.println(detailUrl);
+
+
+
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 }
