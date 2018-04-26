@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -24,6 +25,8 @@ import android.app.FragmentManager;
 
 
 import android.support.annotation.NonNull;
+
+import static android.widget.GridLayout.VERTICAL;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -88,6 +91,8 @@ public class ShoppingList extends Fragment {
         budgetButton.setText("Budget: " + budget);
 
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.listRecyclerView);
+        DividerItemDecoration itemDecor = new DividerItemDecoration(recyclerView.getContext(), VERTICAL);
+        recyclerView.addItemDecoration(itemDecor);
 
         ListAdapterShopping listAdapter = new ListAdapterShopping();
         recyclerView.setAdapter(listAdapter);

@@ -14,6 +14,18 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
+        <ImageButton
+            android:id="@+id/trash_button"
+            android:layout_width="35dp"
+            android:layout_height="32dp"
+            android:scaleType="fitCenter"
+            android:layout_marginTop="3dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginBottom="3dp"
+            android:layout_gravity="end|top"
+            android:src="@drawable/trashcan"
+            android:background="@drawable/trashcan" />
         <Button
             android:id="@+id/add_button"
             style="?android:attr/borderlessButtonStyle"

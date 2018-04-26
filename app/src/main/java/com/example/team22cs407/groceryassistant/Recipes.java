@@ -65,91 +65,9 @@ public class Recipes extends Fragment{
         View view = inflater.inflate(R.layout.fragment_recipes, container, false);
         SelectIngredientsFragment ingredientsFragment =  new SelectIngredientsFragment();
         getFragmentManager().beginTransaction().add(R.id.recipe_fragment_container, ingredientsFragment).commit();
-
-        /*
-        ListView foodList = view.findViewById(R.id.unexpiredItems);
-
-        // get all the unexpired items on grocery list
-        List<String> unexpiredItems = getUnexpiredNames();
-
-        final ListAdapterStringCheckbox listAdapter = new ListAdapterStringCheckbox(Recipes.this.getContext(), unexpiredItems);
-        foodList.setAdapter(listAdapter);
-
-        Button searchRecipes = view.findViewById(R.id.search_recipes_button);
-        searchRecipes.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                List<String> checkedItems = listAdapter.getCheckedItems();
-                System.out.println("Printing checked Items");
-                for(String str : checkedItems) {
-                    System.out.println(str);
-                }
-                callSpoonForRecipes(checkedItems);
-
-            }
-        });
-        */
-
         return view;
     }
-    /*
-    public void callSpoonForRecipes(List<String> checkedItems) {
-        // send ingredients to next page
-        if (checkedItems != null && checkedItems.size() > 0) {
-            try {
-                SpoonacularAPI s = new SpoonacularAPI(Recipes.this);
-                //s.getRes("285930");
-                String[] ingredients = {"potato", "tomato"};
-                s.getRecipeByIngredients(ingredients);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
 
-
-
-    public List<String> getUnexpiredNames(){
-        List<Food> food = MainActivity.db.getDatas();
-        List<String> unexpired = new ArrayList<>();
-        Date today = new Date();  //TODO: Think about whether we should include grocery items with expiration date of today. (currently don't).
-
-        for (Food item : food) {
-            Date expirationDate = HelperTool.convert2Date(item.getExpirationDate());
-            if (expirationDate != null && expirationDate.compareTo(today) > 0) {
-                System.out.println("adding in unexpired: " + item.getFoodItem());
-                unexpired.add(item.getFoodItem());
-            }
-
-        }
-        return unexpired;
-    }
-
-
-    @Override
-    public void onRecipesReturned(JSONArray recipes) {
-        System.out.println("I am in fragments");
-        System.out.println(recipes.toString());
-        // convert JSONArray recipes to RecipeInFO class array
-        if (recipes.length() > 0) {
-            RecipeInfo[] recipeInfos = new RecipeInfo[recipes.length()];
-            try {
-                for (int i = 0; i < recipes.length(); i++) {
-                    recipeInfos[i] = new RecipeInfo(recipes.getJSONObject(i));
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            // invoke another fragments
-            RecipeListFragment recipeListFragment = new RecipeListFragment();
-            Bundle bundle = new Bundle();
-            bundle.putSerializable("recipe_info_array", recipeInfos);
-            recipeListFragment.setArguments(bundle);
-            getFragmentManager().beginTransaction().add(R.id.recipe_fragment_container, recipeListFragment).commit();
-        }
-
-    }
-    */
 
     /**
      * This interface must be implemented by activities that contain this

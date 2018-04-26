@@ -1,6 +1,7 @@
 package com.example.team22cs407.groceryassistant;
 
 import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -67,7 +68,12 @@ public class SelectIngredientsFragment extends Fragment implements SpoonacularAP
             try {
                 SpoonacularAPI s = new SpoonacularAPI(SelectIngredientsFragment.this);
                 //s.getRes("285930");
-                String[] ingredients = {"potato", "tomato"};
+                //String[] ingredients = {"potato", "tomato"};
+                //String[] ingredients = (String[]) checkedItems.toArray();  // It doesn't work.
+                String[] ingredients = new String[checkedItems.size()];
+                for (int i= 0; i < checkedItems.size(); i++) {
+                    ingredients[i] = checkedItems.get(i);
+                }
                 s.getRecipeByIngredients(ingredients);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -109,7 +115,10 @@ public class SelectIngredientsFragment extends Fragment implements SpoonacularAP
             Bundle bundle = new Bundle();
             bundle.putSerializable("recipe_info_array", recipeInfos);
             recipeListFragment.setArguments(bundle);
-            getFragmentManager().beginTransaction().replace(R.id.recipe_fragment_container, recipeListFragment).commit();
+            FragmentTransaction transaction = getFragmentManager().beginTransaction();
+            transaction.replace(R.id.recipe_fragment_container, recipeListFragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
         }
 
     }

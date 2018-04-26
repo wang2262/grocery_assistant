@@ -8,9 +8,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Arrays;
@@ -37,6 +40,14 @@ public class RecipeListFragment extends Fragment implements SpoonacularAPI.OnRec
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_recipe_list, container, false);
+        ImageButton back = view.findViewById(R.id.back_to_ingredients);
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getFragmentManager().popBackStack();
+            }
+        });
 
         Bundle args = getArguments();
         RecipeInfo[] recipes = (RecipeInfo[]) args.getSerializable("recipe_info_array");
@@ -50,7 +61,7 @@ public class RecipeListFragment extends Fragment implements SpoonacularAPI.OnRec
             ListView listView = view.findViewById(R.id.recipe_info_list);
             ListAdapterRecipeInfo recipeList = new ListAdapterRecipeInfo(getContext(), recipeInfos);
             listView.setAdapter(recipeList);
-            
+
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -78,9 +89,20 @@ public class RecipeListFragment extends Fragment implements SpoonacularAPI.OnRec
     }
 
     @Override
-    public void onRecipeDetailsReturned(String detailUrl) {
-        //TODO: HERE invoking the fragment of recipe detail and pass the url to load web page inside of app.
-        System.out.println(detailUrl);
+    public void onRecipeDetailsReturned(JSONObject recipeDetail) {
+        if (recipeDetail != null) {
+            try {
+                String detailUrl = recipeDetail.getString("spoonacularSourceUrl");
+                //TODO: HERE invoking the fragment of recipe detail and pass the url to load web page inside of app.
+                System.out.println(detailUrl);
+
+
+
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 }

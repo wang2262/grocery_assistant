@@ -31,4 +31,6 @@
     <string name="next_step_arrow">move to next step</string>
     <string name="next_step">Next Step:</string>
     <string name="search_recipes"> Search Recipes</string>
+    <string name="back">Back</string>
+
 </resources>

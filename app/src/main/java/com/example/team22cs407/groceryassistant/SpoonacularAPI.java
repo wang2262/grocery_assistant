@@ -148,7 +148,7 @@ public class SpoonacularAPI {
     }
 
     // calling get recipe information function on API
-    class GetRecipeInfo extends AsyncTask<String, Void, String> {
+    class GetRecipeInfo extends AsyncTask<String, Void, JSONObject> {
 
 
         protected void onPreExecute() {
@@ -162,7 +162,7 @@ public class SpoonacularAPI {
         }
         */
         @Override
-        protected String doInBackground(String... recipeIds) {
+        protected JSONObject doInBackground(String... recipeIds) {
 
                   /*
 
@@ -201,8 +201,9 @@ public class SpoonacularAPI {
                 clickedRecipe = new JSONObject(response.toString());
                 //print result
                 //System.out.println(response.toString());
-                System.out.println(clickedRecipe.toString());
-                return clickedRecipe.getString("spoonacularSourceUrl");
+                //System.out.println(clickedRecipe.toString());
+                //return clickedRecipe.getString("spoonacularSourceUrl");
+                return clickedRecipe;
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -210,12 +211,12 @@ public class SpoonacularAPI {
             return null;
         }
 
-        protected void onPostExecute(String detailUrl) {
+        protected void onPostExecute(JSONObject recipeDetail) {
             // dismiss progress dialog and update ui
             if (onRecipeDetailsInterface != null)  {
-                onRecipeDetailsInterface.onRecipeDetailsReturned(detailUrl);
+                onRecipeDetailsInterface.onRecipeDetailsReturned(recipeDetail);
             }
-            super.onPostExecute(detailUrl);
+            super.onPostExecute(recipeDetail);
         }
     }
 
@@ -225,6 +226,6 @@ public class SpoonacularAPI {
     }
 
     public interface OnRecipeDetailsInterface {
-        void onRecipeDetailsReturned(String detailUrl);
+        void onRecipeDetailsReturned(JSONObject recipeDetail);
     }
 }

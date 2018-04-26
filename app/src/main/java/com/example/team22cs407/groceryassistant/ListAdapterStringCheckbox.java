@@ -16,7 +16,7 @@ import java.util.List;
  */
 
 public class ListAdapterStringCheckbox extends ArrayAdapter<String>{
-    private final static int INGRE_LIMIT = 1; // change to 5 later
+    private final static int INGRE_LIMIT = 3; // change to 5 later  // the limit of selected ingredients
     private int ingre_count = 0;
     private List<String> checkedItems;
 
