@@ -117,7 +117,7 @@ public class SelectIngredientsFragment extends Fragment implements SpoonacularAP
             recipeListFragment.setArguments(bundle);
             FragmentTransaction transaction = getFragmentManager().beginTransaction();
             transaction.replace(R.id.recipe_fragment_container, recipeListFragment);
-            transaction.addToBackStack("recipelist");
+            transaction.addToBackStack(null);
             transaction.commit();
         }
 
