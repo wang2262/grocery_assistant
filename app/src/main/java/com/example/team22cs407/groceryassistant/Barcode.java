@@ -65,9 +65,15 @@ public class Barcode extends Activity {
                     //                                          int[] grantResults)
                     // to handle the case where the user grants the permission. See the documentation
                     // for ActivityCompat#requestPermissions for more details.
-                    MY_PERMISSION_REQUEST_CAMERA = 2669;
-                    ActivityCompat.requestPermissions(Barcode.this, new String[]{Manifest.permission.CAMERA},
-                            MY_PERMISSION_REQUEST_CAMERA);
+
+                    try {
+                        MY_PERMISSION_REQUEST_CAMERA = 2669;
+                        ActivityCompat.requestPermissions(Barcode.this, new String[]{Manifest.permission.CAMERA},
+                                MY_PERMISSION_REQUEST_CAMERA);
+                        cameraSource.start(cameraPreview.getHolder());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                     return;
                 }
             }

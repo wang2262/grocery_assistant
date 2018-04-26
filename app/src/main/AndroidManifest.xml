@@ -25,6 +25,7 @@
         <activity android:name=".Barcode"
             android:label="Barcode Scanner"
         />
+        <activity android:name=""
 
         <meta-data
             android:name="com.google.android.gms.version"
