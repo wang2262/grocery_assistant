@@ -25,4 +25,12 @@
     <string name="notification_setting_days_msg">Days close to expiration date to get notified: </string>
     <string name="notification_setting_time_msg">Time to get notified: </string>
     <string name="notification_setting_time_button_msg">Pick a time </string>
+
+    <!--for recipe page -->
+    <string name="select_ingredients_msg">Please select ingredients first:</string>
+    <string name="next_step_arrow">move to next step</string>
+    <string name="next_step">Next Step:</string>
+    <string name="search_recipes"> Search Recipes</string>
+    <string name="back">Back</string>
+
 </resources>

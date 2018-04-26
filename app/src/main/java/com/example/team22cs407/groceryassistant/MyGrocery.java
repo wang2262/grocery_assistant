@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -26,6 +27,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Date;
 import java.util.Calendar;
+
+import static android.widget.GridLayout.HORIZONTAL;
+import static android.widget.GridLayout.VERTICAL;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -68,6 +72,14 @@ public class MyGrocery extends Fragment {
             }
         });
 
+        ImageButton trashButton = view.findViewById(R.id.trash_button);
+        trashButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showImportFragment();
+            }
+        });
+
         ImageButton imageButton = view.findViewById(R.id.notification_setting_button);
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,6 +90,8 @@ public class MyGrocery extends Fragment {
 
 
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.listRecyclerView);
+        DividerItemDecoration itemDecor = new DividerItemDecoration(recyclerView.getContext(), VERTICAL);
+        recyclerView.addItemDecoration(itemDecor);
 
         ListAdapter listAdapter = new ListAdapter();
         recyclerView.setAdapter(listAdapter);
@@ -198,5 +212,11 @@ public class MyGrocery extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Uri uri);
+    }
+
+    public void showImportFragment(){
+        MultiDeleteFragment dialog = new MultiDeleteFragment();
+        FragmentManager fragmentManager = MyGrocery.this.getActivity().getFragmentManager();
+        dialog.show(fragmentManager, "MultiDeleteFragment");
     }
 }

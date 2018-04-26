@@ -1,5 +1,7 @@
 package com.example.team22cs407.groceryassistant;
 
+import android.support.v4.app.NavUtils;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -47,4 +49,18 @@ public class HelperTool {
 
         return foodList;
     }
+
+    public static Date convert2Date(String expirationDate) {
+        if (expirationDate != null && !expirationDate.isEmpty()) {
+            try {
+                Date date = sdf.parse(expirationDate);
+                return date;
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
+
 }
