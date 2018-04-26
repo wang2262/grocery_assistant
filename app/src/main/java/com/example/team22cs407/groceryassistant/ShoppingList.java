@@ -325,13 +325,14 @@ public class ShoppingList extends Fragment {
 
     public void scanBarcode(View view) {
         Intent intent;
-        intent = new Intent(getContext(), Barcode.class);
+        intent = new Intent(getActivity(), Barcode.class);
+        System.out.println("I am in scan bar code");
         getActivity().startActivityForResult(intent, 0);
-
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        System.out.println("i am in fragmen");
         if(requestCode == 0) {
             if(resultCode == CommonStatusCodes.SUCCESS) {
                 if(data!=null) {
