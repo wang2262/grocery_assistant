@@ -1,6 +1,7 @@
 package com.example.team22cs407.groceryassistant;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -25,6 +26,9 @@ import android.app.FragmentManager;
 
 
 import android.support.annotation.NonNull;
+import android.widget.TextView;
+
+import com.google.android.gms.common.api.CommonStatusCodes;
 
 import static android.widget.GridLayout.VERTICAL;
 
@@ -39,6 +43,7 @@ import static android.widget.GridLayout.VERTICAL;
 public class ShoppingList extends Fragment {
 
     //private OnFragmentInteractionListener mListener;
+    TextView barcodeResult;
 
     public ShoppingList() {
         // Required empty public constructor
@@ -52,6 +57,7 @@ public class ShoppingList extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
 
     @Override
@@ -98,6 +104,15 @@ public class ShoppingList extends Fragment {
         recyclerView.setAdapter(listAdapter);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
+
+        Button barcodeButton = view.findViewById(R.id.scan_code);
+        barcodeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                scanBarcode(view);
+            }
+        });
+        //barcodeResult = (TextView) view.findViewById(R.id.barcode_result);
 
         return view;
     }
@@ -306,6 +321,28 @@ public class ShoppingList extends Fragment {
                 ImportFragment dialog = new ImportFragment();
                 FragmentManager fragmentManager = ShoppingList.this.getActivity().getFragmentManager();
                 dialog.show(fragmentManager, "ImportFragment");
+    }
+
+    public void scanBarcode(View view) {
+        Intent intent;
+        intent = new Intent(getContext(), Barcode.class);
+        getActivity().startActivityForResult(intent, 0);
+
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == 0) {
+            if(resultCode == CommonStatusCodes.SUCCESS) {
+                if(data!=null) {
+                    com.google.android.gms.vision.barcode.Barcode barcode = data.getParcelableExtra("barcode");
+                    barcodeResult.setText("Barcode Number: " + barcode.displayValue);
+
+                }
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
     }
 
     /**
