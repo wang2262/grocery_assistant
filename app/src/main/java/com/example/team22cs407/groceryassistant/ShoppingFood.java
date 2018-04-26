@@ -7,6 +7,7 @@ import android.widget.CheckBox;
  */
 
 public class ShoppingFood {
+    private int uid;
     private String foodItem;
     private boolean checkBox;
 
@@ -14,7 +15,8 @@ public class ShoppingFood {
         super();
     }
 
-    public ShoppingFood(String foodItem, boolean checkBox) {
+    public ShoppingFood(int uid, String foodItem, boolean checkBox) {
+        this.uid = uid;
         this.foodItem = foodItem;
         this.checkBox = checkBox;
     }
@@ -33,4 +35,6 @@ public class ShoppingFood {
         this.checkBox = checkBox;
     }
 
+    public int getUid(){return uid;}
+    public void setUid(int uid){this.uid = uid;}
 }

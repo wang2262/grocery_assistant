@@ -75,6 +75,7 @@ public class dataHelp {
         {
             Food food = new Food();
             int cid =cursor.getInt(cursor.getColumnIndex(myDbHelper.UID));
+            food.setId(cid);
             food.setFoodItem(cursor.getString(cursor.getColumnIndex(myDbHelper.NAME)));
             food.setExpirationDate(cursor.getString(cursor.getColumnIndex(myDbHelper.DATE)));
             foods.add(food);
@@ -93,6 +94,7 @@ public class dataHelp {
         {
             ShoppingFood food = new ShoppingFood();
             int cid =cursor.getInt(cursor.getColumnIndex(myDbHelper.UID));
+            food.setUid(cid);
             food.setFoodItem(cursor.getString(cursor.getColumnIndex(myDbHelper.NAME)));
             food.setCheckBox(false);
             foods.add(food);
@@ -111,6 +113,7 @@ public class dataHelp {
         {
             Food food = new Food();
             int cid =cursor.getInt(cursor.getColumnIndex(myDbHelper.UID));
+            food.setId(cid);
             food.setFoodItem(cursor.getString(cursor.getColumnIndex(myDbHelper.NAME)));
             food.setExpirationDate(cursor.getString(cursor.getColumnIndex(myDbHelper.DATE)));
             foods.add(food);
@@ -118,12 +121,11 @@ public class dataHelp {
         return foods;
     }
 
-    public  int delete(String uname, String date)
+    public  int delete(int position)
     {
         SQLiteDatabase db = dataHelp.getWritableDatabase();
-        String[] whereArgs ={uname, date};
-        Log.d("log of out", myDbHelper.NAME+" = " + uname + " AND " + myDbHelper.DATE + " = " + date);
-        int count =db.delete(myDbHelper.TABLE_NAME ,myDbHelper.NAME+" =?" + " AND " + myDbHelper.DATE + " =?", whereArgs);
+        String[] whereArgs ={Integer.toString(position)};
+        int count =db.delete(myDbHelper.TABLE_NAME ,myDbHelper.UID+" =?", whereArgs);
         return  count;
     }
 
@@ -179,7 +181,7 @@ public class dataHelp {
         if (args.length > 2) {
             contentValues.put(myDbHelper.DATE, args[2]);
         }
-        int count = db.update(myDbHelper.TABLE_NAME,contentValues, myDbHelper.NAME+" = ?",whereArgs );
+        int count = db.update(myDbHelper.TABLE_NAME,contentValues, myDbHelper.UID+" = ?",whereArgs );
         return count;
     }
     public int addQuantity(String name, String quantity) {

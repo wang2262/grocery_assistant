@@ -69,11 +69,7 @@ public class MultiDeleteFragment extends DialogFragment {
                         List<Food> food = HelperTool.sortByExpiration(MainActivity.db.getDatas());
                         for(int go = 0; go < listFood.size(); go++) {
                             if(listFood.get(go).getCheckBox()) {
-                                String expiration = food.get(go).getExpirationDate();
-                                if(expiration == null) {
-                                    expiration = "null";
-                                }
-                                MainActivity.db.delete(listFood.get(go).getFoodItem(), expiration);
+                                MainActivity.db.delete(food.get(go).getId());
                                 positions.add(go);
                             }
                         }
@@ -83,7 +79,8 @@ public class MultiDeleteFragment extends DialogFragment {
                             ListAdapterImport.foods.remove(k);
                             ListAdapter.foods.remove(k);
                         }
-                        //ListAdapter.foods = HelperTool.sortByExpiration(MainActivity.db.getDatas());
+                        ListAdapter.foods = HelperTool.sortByExpiration(MainActivity.db.getDatas());
+                        ListAdapterImport.foods = HelperTool.sortByExpiration(MainActivity.db.getDatas());
                         // not sure what this line does
                         //ListAdapterImport.shoppingFoods = MainActivity.db.getImportDatas();
                         // reload the current fragment
@@ -105,18 +102,4 @@ public class MultiDeleteFragment extends DialogFragment {
         //return view;
         return builder.create();
     }
-
-
-
-    /*
-     public void onAttachToParentFragment(Fragment parentFragment) {
-         if (parentFragment != null) {
-             try {
-                 notificationSettingDialogListener = (NotificationSettingDialogListener) parentFragment;
-             } catch (ClassCastException e) {
-                 throw new ClassCastException(parentFragment.toString() + " must implement NotificationSettingDialogListener interface.");
-             }
-         }
-     }
-     */
 }

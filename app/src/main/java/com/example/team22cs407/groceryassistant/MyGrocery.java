@@ -148,6 +148,8 @@ public class MyGrocery extends Fragment {
                                 //Log.d("DATA", MainActivity.db.getData());
                                 // reload the current fragment
                                 ListAdapter.foods = HelperTool.sortByExpiration(MainActivity.db.getDatas());
+                                ListAdapterImport.foods = HelperTool.sortByExpiration(MainActivity.db.getDatas());
+                                ListAdapterImport.shoppingFoods = MainActivity.db.getImportDatas();
                                 Fragment fragment = getFragmentManager().findFragmentById(R.id.frame_layout);
                                 getFragmentManager().beginTransaction().detach(fragment).attach(fragment).commit();
                             }

@@ -15,8 +15,11 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -90,19 +93,68 @@ public class RecipeListFragment extends Fragment implements SpoonacularAPI.OnRec
     }
 
     @Override
-    public void onRecipeDetailsReturned(String detailUrl) {
-        //TODO: HERE invoking the fragment of recipe detail and pass the url to load web page inside of app.
-        System.out.println("RecipeListURL:" + detailUrl);
-        Fragment detailFrag = new RecipeDetailFragment();
-        Bundle bundle = new Bundle();
-        bundle.putString("webView", detailUrl);
-        detailFrag.setArguments(bundle);
-        FragmentManager manager = getFragmentManager();
-        FragmentTransaction transaction = manager.beginTransaction();
-        transaction.replace(R.id.frame_layout, detailFrag);
-        transaction.addToBackStack(null);
-        transaction.commit();
+    public void onRecipeDetailsReturned(JSONObject recipeDetail) {
+        if (recipeDetail != null) {
+            try {
+                String detailUrl = recipeDetail.getString("spoonacularSourceUrl");
+                System.out.println(recipeDetail);
+                parseFood(recipeDetail);
+        		System.out.println("RecipeListURL:" + detailUrl);
+        		Fragment detailFrag = new RecipeDetailFragment();
+        		Bundle bundle = new Bundle();
+        		bundle.putString("webView", detailUrl);
+        		detailFrag.setArguments(bundle);
+        		FragmentManager manager = getFragmentManager();
+        		FragmentTransaction transaction = manager.beginTransaction();
+        		transaction.replace(R.id.frame_layout, detailFrag);
+        		transaction.addToBackStack(null);
+        		transaction.commit();
 
+
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void parseFood(JSONObject recipeDetail) {
+        try {
+            //String foodItems = recipeDetail.getString("extendedIngredients");
+            List<String> list = new ArrayList<String>();
+            List<String> toAddList = new ArrayList<String>();
+            JSONArray array = recipeDetail.getJSONArray("extendedIngredients");
+            List<Food> shoppingFoods = MainActivity.db.getDatasWithTable("ShoppingList");
+            List<Food> groceryFoods = MainActivity.db.getDatasWithTable("GroceryList");
+            for(int i = 0 ; i < array.length() ; i++){
+                list.add(array.getJSONObject(i).getString("name"));
+            }
+            for(int j = 0; j < list.size(); j++) {
+                boolean addToList = true;
+                for(int gf = 0; gf < groceryFoods.size(); gf++) {
+                    if(groceryFoods.get(gf).getFoodItem().toLowerCase().equals(list.get(j).toLowerCase())) {
+                        addToList = false;
+                    }
+                }
+                for(int sf = 0; sf < shoppingFoods.size(); sf++) {
+                    if(shoppingFoods.get(sf).getFoodItem().toLowerCase().equals(list.get(j).toLowerCase())) {
+                        addToList = false;
+                    }
+                }
+                if(addToList) {
+                    toAddList.add(list.get(j));
+                    System.out.println("Item name: " + list.get(j) + "\n");
+                }
+            }
+            for(int add = 0; add < toAddList.size(); add++) {
+                MainActivity.db.insertDatas(toAddList.get(add), "", "ShoppingList");
+            }
+            ListAdapterShopping.foods = HelperTool.sortByExpiration(MainActivity.db.getDatasWithTable("ShoppingList"));
+            ListAdapterImport.shoppingFoods = MainActivity.db.getImportDatas();
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
 }

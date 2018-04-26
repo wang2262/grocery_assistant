@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -134,20 +135,22 @@ public class MainActivity extends AppCompatActivity implements ModificationDialo
         if (newDate.isEmpty()) {   // allow user changing expiration date to null
             newDate = null;
         }
-
+        String uid = Integer.toString(data.get(position).getId());
         // update database
         if (!oldName.equals(newName) && !oldDate.equals(newDate)) {
-            db.updateData(oldName, newName, newDate);
+            db.updateData(uid, newName, newDate);
         } else if (!oldDate.equals(newDate)) {
-            db.updateData(oldName, "", newDate);  // we just modify date
+            db.updateData(uid, "", newDate);  // we just modify date
         } else if (!oldName.equals(newName)) {
-            db.updateData(oldName, newName);
+            db.updateData(uid, newName);
         } else {
             return;
         }
 
         // update in-memory data
         ListAdapter.foods = HelperTool.sortByExpiration(MainActivity.db.getDatas());
+        ListAdapterImport.foods = HelperTool.sortByExpiration(MainActivity.db.getDatas());
+        ListAdapterImport.shoppingFoods = MainActivity.db.getImportDatas();
         // reload the current fragment
         Fragment fragment = getFragmentManager().findFragmentById(R.id.frame_layout);
         getFragmentManager().beginTransaction().detach(fragment).attach(fragment).commit();
