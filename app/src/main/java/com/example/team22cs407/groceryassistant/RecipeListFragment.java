@@ -109,6 +109,7 @@ public class RecipeListFragment extends Fragment implements SpoonacularAPI.OnRec
         		FragmentTransaction transaction = manager.beginTransaction();
         		transaction.replace(R.id.recipe_fragment_container, detailFrag);
         		transaction.addToBackStack("detailFrag");
+                //transaction.addToBackStack(null);
         		transaction.commit();
             } catch (JSONException e) {
                 e.printStackTrace();

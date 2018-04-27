@@ -35,6 +35,5 @@ dependencies {
     implementation 'com.google.android.gms:play-services-vision:15.0.0'
     implementation 'com.mashape.unirest:unirest-java:1.4.9'
     implementation 'com.squareup.picasso:picasso:2.5.2'
-    implementation 'com.google.zxing:zxing-parent:3.2.1'
 }
 
