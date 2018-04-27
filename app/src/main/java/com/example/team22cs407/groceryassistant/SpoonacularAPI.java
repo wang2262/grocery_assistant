@@ -8,6 +8,7 @@ import android.app.Fragment;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
@@ -31,15 +32,18 @@ public class SpoonacularAPI {
     public JSONArray recipes;
     private OnRecipesReturnedInterface handleRecipesReturned;
     private OnRecipeDetailsInterface onRecipeDetailsInterface;
+    private Context context;
 
     public SpoonacularAPI(OnRecipesReturnedInterface handleRecipesReturned) {
         this.handleRecipesReturned = handleRecipesReturned;
         this.clickedRecipe = new JSONObject();
+        this.context = ((Fragment) handleRecipesReturned).getContext();
     }
 
     public SpoonacularAPI(OnRecipeDetailsInterface onRecipeDetailsInterface) {
         this.onRecipeDetailsInterface = onRecipeDetailsInterface;
         this.clickedRecipe = new JSONObject();
+        this.context = ((Fragment) onRecipeDetailsInterface).getContext();
     }
     public void getRecipeInfo(String recipeId) throws Exception {
 
@@ -117,6 +121,11 @@ public class SpoonacularAPI {
 
         @Override
         protected void onPostExecute(JSONArray recipes) {
+            if (recipes == null) {
+                Log.e(getClass().getName()," API call returned null object. One possible reason is network not enabled.");
+                Toast.makeText(context, "Please make sure your network enabled!", Toast.LENGTH_LONG).show();
+                return;
+            }
             if (handleRecipesReturned != null) {
                 handleRecipesReturned.onRecipesReturned(recipes);
             }
@@ -213,6 +222,11 @@ public class SpoonacularAPI {
 
         protected void onPostExecute(JSONObject recipeDetail) {
             // dismiss progress dialog and update ui
+            if (recipeDetail == null) {
+                Log.e(getClass().getName()," API call returned null object. One possible reason is network not enabled. ");
+                Toast.makeText(context, "Please make sure your network enabled!", Toast.LENGTH_LONG).show();
+                return;
+            }
             if (onRecipeDetailsInterface != null)  {
                 onRecipeDetailsInterface.onRecipeDetailsReturned(recipeDetail);
             }
