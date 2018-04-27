@@ -1,5 +1,5 @@
 
-package com.delaroystudios.barcodescanner.ui.camera;
+package com.example.team22cs407.groceryassistant.barcodescanner.ui.camera;
 
 import android.Manifest;
 import android.content.Context;

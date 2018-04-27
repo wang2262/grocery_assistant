@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,10 +23,12 @@ import java.util.Objects;
 
 
 import android.app.FragmentManager;
+import com.google.android.gms.vision.barcode.Barcode;
 
 
 import android.support.annotation.NonNull;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.common.api.CommonStatusCodes;
 
@@ -320,7 +323,8 @@ public class ShoppingList extends Fragment {
 
     public void scanBarcode(View view) {
         Intent intent;
-        intent = new Intent(getContext(), Barcode.class);
+        intent = new Intent(getContext(), BarcodeCaptureActivity.class);
+       // intent.putExtra("falsetrue", true);
         getActivity().startActivityForResult(intent, 0);
 
     }
@@ -330,13 +334,12 @@ public class ShoppingList extends Fragment {
         if(requestCode == 0) {
             if(resultCode == CommonStatusCodes.SUCCESS) {
                 if(data!=null) {
-                    com.google.android.gms.vision.barcode.Barcode barcode = data.getParcelableExtra("barcode");
+                    Barcode barcode = data.getParcelableExtra(BarcodeCaptureActivity.BarcodeObject);
+                    Toast.makeText(getContext(), barcode.displayValue, Toast.LENGTH_SHORT).show();
+                    Log.d("display value", barcode.displayValue);
                     barcodeResult.setText("Barcode Number: " + barcode.displayValue);
-
                 }
             }
-        } else {
-            super.onActivityResult(requestCode, resultCode, data);
         }
     }
 

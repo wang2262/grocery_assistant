@@ -22,10 +22,9 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".Barcode"
+        <activity android:name=".BarcodeCaptureActivity"
             android:label="Barcode Scanner"
         />
-        <activity android:name=""
 
         <meta-data
             android:name="com.google.android.gms.version"
